@@ -12,7 +12,7 @@
       <paths name="tttt">
         <serverdata>
           <mappings>
-            <mapping deploy="/skuska" local="$PROJECT_DIR$" web="/skuska" />
+            <mapping local="$PROJECT_DIR$" web="/" />
           </mappings>
         </serverdata>
       </paths>
