@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PublishConfigData" autoUpload="Always" serverName="WebTech" remoteFilesAllowedToDisappearOnAutoupload="false">
+    <serverData>
+      <paths name="WebTech">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/skuska" local="$PROJECT_DIR$" web="/skuska" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="tttt">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/skuska" local="$PROJECT_DIR$" web="/skuska" />
+          </mappings>
+        </serverdata>
+      </paths>
+    </serverData>
+    <option name="myAutoUpload" value="ALWAYS" />
+  </component>
+</project>
