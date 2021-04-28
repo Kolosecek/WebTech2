@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="81b8bd6b-76b5-474c-b584-568852db0d90" name="webtech_skuska" url="http://wt49.fei.stuba.sk/skuska">
+        <fileTransfer rootFolder="/home/xgajdosf/public_html/skuska" accessType="SFTP" host="147.175.98.49" port="22" sshConfigId="be16baa0-04ca-4499-953c-23a35bffbcdd" sshConfig="xgajdosf@147.175.98.49:22 password">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" keepAliveTimeout="0" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>
