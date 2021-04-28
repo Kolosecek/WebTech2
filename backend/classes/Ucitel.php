@@ -1,11 +1,13 @@
 <?php
+require_once "Database.php";
 
-class ucitel{
+
+class Ucitel {
     private $name;
     private $surname;
     private $email;
     private $password_hash;
-    public $id;
+    private $id;
 
     /**
      * @return mixed
@@ -47,6 +49,9 @@ class ucitel{
         return $this->password_hash;
     }
 
-
-
+    public function update(){
+        $conn = (new Database())->getConnection();
+        $stmt = $conn->prepare("UPDATE ucitel SET name=? AND surname=? AND email=? WHERE id=?");
+        $stmt->execute([$this->name,$this->surname,$this->email,$this->id]);
+    }
 }

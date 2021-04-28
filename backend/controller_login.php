@@ -1,8 +1,8 @@
 <?php
-require_once "classes/ucitel.php";
-require_once "database.php";
+require_once "classes/Ucitel.php";
+require_once "classes/Database.php";
 $type = $_REQUEST["type"];
-
+session_start();
 
 
 
@@ -14,15 +14,16 @@ if($type == "login"){
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     $stmt = $conn->prepare("SELECT * FROM ucitel WHERE email=?");
     $stmt->execute([$email]);
-    $result = $stmt->fetchAll(PDO::FETCH_CLASS, "ucitel");
+    $result = $stmt->fetchAll(PDO::FETCH_CLASS, "Ucitel");
     if($result == null){
         echo "0";
     }
     else{
-        if(password_verify($password,$result[0]->getPasswordHash())){
-                $_SESSION["loggedin"] = true;
-                $_SESSION["email"] = $email;
-                echo "../skuska/profile.php";
-            }
+        if(password_verify($password,$result[0]->getPasswordHash())) {
+
+            $_SESSION["loggedin"] = true;
+            $_SESSION["email"] = $email;
+            echo "../skuska/profile.php";
+        }
     }
 }
