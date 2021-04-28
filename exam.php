@@ -1,7 +1,7 @@
 <?php
 require_once "backend/classes/Database.php";
 require_once "backend/classes/Ucitel.php";
-
+require_once "backend/classes/Exam.php";
 session_start();
 if(!isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] !== true) {
     header("location: index.php");
@@ -11,15 +11,10 @@ if(!isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] !== true) {
 $db = new Database();
 $conn = $db->getConnection();
 $email = $_SESSION["email"];
-$name = "";
-$surname = "";
-
 $stmt = $conn->prepare("SELECT * FROM ucitel WHERE email=?");
 $stmt->execute([$email]);
 $result = $stmt->fetchAll(PDO::FETCH_CLASS, "Ucitel");
 
-$name = $result[0]->getName();
-$surname = $result[0]->getSurname();
 ?>
 
 <!doctype html>
@@ -37,11 +32,6 @@ $surname = $result[0]->getSurname();
     <script src="https://www.w3schools.com/lib/w3.js"></script>
 </head>
 <body>
-<h1>Hello <?= $name . " " . $surname . "!"?></h1>
-<button class="btn btn-primary" onclick="logout()">Log Out</button>
-<button class="btn btn-primary" onclick="newExam()">Create new exam</button>
-<button class="btn btn-primary" onclick="newQuestion()">Create new questions</button>
-<button class="btn btn-primary">List of already existing exams</button>
+<h1>Hello World</h1>
 </body>
-<script src="javascript/profile.js"></script>
 </html>
