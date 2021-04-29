@@ -47,14 +47,21 @@ if(!isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] !== true) {
     <input style="display: none" name="type" type="text" value="login" class="form-control">
     <label for="question" class="visually-hidden">Question</label>
     <input type="text" id="question" class="form-control" name="question" placeholder="Question" required autofocus>
-    <label for="type" class="visually-hidden">Choose a car:</label>
-    <select id="type" name="type">
+    <label for="type" class="form-label">Choose the type of question</label>
+    <select class="form-select" id="type" name="type">
         <option value="short">Short</option>
         <option value="multi">Multi</option>
         <option value="compare">Compare</option>
         <option value="draw">Draw</option>
         <option value="math">Math</option>
     </select>
+    <div id="short-question">short question</div>
+    <div id="multi-question" style="display:none;">multi question</div>
+    <div id="compare-question" style="display:none;">compare question</div>
+    <div id="draw-question" style="display:none;">draw question</div>
+    <div id="math-question" style="display:none;">math question</div>
+    
+    <input type="submit" value="add new question" class="btn btn-primary">
 </form>
 
 </body>
