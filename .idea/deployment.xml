@@ -2,6 +2,13 @@
 <project version="4">
   <component name="PublishConfigData" autoUpload="Always" serverName="webtech_skuska" remoteFilesAllowedToDisappearOnAutoupload="false">
     <serverData>
+      <paths name="WEBTE2_server">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
       <paths name="webtech_skuska">
         <serverdata>
           <mappings>
