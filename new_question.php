@@ -1,6 +1,7 @@
 <?php
 require_once "backend/classes/Database.php";
 require_once "backend/classes/Ucitel.php";
+require_once "backend/classes/Exam.php";
 
 session_start();
 if(!isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] !== true) {
@@ -38,14 +39,28 @@ if(!isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] !== true) {
 </head>
 <body>
 <h1>Add a new question</h1>
-<button class="btn btn-primary" onclick="newExam()">Create new exam</button>
-<button class="btn btn-primary" onclick="profile()">Profile</button>
-<button class="btn btn-primary">List of already existing exams</button>
+<a class="btn btn-primary" href="new_exam.php">Create new exam</a>
+<a class="btn btn-primary" href="profile.php">Profile</a>
+<a class="btn btn-primary" href="exams.php">List of already existing exams</a>
 
-<form method="GET" action="backend/controller_exam.php" id="formToSend2" enctype="multipart/form-data">
+<form method="GET" action="backend/controller_question.php" id="formToSend2" enctype="multipart/form-data">
     <h1 class="h3 mb-3 fw-normal">Connect to exam</h1>
-    <input style="display: none" name="type" type="text" value="login" class="form-control">
-    <label for="question" class="visually-hidden">Question</label>
+    <input style="display: none" name="mode" type="text" value="new_question" class="form-control">
+    <?php
+    $conn = (new Database())->getConnection();
+    $stmt = $conn->prepare("SELECT * FROM test");
+    $stmt->execute();
+    $tests = $stmt->fetchAll(PDO::FETCH_CLASS, "Exam");
+    echo"<label for='exams' class='form-label'>Choose the exam</label><select class='form-select' id='exams' name='exam'>";
+    foreach ($tests as $t){
+        $tID = $t->getId();
+        $tTitle = $t->getTitle();
+        echo"<option value=$tID>$tTitle</option>";
+    }
+    echo"<option value='0'>Template Question</option>";
+    echo"</select>";
+    ?>
+    <label for="question">Question</label>
     <input type="text" id="question" class="form-control" name="question" placeholder="Question" required autofocus>
     <label for="type" class="form-label">Choose the type of question</label>
     <select class="form-select" id="type" name="type">
@@ -65,5 +80,5 @@ if(!isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] !== true) {
 </form>
 
 </body>
-<script src="javascript/profile.js"></script>
+<script src="javascript/new_question.js"></script>
 </html>

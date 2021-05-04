@@ -4,6 +4,7 @@ class Answer {
     private $id;
     private $text;
     private $correct;
+    private $question_id;
 
     /**
      * @return mixed
@@ -29,9 +30,24 @@ class Answer {
         return $this->correct;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getQuestionId()
+    {
+        return $this->question_id;
+    }
+
+
+
     public function update(){
         $conn = (new Database())->getConnection();
-        $stmt = $conn->prepare("UPDATE odpoved SET text=? AND correct=? WHERE id=?");
-        $stmt->execute([$this->text,$this->correct,$this->id]);
+        $stmt = $conn->prepare("UPDATE odpoved SET text=? AND correct=? AND question_id=? WHERE id=?");
+        $stmt->execute([$this->text,$this->correct,$this->question_id,$this->id]);
+    }
+
+    public function getRow(){
+        $t = $this->getText();
+        return "<p>$t</p>".PHP_EOL;
     }
 }
