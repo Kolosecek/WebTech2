@@ -1,5 +1,6 @@
 <?php
 require_once "Database.php";
+
 class Exam {
     private $id;
     private $title;

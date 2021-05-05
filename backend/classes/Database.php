@@ -1,5 +1,7 @@
 <?php
-class database{
+
+class database
+{
     private $servername = "localhost";
     private $username = "xgajdosf";
     private $password = "123456";

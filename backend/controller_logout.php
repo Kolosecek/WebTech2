@@ -1,8 +1,10 @@
 <?php
 require_once "classes/Database.php";
+
 $type = $_REQUEST["type"];
 
-if ($type == "logout") {
+if ($type == "logout")
+{
     session_start();
     $_SESSION = array();
     session_destroy();

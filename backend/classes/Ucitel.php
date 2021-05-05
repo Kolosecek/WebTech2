@@ -1,7 +1,6 @@
 <?php
 require_once "Database.php";
 
-
 class Ucitel {
     private $name;
     private $surname;

@@ -1,5 +1,5 @@
 function logout(){
-    var url = "backend/controller_logout.php?type=logout";
+    let url = "backend/controller_logout.php?type=logout";
     $.ajax({
         type: "GET",
         url: url,
@@ -11,16 +11,21 @@ function logout(){
 };
 
 function newExam(){
-    var url = "new_exam.php";
+    let url = "new_exam.php";
     window.location.href = url;
 };
 
 function newQuestion(){
-    var url = "new_question.php";
+    let url = "new_question.php";
     window.location.href = url;
 }
 
 function profile(){
-    var url = "profile.php";
+    let url = "profile.php";
+    window.location.href = url;
+}
+
+function allExams(){
+    let url = "exams.php";
     window.location.href = url;
 }

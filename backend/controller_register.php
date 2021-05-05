@@ -4,7 +4,8 @@ require_once "classes/Ucitel.php";
 
 $type = $_REQUEST["type"];
 
-if ($type == "signup") {
+if ($type == "signup")
+{
     $name = $_REQUEST["name"];
     $surname = $_REQUEST["surname"];
     $email = $_REQUEST["email"];
@@ -16,10 +17,12 @@ if ($type == "signup") {
     $stmt->execute([$email]);
     $result = $stmt->fetchAll(PDO::FETCH_CLASS, "Ucitel");
 
-    if($result != null) {
+    if($result != null)
+    {
         echo "0";
-    } else {
-
+    }
+    else
+    {
         $sql2 = "INSERT INTO ucitel (email,password_hash,name,surname) VALUES ('$email', '$password', '$name','$surname')";
         $conn->exec($sql2);
         session_start();
