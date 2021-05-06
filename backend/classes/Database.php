@@ -1,5 +1,21 @@
 <?php
 
+function console_log($output, $with_script_tags = true)
+{
+    if (is_array($output) || is_object($output))
+    {
+        $js_code = 'console.log(' . json_encode($output, JSON_HEX_TAG) . ');';
+    }
+    else
+    {
+        $js_code = 'console.log(' . $output . ');';
+    }
+    if ($with_script_tags) {
+        $js_code = '<script>' . $js_code . '</script>';
+    }
+    echo $js_code;
+}
+
 class database
 {
     private $servername = "localhost";

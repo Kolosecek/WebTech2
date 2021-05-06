@@ -87,4 +87,26 @@ class Exam {
                 <td><a class='btn btn-secondary' href='exam.php?id=$ID'>Open</td>
                 </tr>";
     }
+
+    public function duplicate($test_code,$student_name,$student_id){
+        $conn = (new Database())->getConnection();
+        $stmt = $conn->prepare("INSERT INTO test (creator_id,student_name,time,isActive,result,student_id,test_code,title)
+                                          VALUES (?,?,?,?,?,?,?,?)");
+        $stmt->execute([$this->creator_id,$student_name,$this->time,0,null,$student_id,$test_code,$this->title]);
+        $id = $conn->lastInsertId();
+        $stmt2 = $conn->prepare("SELECT * FROM otazka WHERE test_id=?");
+        $stmt2->execute([$this->id]);
+        $questions = $stmt2->fetchAll(PDO::FETCH_CLASS, "Question");
+            foreach ($questions as $q){
+                $newQ = $q->duplicate($id);
+                $Qid = $q->getId();
+                $stmt3 = $conn->prepare("SELECT * FROM odpoved WHERE question_id=?");
+                $stmt3->execute([$Qid]);
+                $anss = $stmt3->fetchAll(PDO::FETCH_CLASS, "Answer");
+                foreach ($anss as $a){
+                    $a->duplicate($newQ);
+                }
+            }
+        }
+
 }

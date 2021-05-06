@@ -41,7 +41,7 @@ if(!isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] !== true)
     </head>
 
 
-    <body>
+    <body onload="init()">
         <h1>Add a new question</h1>
         <a class="btn btn-primary" href="questions.php">List of already existing questions</a>
         <a class="btn btn-primary" href="profile.php">Profile</a>
@@ -50,6 +50,8 @@ if(!isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] !== true)
             <h1 class="h3 mb-3 fw-normal">Connect to exam</h1>
             <input style="display: none" name="mode" type="text" value="new_question" class="form-control">
             <?php
+            $email =$_SESSION["email"];
+            echo"<input style='display: none' name='email' type='text' value=$email class='form-control'>";
             $conn = (new Database())->getConnection();
             $stmt = $conn->prepare("SELECT * FROM test");
             $stmt->execute();
@@ -79,7 +81,21 @@ if(!isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] !== true)
             </div>
             <div id="multi-question" style="display:none;">multi question</div>
             <div id="compare-question" style="display:none;">compare question</div>
-            <div id="draw-question" style="display:none;">draw question</div>
+            <div id="draw-question" style="display:none;">
+                <canvas id="canvas" width="400" height="400" style="border:2px solid;"></canvas>
+                <div>Choose Color</div>
+                <div id="green" style="width:10px;height:10px;background:green;" onclick="switchColor(this)"></div>
+                <div id="blue" style="width:10px;height:10px; background:blue;" onclick="switchColor(this)"></div>
+                <div id="red" style="width:10px;height:10px; background:red;" onclick="switchColor(this)"></div>
+                <div id="yellow" style="width:10px;height:10px; background:yellow;" onclick="switchColor(this)"></div>
+                <div id="orange" style="width:10px;height:10px; background:orange;" onclick="switchColor(this)"></div>
+                <div id="black" style="width:10px;height:10px; background:black;" onclick="switchColor(this)"></div>
+                <div>Eraser</div>
+                <div id="white" onclick="switchColor(this)"></div>
+                <img id="canvasimg" style="display:none;">
+                <input type="button" value="clear" id="clr" size="23" onclick="erase()">
+                <button type="button" onclick="saveDrawing()">Save drawing</button>
+            </div>
             <div id="math-question" style="display:none;">
                 <div style="font-size: 32px; margin: 3em; padding: 8px; border-radius: 8px; border: 1px solid rgba(0, 0, 0, .3); box-shadow: 0 0 8px rgba(0, 0, 0, .2);" id="mathfield" smart-mode>
                 </div>
@@ -92,6 +108,7 @@ if(!isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] !== true)
     </body>
     <script src="javascript/new_question.js"></script>
     <script src='https://unpkg.com/mathlive/dist/mathlive.min.js'></script>
+    <script src="javascript/canvas.js"></script>
     <script>
         var element = MathLive.makeMathField(document.getElementById('mathfield'),  {
             virtualKeyboardMode: "manual",

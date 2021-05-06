@@ -62,8 +62,9 @@ $id = $result[0]->getId();
 
             foreach ($result as $index => $question)
             {
-                echo "<input type='checkbox' id='otazka$index' name='otazky[]'>
-                      <label for='otazka$index'>" . ($index + 1) . ". otázka</label><br>" . json_encode($question) . "<br>";
+                $id = $question["id"];
+                echo "<input type='checkbox' name='questions[]' value='$id'>
+                      <label>" . ($index + 1) . ". otázka:</label><br>" . $question["question"] . "<br>";
             }
             ?>
 

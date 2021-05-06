@@ -53,19 +53,19 @@ if(!isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] !== true){
                     </div>
                     <hr>
                     <div class="forms">
-                        <form method="GET" action="backend/controller_exam.php" id="formToSend2" enctype="multipart/form-data">
+                        <form method="GET" action="backend/controller_login.php" id="formToSend2" enctype="multipart/form-data">
                             <div class="inputs">
                                 <img class="mb-4" src="img.png" width="72" height="62">
 
                                 <h1 class="h3 mb-3 fw-normal">Connect to exam</h1>
                                 <input style="display: none" name="type" type="text" value="login" class="form-control">
                                 <label for="studentName" class="visually-hidden">Student Name</label>
-                                <input type="text" id="studentName" class="form-control" name="name" placeholder="Your Name" required autofocus>
+                                <input type="text" id="studentName" class="form-control" name="studentName" placeholder="Your Name" required autofocus>
                                 <label for="studentID" class="visually-hidden">Student ID</label>
                                 <input type="text" id="studentID" class="form-control" name="studentID" placeholder="Your Student ID" required>
                                 <label for="testID" class="visually-hidden">Exam ID</label>
                                 <input type="text" id="testID" class="form-control" name="testID" placeholder="Exam ID" required>
-                                <button class="w-100 btn btn-lg btn-primary grow" type="submit">Next</button>
+                                <button class="w-100 btn btn-lg btn-primary grow" type="button" onclick="redirect()">Next</button>
                             </div>
                         </form>
                     </div>
@@ -74,6 +74,14 @@ if(!isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] !== true){
         </div>
 
         <script src="javascript/index.js"></script>
+        <script>
+            function redirect(){
+                let testID= document.getElementById("testID").value;
+                let studentID= document.getElementById("studentID").value;
+                let studentName= document.getElementById("studentName").value;
+                window.location.href= "student_exam.php?testID="+testID+"&studentID="+studentID+"&studentName="+studentName;
+            }
+        </script>
     </body>
 </html>
 

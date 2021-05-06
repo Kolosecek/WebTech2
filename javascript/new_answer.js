@@ -1,4 +1,4 @@
-$("#formToSend2").submit(function(e) {
+/*$("#formToSend2").submit(function(e) {
     e.preventDefault(); // avoid to execute the actual submit of the form.
     let form = $(this);
     let url = form.attr('action');
@@ -12,4 +12,4 @@ $("#formToSend2").submit(function(e) {
             //window.location.href = data;
         }
     });
-});
+});*/

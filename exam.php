@@ -66,7 +66,7 @@ $result = $stmt->fetchAll(PDO::FETCH_CLASS, "Ucitel");
                 $stmt->execute([$ID]);
                 $questions = $stmt->fetchAll(PDO::FETCH_CLASS, "Question");
 
-                echo"<h1>Exam Questions</h1><div>";
+                echo"<h2>Exam Questions</h2><div>";
                 foreach ($questions as $q)
                 {
                     echo $q->getRow();
@@ -76,6 +76,53 @@ $result = $stmt->fetchAll(PDO::FETCH_CLASS, "Ucitel");
             else
                 echo "<h1>Exam not found</h1>";
         }
+        $stmt2 = $conn->prepare("SELECT * FROM otazka WHERE test_id=? AND ucitel_email=?");
+        $stmt2->execute([$_REQUEST["id"],$email]);
+        $qTest = $stmt2->fetchAll(PDO::FETCH_CLASS, "Question");
         ?>
+
+        <h1 class="h3 mb-3 fw-normal">Exam questions</h1>
+
+        <table class="table">
+            <thead>
+            <th scope="col">#</th>
+            <th scope="col">Question</th>
+            <th scope="col">Type</th>
+            <th scope="col">Test ID</th>
+            <th scope="col"></th>
+            </thead>
+
+            <tbody>
+            <?php
+            foreach ($qTest as $q2)
+            {
+                echo $q2->getTableRowTest();
+            }
+            ?>
+            </tbody>
+        </table>
+
+        <form method="GET" action="backend/controller_exam.php" id="formToSend2" enctype="multipart/form-data">
+            <h1 class="h3 mb-3 fw-normal">Add question to exam</h1>
+            <input style="display: none" name="type" type="text" value="new_question_to_exam" class="form-control">
+            <input style="display: none" name="testId" type="testId" value='<?php echo $_REQUEST["id"]?>' class="form-control">
+
+            <label for="type" class="form-label">Choose the question to add</label>
+            <select class="form-select" id="question_add" name="question_add">
+            <?php
+            $email = $_SESSION["email"];
+            $stmt = $conn->prepare("SELECT * FROM otazka WHERE test_id IS NULL AND ucitel_email=?");
+            $stmt->execute([$email]);
+            $result = $stmt->fetchAll();
+            foreach ($result as $r)
+            {
+                echo  '<option value="'.$r["id"]. '">'.$r["question"] . "</short>";
+            }
+            ?>
+            </select>
+            <input type="submit" value="Add this question to exam" class="btn btn-primary">
+        </form>
+
     </body>
+    <script src="javascript/new_exam.js"></script>
 </html>

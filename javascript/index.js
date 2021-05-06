@@ -36,7 +36,7 @@ $("#formToSend2").submit(function(e) {
         url: url,
         data: form.serialize(), // serializes the form's elements.
         success: function(data) {
-            if(data == 0) {
+            if (data == 0) {
                 alert("User not found, please check your login info")
             } else {
                 if (data == 0) {

@@ -51,4 +51,10 @@ class Answer {
         $t = $this->getText();
         return "<p>$t</p>".PHP_EOL;
     }
+
+    public function duplicate($q_id){
+        $conn = (new Database())->getConnection();
+        $stmt = $conn->prepare("INSERT INTO odpoved (text,correct,question_id) VALUES (?,?,?)");
+        $stmt->execute([$this->text,$this->correct,$q_id]);
+    }
 }

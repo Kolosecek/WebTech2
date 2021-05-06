@@ -9,13 +9,13 @@ if(!isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] !== true)
     header("location: index.php");
     exit;
 }
-
+$email = $_SESSION["email"];
 $conn = (new Database())->getConnection();
-$stmt = $conn->prepare("SELECT * FROM otazka WHERE test_id IS NULL");
-$stmt->execute();
+$stmt = $conn->prepare("SELECT * FROM otazka WHERE test_id IS NULL AND ucitel_email=?");
+$stmt->execute([$email]);
 $qTemplate = $stmt->fetchAll(PDO::FETCH_CLASS, "Question");
-$stmt2 = $conn->prepare("SELECT * FROM otazka WHERE test_id IS NOT NULL");
-$stmt2->execute();
+$stmt2 = $conn->prepare("SELECT * FROM otazka WHERE test_id IS NOT NULL AND ucitel_email=?");
+$stmt2->execute([$email]);
 $qTest = $stmt2->fetchAll(PDO::FETCH_CLASS, "Question");
 ?>
 
@@ -59,26 +59,7 @@ $qTest = $stmt2->fetchAll(PDO::FETCH_CLASS, "Question");
             </tbody>
         </table>
 
-        <h1 class="h3 mb-3 fw-normal">Exam questions</h1>
 
-        <table class="table">
-            <thead>
-                <th scope="col">#</th>
-                <th scope="col">Question</th>
-                <th scope="col">Type</th>
-                <th scope="col">Test ID</th>
-                <th scope="col"></th>
-            </thead>
-
-            <tbody>
-                <?php
-                foreach ($qTest as $q2)
-                {
-                    echo $q2->getTableRowTest();
-                }
-                ?>
-            </tbody>
-        </table>
     </body>
     <script src="javascript/new_exam.js"></script>
 </html>

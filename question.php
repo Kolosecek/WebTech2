@@ -11,7 +11,7 @@ if(!isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] !== true)
     header("location: index.php");
     exit;
 }
-
+$email = $_SESSION["email"];
 //$db = new Database();
 //$conn = $db->getConnection();
 //$email = $_SESSION["email"];
@@ -52,8 +52,8 @@ if(!isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] !== true)
         {
             $q_ID = $_REQUEST["id"];
             $conn = (new Database())->getConnection();
-            $stmt = $conn->prepare("SELECT * FROM otazka where id=?");
-            $stmt->execute([$_REQUEST["id"]]);
+            $stmt = $conn->prepare("SELECT * FROM otazka where id=? AND ucitel_email=?");
+            $stmt->execute([$_REQUEST["id"],$email]);
             $question = $stmt->fetchAll(PDO::FETCH_CLASS, "Question");
             if($question)
             {
@@ -62,8 +62,13 @@ if(!isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] !== true)
                     $question = $t->getQuestion();
                     $type = $t->getType();
                     $ID = $t->getId();
-                    echo "<h1>$question</h1>
+                    if ($type != "math"){
+                        echo "<h1>$question</h1>
                           <p>$type</p>";
+                    }
+                    elseif ($type == "math"){
+                        echo"<math-field read-only style='font-size: 32px; margin: 3em; padding: 8px; border-radius: 8px; border: 1px solid rgba(0, 0, 0, .3); box-shadow: 0 0 8px rgba(0, 0, 0, .2);'>$question</math-field><p>$type</p>";
+                    }
                 }
                 $stmt2 = $conn->prepare("SELECT * FROM odpoved WHERE question_id=?");
                 $stmt2->execute([$ID]);
@@ -91,16 +96,40 @@ if(!isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] !== true)
             <?php
             echo"<input style='display: none' name='question_id' type='text' value='$q_ID' class='form-control'>";
             ?>
-            <label for="ans">Answer</label>
-            <input type="text" id="ans" class="form-control" name="answer" placeholder="Answer" required autofocus>
             <input type="text" id="q_type" class="form-control" name="q_type" placeholder="Type" required autofocus value="<?php echo $type ?>" hidden>
             <?php if($type == "multi" && $correctExist==0)
             {
-            echo '<label for="correct" class="form-label">Is the answer correct ?</label>
+            echo '<label for="ans">Answer</label>
+                  <input type="text" id="ans" class="form-control" name="answer" placeholder="Answer" required autofocus>
+                  <label for="correct" class="form-label">Is the answer correct ?</label>
                   <select class="form-select" id="correct" name="correct">
                       <option value="1">Yes</option>
                       <option value="0">No</option>
                   </select>';
+            }
+            elseif ($type == "multi" && $correctExist!=0){
+                echo '<label for="ans">Answer</label>
+                  <input type="text" id="ans" class="form-control" name="answer" placeholder="Answer" required autofocus>
+                  <input style="display: none" name="correct" type="text" value="0" class="form-control">
+                  ';
+            }
+            elseif ($type == "short"){
+                echo '<label for="ans">Answer</label>
+                  <input type="text" id="ans" class="form-control" name="answer" placeholder="Answer" required autofocus>
+                  ';
+            }
+            elseif ($type == "math"){
+                if ($answers){
+                    $ttt = $answers[0]->getText();
+                }
+                else
+                    $ttt = "x=0";
+                echo"<label for='rightAns'>Right Answer</label>><math-field id='rightAns' read-only style='font-size: 32px; margin: 3em; padding: 8px; border-radius: 8px; border: 1px solid rgba(0, 0, 0, .3); box-shadow: 0 0 8px rgba(0, 0, 0, .2);'>$ttt</math-field>";
+                echo'<label for="correct" class="form-label">Change the right answer</label>
+                  <div style="font-size: 32px; margin: 3em; padding: 8px; border-radius: 8px; border: 1px solid rgba(0, 0, 0, .3); box-shadow: 0 0 8px rgba(0, 0, 0, .2);" id="mathfield" smart-mode>
+                </div>
+                <input style="display: none" name="latex" id="latex" type="text" value="" class="form-control">
+                <input style="display: none" name="correct" type="text" value="1" class="form-control">';
             }
             else
             {
@@ -111,4 +140,28 @@ if(!isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] !== true)
 
     </body>
     <script src="javascript/new_answer.js"></script>
+    <script src='https://unpkg.com/mathlive/dist/mathlive.min.js'></script>
+    <script>
+        var element = MathLive.makeMathField(document.getElementById('mathfield'),  {
+            virtualKeyboardMode: "manual",
+            virtualKeyboards: 'numeric functions symbols roman greek',
+            smartMode: true
+        });
+        $("#formToSend2").submit(function(e) {
+            e.preventDefault(); // avoid to execute the actual submit of the form.
+            let latex = document.getElementById('latex').value = element.getValue("latex");
+            let form = $(this);
+            let url = form.attr('action');
+
+            $.ajax({
+            type: "GET",
+            url: url,
+            data: form.serialize(), // serializes the form's elements.
+            success: function(data) {
+            console.log(data);
+            //window.location.href = data;
+        }
+        });
+        });
+    </script>
 </html>
