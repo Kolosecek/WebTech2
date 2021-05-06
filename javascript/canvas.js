@@ -8,6 +8,8 @@ let width = 2;
 function init() {
     canvas = document.getElementById('canvas');
     ctx = canvas.getContext("2d");
+    $('#success-alert').hide();
+    $('#error-alert').hide();
 
     canvas.addEventListener("mousemove", function (e) {
         findxy('move', e)
@@ -74,8 +76,8 @@ function findxy(res, e) {
     if (res === 'down') {
         prevX = currX;
         prevY = currY;
-        currX = e.clientX - canvas.offsetLeft;
-        currY = e.clientY - canvas.offsetTop;
+        currX = e.pageX - canvas.offsetLeft;
+        currY = e.pageY - canvas.offsetTop;
 
         flag = true;
         dot_flag = true;
@@ -91,21 +93,29 @@ function findxy(res, e) {
     } else if (res === 'move' && flag) {
         prevX = currX;
         prevY = currY;
-        currX = e.clientX - canvas.offsetLeft;
-        currY = e.clientY - canvas.offsetTop;
+        currX = e.pageX - canvas.offsetLeft;
+        currY = e.pageY - canvas.offsetTop;
         draw();
     }
 }
 
 function saveDrawing() {
     let dataURL = canvas.toDataURL();
+    const success = document.querySelector("#success-alert");
+    const error = document.querySelector("#error-alert");
     $.ajax({
         type: "POST",
         url: "backend/save_canvas.php",
         data: {
             imgBase64: dataURL
+        },
+        success: function() {
+            success.setAttribute('style', 'display: block');
+            error.setAttribute('style', 'display:none !important');
+        }, 
+        error: function() {
+            success.setAttribute('style', 'display:none !important');
+            error.setAttribute('style', 'display: block');
         }
-    }).done(function(o) {
-        console.log('saved');
     });
 }
