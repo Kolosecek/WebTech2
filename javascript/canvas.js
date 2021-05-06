@@ -98,17 +98,14 @@ function findxy(res, e) {
 }
 
 function saveDrawing() {
-    let drawing = canvas.toDataURL('image/png');
-    //console.log(drawing);
+    let dataURL = canvas.toDataURL();
     $.ajax({
-        method: 'POST',
-        url: 'backend/save_canvas.php?drawing='+drawing,
-        contentType: 'multipart/form-data',
-        success: function(data) {
-            console.log(data);
+        type: "POST",
+        url: "backend/save_canvas.php",
+        data: {
+            imgBase64: dataURL
         }
-    })/*.done(function (o) {
+    }).done(function(o) {
         console.log('saved');
-        console.log(o);
-    });*/
+    });
 }

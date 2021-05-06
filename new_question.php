@@ -2,7 +2,6 @@
 require_once "backend/classes/Database.php";
 require_once "backend/classes/Ucitel.php";
 require_once "backend/classes/Exam.php";
-
 session_start();
 
 if(!isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] !== true)
