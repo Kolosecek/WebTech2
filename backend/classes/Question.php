@@ -9,42 +9,32 @@ class Question {
     private $test_id;
     private $ucitel_email;
 
-    /**
-     * @return mixed
-     */
+
     public function getUcitelEmail()
     {
         return $this->ucitel_email;
     }
 
 
-    /**
-     * @return mixed
-     */
+
     public function getId()
     {
         return $this->id;
     }
 
-    /**
-     * @return mixed
-     */
+
     public function getQuestion()
     {
         return $this->question;
     }
 
-    /**
-     * @return mixed
-     */
+
     public function getType()
     {
         return $this->type;
     }
 
-    /**
-     * @return mixed
-     */
+
     public function getTestId()
     {
         return $this->test_id;
@@ -81,7 +71,7 @@ class Question {
         return "<tr>
                 <td>$q</td>
                 <td>$type</td>
-                <td><a class='btn btn-secondary' href='question.php?id=$ID'>Open</td>
+                <td><a class='btn btn-grad grow' href='question.php?id=$ID'>Open</td>
                 </tr>";
     }
     public function getTableRowTest(){
@@ -94,7 +84,7 @@ class Question {
                 <td>$q</td>
                 <td>$type</td>
                 <td>$test_ID</td>
-                <td><a class='btn btn-secondary' href='question.php?id=$ID'>Open</td>
+                <td><a class='btn btn-grad grow' href='question.php?id=$ID'>Open</td>
                 </tr>";
     }
     public function duplicate($test_id){

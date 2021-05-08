@@ -112,7 +112,7 @@ function saveDrawing() {
         success: function() {
             success.setAttribute('style', 'display: block');
             error.setAttribute('style', 'display:none !important');
-        }, 
+        },
         error: function() {
             success.setAttribute('style', 'display:none !important');
             error.setAttribute('style', 'display: block');

@@ -2,6 +2,7 @@
 require_once "backend/classes/Database.php";
 require_once "backend/classes/Ucitel.php";
 require_once "backend/classes/Exam.php";
+
 session_start();
 
 if(!isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] !== true)
@@ -33,10 +34,7 @@ if(!isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] !== true)
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <title>New question</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
         <link href='https://use.fontawesome.com/releases/v5.8.1/css/all.css'>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <script src="https://www.w3schools.com/lib/w3.js"></script>
     </head>
 
 
@@ -49,20 +47,20 @@ if(!isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] !== true)
             <h1 class="h3 mb-3 fw-normal">Connect to exam</h1>
             <input style="display: none" name="mode" type="text" value="new_question" class="form-control">
             <?php
-            $email =$_SESSION["email"];
-            echo"<input style='display: none' name='email' type='text' value=$email class='form-control'>";
-            $conn = (new Database())->getConnection();
-            $stmt = $conn->prepare("SELECT * FROM test");
-            $stmt->execute();
-            $tests = $stmt->fetchAll(PDO::FETCH_CLASS, "Exam");
-            echo"<label for='exams' class='form-label'>Choose the exam</label><select class='form-select' id='exams' name='exam'>";
-            foreach ($tests as $t){
-                $tID = $t->getId();
-                $tTitle = $t->getTitle();
-                echo"<option value=$tID>$tTitle</option>";
-            }
-            echo"<option value='0'>Template Question</option>";
-            echo"</select>";
+                $email =$_SESSION["email"];
+                echo"<input style='display: none' name='email' type='text' value=$email class='form-control'>";
+                $conn = (new Database())->getConnection();
+                $stmt = $conn->prepare("SELECT * FROM test");
+                $stmt->execute();
+                $tests = $stmt->fetchAll(PDO::FETCH_CLASS, "Exam");
+                echo"<label for='exams' class='form-label'>Choose the exam</label><select class='form-select' id='exams' name='exam'>";
+                foreach ($tests as $t){
+                    $tID = $t->getId();
+                    $tTitle = $t->getTitle();
+                    echo"<option value=$tID>$tTitle</option>";
+                }
+                echo"<option value='0'>Template Question</option>";
+                echo"</select>";
             ?>
             <label for="type" class="form-label">Choose the type of question</label>
             <select class="form-select" id="type" name="type">
@@ -79,35 +77,40 @@ if(!isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] !== true)
                 <input type="text" id="shortAns" class="form-control" name="shortAns" placeholder="Answer" autofocus>
             </div>
             <div id="multi-question" style="display:none;">multi question</div>
-            <div id="compare-question" style="display:none;">compare question</div>
-            
-            <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
-                <symbol id="check-circle-fill" fill="currentColor" viewBox="0 0 16 16">
-                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
-                </symbol>
-                <symbol id="exclamation-triangle-fill" fill="currentColor" viewBox="0 0 16 16">
-                    <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
-                </symbol>
-            </svg>
-            
+
+
+            <div class="container" id="compare-question" style="display:none;">compare question
+                <!--
+                <div class="row">
+                    <div class="col">
+                        <ul>
+                            <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 1</li>
+                            <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 2</li>
+                            <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 3</li>
+                            <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 4</li>
+                            <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 5</li>
+                            <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 6</li>
+                            <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 7</li>
+                        </ul>
+                    </div>
+                    <div class="col"> <ul id="sortable">
+                            <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 1</li>
+                            <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 2</li>
+                            <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 3</li>
+                            <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 4</li>
+                            <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 5</li>
+                            <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 6</li>
+                            <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 7</li>
+                        </ul>
+                    </div>
+                </div>
+                !-->
+
+            </div>
+
+
             <div id="draw-question" style="display:none;">
                 <canvas id="canvas" width="400" height="400" style="border:2px solid;"></canvas>
-                
-                
-                <div id="success-alert" class="alert alert-success collapse d-flex align-items-center" role="alert" style="display:none !important;">
-                    <svg class="bi flex-shrink-0 me-2" width="24" height="24"><use xlink:href="#check-circle-fill"/></svg>
-                    <div>
-                        Canvas successfully uploaded!
-                    </div>
-                </div>
-                <div id="error-alert" class="alert alert-danger collapse d-flex align-items-center " role="alert" style="display:none !important;">
-                    <svg class="bi flex-shrink-0 me-2" width="24" height="24"><use xlink:href="#exclamation-triangle-fill"/></svg>
-                    <div>
-                        Canvas failed to upload!
-                    </div>
-                </div>
-                
-
                 <div>Choose Color</div>
                 <div id="green" style="width:10px;height:10px;background:green;" onclick="switchColor(this)"></div>
                 <div id="blue" style="width:10px;height:10px; background:blue;" onclick="switchColor(this)"></div>
@@ -130,31 +133,14 @@ if(!isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] !== true)
             <input type="submit" value="add new question" class="btn btn-primary">
         </form>
 
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        <script src="https://www.w3schools.com/lib/w3.js"></script>
+        <script src='https://unpkg.com/mathlive/dist/mathlive.min.js'></script>
+        <script src="javascript/new_question.js"></script>
+        <script src="javascript/canvas.js"></script>
+        <script src="javascript/compare.js"></script>
     </body>
-    <script src="javascript/new_question.js"></script>
-    <script src='https://unpkg.com/mathlive/dist/mathlive.min.js'></script>
-    <script src="javascript/canvas.js"></script>
-    <script>
-        var element = MathLive.makeMathField(document.getElementById('mathfield'),  {
-            virtualKeyboardMode: "manual",
-            virtualKeyboards: 'numeric functions symbols roman greek',
-            smartMode: true
-        });
-        $("#formToSend2").submit(function(e) {
-            e.preventDefault(); // avoid to execute the actual submit of the form.
-            let latex = document.getElementById('latex').value = element.getValue("latex");
-            let form = $(this);
-            let url = form.attr('action');
 
-            $.ajax({
-                type: "GET",
-                url: url,
-                data: form.serialize(), // serializes the form's elements.
-                success: function(data) {
-                    console.log(data);
-                    //window.location.href = data;
-                }
-            });
-        });
-    </script>
 </html>

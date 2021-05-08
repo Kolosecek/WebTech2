@@ -9,6 +9,8 @@ if($_REQUEST["correct"]){
 }
 $q_ID = $_REQUEST["question_id"];
 $q_type = $_REQUEST["q_type"];
+$text1 = $_REQUEST['text1'];
+$text2 = $_REQUEST['text2'];
 
 
 if ($type == "new_answer")
@@ -39,6 +41,10 @@ if ($type == "new_answer")
             $stmt = $conn->prepare("INSERT INTO odpoved (text,correct,question_id) VALUES(?,?,?)");
             $stmt->execute([$text,$correct,$q_ID]);
         }
+    }
+    if ($q_type == "compare"){
+        $stmt = $conn->prepare("INSERT INTO drag(question_id, text1, text2) VALUES(?, ?, ?)");
+        $stmt->execute([$q_ID, $text1, $text2]);
     }
 
 }

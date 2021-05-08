@@ -38,21 +38,31 @@ $surname = $result[0]->getSurname();
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://www.w3schools.com/lib/w3.js"></script>
+        <script src="https://kit.fontawesome.com/e73d803768.js" crossorigin="anonymous"></script>
+
     </head>
 
 
     <body>
-        <div class="content" style="justify-content: center; background: rgb(0,0,0);
-        background: linear-gradient(180deg, rgba(0,0,0,1) 0%, rgba(255,255,255,0) 100%);">
+        <?php include_once "header.html" ?>
+        <div class="content bg-lg" style="justify-content: center;">
             <img src="graphic.png" alt="" id="bg_blurred">
             <div id="profile_title">
                 <h1>Hello <?= $name . " " . $surname . "!"?></h1>
             </div>
             <div id="profile_btns">
-                <button class="btn btn-primary btn-lg grow" style="width: auto !important;" onclick="allExams()">List of already existing exams</button>
-                <button class="btn btn-primary btn-lg grow" style="width: auto !important;" onclick="newExam()">Create new exam</button>
-                <button class="btn btn-primary btn-lg grow" style="width: auto !important;" onclick="newQuestion()">Create new questions</button>
-                <button class="btn btn-primary btn-lg grow" style="width: auto !important;" onclick="logout()">Log Out</button>
+                <div class="profile_menu">
+                    <button class="btn btn-primary btn-lg grow menu_btn" onclick="allExams()">List of already existing exams</button>
+                </div>
+                <div class="profile_menu">
+                    <button class="btn btn-primary btn-lg grow menu_btn" onclick="newExam()">Create new exam</button>
+                </div>
+                <div class="profile_menu">
+                    <button class="btn btn-primary btn-lg grow menu_btn" onclick="newQuestion()">Create new questions</button>
+                </div>
+                <div class="profile_menu">
+                    <button class="btn btn-primary btn-lg grow menu_btn" onclick="logout()">Log Out</button>
+                </div>
             </div>
         </div>
 

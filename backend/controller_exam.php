@@ -31,7 +31,6 @@ if ($type == "new_exam")
 
 else if ($type == "new_question_to_exam")
 {
-
     echo "mayday";
     $add_q = $_REQUEST["question_add"];
     $test_id = $_REQUEST["testId"];

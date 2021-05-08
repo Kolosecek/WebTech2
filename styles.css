@@ -27,6 +27,7 @@ html{
     width: 100%;
     align-items: center;
     padding: 50px;
+    height: 100vh;
 }
 
 #illustration {
@@ -73,7 +74,7 @@ html{
     background-color: #57EE01 !important;
     border-color: #57EE01;
     margin: 10px !important;
-
+color: black;
 }
 
 .form-control {
@@ -96,6 +97,7 @@ html{
 #bg_blurred {
     filter: blur(6px);
     z-index: -1;
+    position: absolute;
 }
 
 #profile_title {
@@ -107,3 +109,153 @@ html{
 
 .grow { transition: all .2s ease-in-out; }
 .grow:hover { transform: scale(1.2); }
+
+.profile_menu {
+    width: 350px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.menu_btn {
+    width: inherit !important;
+}
+
+.exams_content {
+    /*background-color: #72d8dd;*/
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+    padding: 50px;
+    justify-content: center;
+}
+
+.table_wrapper {
+    width: 65%;
+    background: rgba(255,255,255,0.8);
+    border-radius: 30px;
+    padding: 25px;
+}
+
+.bg-lg {
+    background: rgb(0,0,0);
+    background: linear-gradient(180deg, rgba(0,0,0,1) 0%, rgba(255,255,255,0) 100%);
+}
+
+.navigation {
+    width: 100%;
+    /* height: 56px; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 15px;
+    margin-bottom: 10px;
+    font-family: 'Asap', sans-serif;
+}
+
+.navigation i {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.navigation i {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.navigation a {
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    color: white;
+    display: flex;
+    color: #fff;
+    text-transform: uppercase;
+    text-decoration: none;
+    letter-spacing: 0.15em;
+    display: inline-block;
+    position: relative;
+}
+
+.navigation a:after {
+    background: none repeat scroll 0 0 transparent;
+    bottom: 0;
+    content: "";
+    display: block;
+    height: 2px;
+    left: 50%;
+    position: absolute;
+    background: #fff;
+    transition: width 0.3s ease 0s, left 0.3s ease 0s;
+    width: 0;
+}
+.navigation a:hover:after {
+    width: 100%;
+    left: 0;
+}
+
+.exams_btn {
+    margin-bottom: 15px;
+    font-family: 'Asap', sans-serif;
+}
+
+.btn-grad {background-image: linear-gradient(to right, #50C9C3 0%, #96DEDA  51%, #50C9C3  100%)}
+.btn-grad {
+    margin: 10px;
+    text-align: center;
+    text-transform: uppercase;
+    transition: 0.5s;
+    background-size: 200% auto;
+    color: white;
+    box-shadow: 0 0 20px #eee;
+    border-radius: 10px;
+    display: block;
+}
+
+.btn-grad:hover {
+    background-position: right center; /* change the direction of the change here */
+    color: #fff;
+    text-decoration: none;
+}
+
+table tr {
+    vertical-align: middle;
+}
+
+table {
+    font-family: 'Asap', sans-serif;
+}
+
+.headerWrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 150px;
+    background-color: #222222;
+}
+
+#siteTitleWrapper {
+    height: 70%;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+
+.siteTitle {
+    text-align: center;
+    font-family: 'Asap', sans-serif;
+    text-decoration-line: underline;
+    color: white;
+}
+
+#menuWrapper {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 30%;
+    justify-content: flex-end;
+    align-items: flex-end;
+}
