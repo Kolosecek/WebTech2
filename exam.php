@@ -42,7 +42,7 @@ $result = $stmt->fetchAll(PDO::FETCH_CLASS, "Ucitel");
     <?php include_once "header.html" ?>
         <div class="exams_content">
             <img src="graphic.png" alt="" id="bg_blurred">
-            <h1 style="font-family: 'Asap', sans-serif">Exam</h1>
+            <h1 style="font-family: 'Asap', sans-serif">Exam detail</h1>
             <hr style="width: 50%; height: 2px; background-color: black !important;">
             <div style="display: flex; flex-direction: row; justify-content: center; width: 30%">
                 <a class="btn exams_btn grow" href="exams.php"><i class="fas fa-arrow-circle-left fa-lg"></i> Back to all exams</a>
@@ -63,21 +63,18 @@ $result = $stmt->fetchAll(PDO::FETCH_CLASS, "Ucitel");
                             $time = $t->getTime();
                             $ID = $t->getId();
                             $code = $t->getTestCode();
-                            echo "<h1>$title</h1>
-                                  <p>$code</p>
-                                  <p>$time</p>";
+                            echo "<div id='examInfoWrapper'>
+                                      <h1 class='exam_name'>Name: $title</h1>
+                                      <span class='exam_info'><i class='fas fa-key'></i> Code: $code</span>
+                                      <span class='exam_info'><i class='far fa-clock'></i> Time: $time h.</span>
+                                  </div>
+                                  ";
                         }
                         $conn = (new Database())->getConnection();
                         $stmt = $conn->prepare("SELECT * FROM otazka WHERE test_id=?");
                         $stmt->execute([$ID]);
                         $questions = $stmt->fetchAll(PDO::FETCH_CLASS, "Question");
 
-                        echo"<h2>Exam Questions</h2><div>";
-                        foreach ($questions as $q)
-                        {
-                            echo $q->getRow();
-                        }
-                        echo"</div>";
                     }
                     else
                         echo "<h1>Exam not found</h1>";

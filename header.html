@@ -4,7 +4,7 @@
     position: absolute;
     right: 10px;
     top: 10px;
-    font-family: 'Asap', sans-serif;"><i class="fas fa-sign-out-alt" style="color: white; margin-right: 5px"></i>Log out</span>
+    font-family: 'Asap', sans-serif;" onclick="logout()"><i class="fas fa-sign-out-alt" style="color: white; margin-right: 5px"></i>Log out</span>
         <h1 class="siteTitle">Online Exam</h1>
     </div>
 
@@ -23,3 +23,16 @@
         </div>
     </div>
 </div>
+<script>
+    function logout(){
+        let url = "backend/controller_logout.php?type=logout";
+        $.ajax({
+                type: "GET",
+                url: url,
+                success: function(data) {
+                    window.location.href = data;
+                }
+            }
+        );
+    };
+</script>

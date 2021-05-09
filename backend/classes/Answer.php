@@ -33,18 +33,18 @@ class Answer {
 
 
 
-    public function update(){
+    public function update() {
         $conn = (new Database())->getConnection();
         $stmt = $conn->prepare("UPDATE odpoved SET text=? AND correct=? AND question_id=? WHERE id=?");
         $stmt->execute([$this->text,$this->correct,$this->question_id,$this->id]);
     }
 
-    public function getRow(){
+    public function getRow() {
         $t = $this->getText();
-        return "<p>$t</p>".PHP_EOL;
+        return "<span>$t</span>";
     }
 
-    public function duplicate($q_id){
+    public function duplicate($q_id) {
         $conn = (new Database())->getConnection();
         $stmt = $conn->prepare("INSERT INTO odpoved (text,correct,question_id) VALUES (?,?,?)");
         $stmt->execute([$this->text,$this->correct,$q_id]);

@@ -9,11 +9,11 @@ session_start();
 $conn = (new Database())->getConnection();
 
 $stmt = $conn->prepare("SELECT * FROM test where id=?");
-$stmt->execute([1]);
+$stmt->execute([2]);
 $exam = $stmt->fetchAll(PDO::FETCH_CLASS, "Exam");
 
 $stmt = $conn->prepare("SELECT * FROM otazka where test_id=?");
-$stmt->execute([1]);
+$stmt->execute([2]);
 $questions = $stmt->fetchAll(PDO::FETCH_CLASS, "Question");
 
 ?>
@@ -31,7 +31,7 @@ $questions = $stmt->fetchAll(PDO::FETCH_CLASS, "Question");
     </head>
 
 
-    <body>
+    <body onload="init();">
         <?php
             echo Exam::showExamToStudent($exam[0], $questions);
         ?>
@@ -44,7 +44,6 @@ $questions = $stmt->fetchAll(PDO::FETCH_CLASS, "Question");
         <script src="javascript/new_question.js"></script>
         <script src="javascript/canvas.js"></script>
         <script src="javascript/compare.js"></script>
-        <script>init();</script>
     </body>
 
 </html>

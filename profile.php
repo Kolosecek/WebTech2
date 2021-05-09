@@ -22,6 +22,7 @@ $result = $stmt->fetchAll(PDO::FETCH_CLASS, "Ucitel");
 
 $name = $result[0]->getName();
 $surname = $result[0]->getSurname();
+$ucitel_id = $result[0]->getId();
 ?>
 
 <!doctype html>
@@ -47,23 +48,19 @@ $surname = $result[0]->getSurname();
         <?php include_once "header.html" ?>
         <div class="content bg-lg" style="justify-content: center;">
             <img src="graphic.png" alt="" id="bg_blurred">
-            <div id="profile_title">
-                <h1>Hello <?= $name . " " . $surname . "!"?></h1>
+
+            <div id="statsWrapper">
+                <h1>Hello <?= "$name $surname!"?></h1>
+                <hr style="background-color: white; height: 2; width: 100%;">
+                <div id="infoWrapperProfile">
+                    <h2>Profile Information</h2>
+                    <?php echo Ucitel::getStats($ucitel_id, $email); ?>
+                </div>
+
             </div>
-            <div id="profile_btns">
-                <div class="profile_menu">
-                    <button class="btn btn-primary btn-lg grow menu_btn" onclick="allExams()">List of already existing exams</button>
-                </div>
-                <div class="profile_menu">
-                    <button class="btn btn-primary btn-lg grow menu_btn" onclick="newExam()">Create new exam</button>
-                </div>
-                <div class="profile_menu">
-                    <button class="btn btn-primary btn-lg grow menu_btn" onclick="newQuestion()">Create new questions</button>
-                </div>
-                <div class="profile_menu">
-                    <button class="btn btn-primary btn-lg grow menu_btn" onclick="logout()">Log Out</button>
-                </div>
-            </div>
+
+
+
         </div>
 
     </body>

@@ -46,7 +46,7 @@ if(!isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] !== true){
                                 <input type="email" id="inputEmail" class="form-control" name="email" placeholder="Email address" required autofocus>
                                 <label for="inputPassword" class="visually-hidden">Password</label>
                                 <input type="password" id="inputPassword" class="form-control" name="password" placeholder="Password" required>
-                                <button class="w-100 btn btn-lg btn-primary grow" type="submit">Sign in</button>
+                                <button class="w-100 btn btn-lg btn-primary grow btn-index" type="submit">Sign in</button>
                                 <p>Don't have account? <a href="register.php">Sign up</a></p>
                             </div>
                         </form>
@@ -65,7 +65,7 @@ if(!isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] !== true){
                                 <input type="text" id="studentID" class="form-control" name="studentID" placeholder="Your Student ID" required>
                                 <label for="testID" class="visually-hidden">Exam ID</label>
                                 <input type="text" id="testID" class="form-control" name="testID" placeholder="Exam ID" required>
-                                <button class="w-100 btn btn-lg btn-primary grow" type="button" onclick="redirect()">Next</button>
+                                <button class="w-100 btn btn-lg btn-primary grow btn-index" type="button" onclick="redirect()">Next</button>
                             </div>
                         </form>
                     </div>

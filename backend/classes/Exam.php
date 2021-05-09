@@ -86,7 +86,7 @@ class Exam
                 <td>$title</td>
                 <td>$code</td>
                 <td>$time</td>
-                <td><a class='btn btn-grad grow' href='exam.php?id=$ID'>Open</td>
+                <td><a class='btn btn-grad grow' href='exam.php?id=$ID'>Open</a></td>
                 </tr>";
     }
 
@@ -111,7 +111,7 @@ class Exam
         }
     }
 
-    public static function showExamToStudent($exam, $questions) {
+    public static function showExamToStudent($exam, $questions): string {
 
         $string = "<h1>Exam</h1><br>";
         $string .= ("<h3>Test id: {$exam->getId()}</h3><br>");
