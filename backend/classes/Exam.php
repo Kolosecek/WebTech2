@@ -161,11 +161,12 @@ class Exam
                 $conn = (new database())->getConnection();
                 $stmt = $conn->prepare("SELECT * FROM odpoved WHERE question_id=?");
                 $stmt->execute([$qId]);
+                $answers = $stmt->fetchAll(PDO::FETCH_CLASS, "Answer");
 
                 $string .= "<br><h1>$number. Compare question: </h1><br><h3>{$question->getQuestion()}</h3>";
 
-                foreach ()
-                {}
+                foreach ($answers as $answer)
+                {
 
                 $string .=" 
                     <div class='container' id='compare-question'>Compare question
@@ -182,6 +183,7 @@ class Exam
                             </div>
                         </div>
                     </div>";
+                }
             }
             else if ($question->getType() === "draw")
             {
