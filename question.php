@@ -44,14 +44,13 @@ $email = $_SESSION["email"];
     <script src="https://kit.fontawesome.com/e73d803768.js" crossorigin="anonymous"></script>
 </head>
 
-<body>
+<body style="    background-image: linear-gradient(to right, #50C9C3 0%, #96DEDA 51%, #50C9C3 100%);">
 <?php include_once "header.html" ?>
 <div class="exams_content">
-    <img src="graphic.png" alt="" id="bg_blurred">
-    <h1 style="font-family: 'Asap', sans-serif">Question detail</h1>
-    <hr style="width: 50%; height: 2px; background-color: black !important;">
-
-
+<!--    <img src="graphic.png" alt="" id="bg_blurred">-->
+    <div id="questInfoWrapper">
+        <h1 style="font-family: 'Asap', sans-serif">Question detail</h1>
+        <hr style="width: 50%; height: 2px; background-color: black !important;">
 
     <?php
     if(isset($_REQUEST["id"]))
@@ -75,7 +74,7 @@ $email = $_SESSION["email"];
                 }
                 elseif ($type == "math")
                 {
-                    echo"<math-field read-only style='font-size: 32px; margin: 3em; padding: 8px; border-radius: 8px; border: 1px solid rgba(0, 0, 0, .3); box-shadow: 0 0 8px rgba(0, 0, 0, .2);'>$question</math-field><p>$type</p>";
+                    echo"<math-field read-only style='font-size: 32px; font-family: Asap; padding: 8px; border-radius: 8px; border: 1px solid rgba(0, 0, 0, .3); box-shadow: 0 0 8px rgba(0, 0, 0, .2);'>$question</math-field><p>Type: $type</p>";
                 }
             }
             $stmt2 = $conn->prepare("SELECT * FROM odpoved WHERE question_id=?");
@@ -124,33 +123,23 @@ $email = $_SESSION["email"];
                     }
                     echo"</ul></div></div></div>";
                 }
-                echo"</div></div>";
+                echo"</div></div></div>";
             }
         }
         else
             echo "<h1>Question not found</h1>";
     }
 
-    if($type != "draw"){
+    if($type != "draw") {
         echo"<div id='newAnswerFormWrapper'>
         <h1 style='text-align: center; color: white'>Add new answer</h1>
-        <form method='GET' action='backend/controller_answer.php' id='formToSend2' enctype='multipart/form-data'>
-            <input style='display: none' name='type' type='text' value='new_answer' class='form-control'>";
-    }
-    ?>
+        <form method='GET' action='backend/controller_answer.php' id='formToSend2' enctype='multipart/form-data' style='display: contents'>
+            <input style='display: none' name='type' type='text' value='new_answer' class='form-control'> 
+            <input style='display: none' name='question_id' type='text' value='$q_ID' class='form-control'>";
 
-            <div id="newAnswerFormWrapper">
-                <h1 style="text-align: center; color: white">Add new answer</h1>
-                <form method="GET" action="backend/controller_answer.php" id="formToSend3" enctype="multipart/form-data">
-                    <input style="display: none" name="type" type="text" value="new_answer" class="form-control">
-                    <?php
-                    echo"<input style='display: none' name='question_id' type='text' value='$q_ID' class='form-control'>";
-                    ?>
-                    <input type="text" id="q_type" class="form-control" name="q_type" placeholder="Type" required autofocus value="<?php echo $type ?>" hidden>
-                    <?php if($type == "multi" && $correctExist==0)
+                    if($type == "multi" && $correctExist==0)
                     {
-                    echo '<div class="mb-3">
-                            <label for="ans" class="form-label" style="color: white">Answer</label>
+                    echo '<div class="mb-3">                            
                             <input type="text" id="ans" class="form-control" name="answer" placeholder="Type your answer" required autofocus style="margin: 0">
                             </div>
                           <div class="mb-3">
@@ -164,15 +153,13 @@ $email = $_SESSION["email"];
                           <div style="visibility: hidden;" id="mathfield" smart-mode></div>';
             }
             elseif ($type == "multi" && $correctExist!=0){
-                echo '<label for="ans" class="form-label">Answer</label>
-                          <input type="text" id="ans" class="form-control" name="answer" placeholder="Answer" required autofocus>
+                echo '<input type="text" id="ans" class="form-control" name="answer" placeholder="Answer" required autofocus>
                           <input style="display: none" name="correct" type="text" value="0" class="form-control">
                           <input style="display: none" name="latex" id="latex" type="text" value="" class="form-control">
                           <div style="visibility: hidden;" id="mathfield" smart-mode></div>';
             }
             elseif ($type == "short"){
-                echo '<label for="ans" class="form-label">Answer</label>
-                          <input type="text" id="ans" class="form-control" name="answer" placeholder="Answer" required autofocus>
+                echo '<input type="text" id="ans" class="form-control" name="answer" placeholder="Answer" required autofocus>
                           <input style="display: none" name="latex" id="latex" type="text" value="" class="form-control">
                           <div style="visibility: hidden;" id="mathfield" smart-mode></div>';
             }
@@ -182,104 +169,81 @@ $email = $_SESSION["email"];
                 }
                 else
                     $ttt = "x=0";
-                echo"<label for='rightAns'>Right Answer</label>><math-field id='rightAns' read-only style='font-size: 32px; margin: 3em; padding: 8px; border-radius: 8px; border: 1px solid rgba(0, 0, 0, .3); box-shadow: 0 0 8px rgba(0, 0, 0, .2);'>$ttt</math-field>";
+                echo"<label for='rightAns' class='form-label' style='color: white'>Right Answer</label><math-field id='rightAns' read-only style='font-size: 32px; color: white; padding: 8px; border-radius: 8px; border: 1px solid rgba(0, 0, 0, .3); box-shadow: 0 0 8px rgba(0, 0, 0, .2);'>$ttt</math-field>";
                 echo'
                         <label for="correct" class="form-label">Change the right answer</label>
-                          <div style="font-size: 32px; margin: 3em; padding: 8px; border-radius: 8px; border: 1px solid rgba(0, 0, 0, .3); box-shadow: 0 0 8px rgba(0, 0, 0, .2);" id="mathfield" smart-mode>
+                          <div class="mathField" id="mathfield" smart-mode>
                         </div>
                         <input style="display: none" name="latex" id="latex" type="text" value="" class="form-control">
                         <input style="display: none" name="correct" type="text" value="1" class="form-control">';
             }
             elseif ($type == "compare"){
-                echo'
-                        <label for="text1" class="form-label">Text 1</label>
-                        <input name="text1" id="text1" type="text" value="" class="form-control">
-                        <label for="text2" class="form-label">Text 2</label>
-                        <input name="text2" id="text2" type="text" value="" class="form-control">
-                        <input style="display: none" name="correct" type="text" value="1" class="form-control">';
-                    }
-                    else
-                    {
+                echo"<div class='mb-3'>
+                        <label for='text1' class='form-label' style='color: white'>Text 1</label>
+                        <input name='text1' id='text1' type='text' value='' class='form-control'>
+                     </div>
+                     <div class='mb-3'>
+                        <label for='text2' class='form-label' style='color: white'>Text 2</label>
+                        <input name='text2' id='text2' type='text' value='' class='form-control'>
+                     </div>                        
+                        <input style='display: none' name='correct' type='text' value='1' class='form-control'>";
+            }
 
-                    }?>
-                    <input type="submit" class='btn btn-grad grow' value="Add" style="box-shadow: none; width: 100px; text-transform: none;
- ">
-<!--                    <input type="submit" value="Add" class="btn btn-primary">-->
-                </form>
-            </div>
+            echo '<input type="submit" class="btn btn-grad grow" value="Add" style="box-shadow: none; width: 100px; text-transform: none;"></form>';
+    }?>
         </div>
-    </body>
-    <script src="javascript/new_answer.js"></script>
+    </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
     <script src='https://unpkg.com/mathlive/dist/mathlive.min.js'></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://www.w3schools.com/lib/w3.js"></script>
+    <script src='https://unpkg.com/mathlive/dist/mathlive.min.js'></script>
     <script>
-        var element = MathLive.makeMathField(document.getElementById('mathfield'),  {
+        var element = MathLive.makeMathField(document.querySelector('div[id="mathfield"]'),  {
             virtualKeyboardMode: "manual",
             virtualKeyboards: 'numeric functions symbols roman greek',
             smartMode: true
         });
-        $("#formToSend3").submit(function(e) {
+        $("#formToSend2").submit(function(e) {
             e.preventDefault(); // avoid to execute the actual submit of the form.
-            let latex = document.getElementById('latex').value = element.getValue("latex");
+            if(element.getValue("latex")){
+                document.getElementById("latex").value = element.getValue("latex");
+            }
+            else{
+
+            }
             let form = $(this);
             let url = form.attr('action');
 
-            <!--                    <input type="submit" value="Add" class="btn btn-primary">-->
-        </form>
-    </div>
-</div>
-</body>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
-<script src='https://unpkg.com/mathlive/dist/mathlive.min.js'></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://www.w3schools.com/lib/w3.js"></script>
-<script src='https://unpkg.com/mathlive/dist/mathlive.min.js'></script>
-<script>
-    var element = MathLive.makeMathField(document.querySelector('div[id="mathfield"]'),  {
-        virtualKeyboardMode: "manual",
-        virtualKeyboards: 'numeric functions symbols roman greek',
-        smartMode: true
-    });
-    $("#formToSend2").submit(function(e) {
-        e.preventDefault(); // avoid to execute the actual submit of the form.
-        if(element.getValue("latex")){
-            document.getElementById("latex").value = element.getValue("latex");
-        }
-        else{
-
-        }
-        let form = $(this);
-        let url = form.attr('action');
-
-        $.ajax({
-            type: "GET",
-            url: url,
-            data: form.serialize(), // rializes the form's elements.
-            success: function(data) {
-                console.log(data);
-                //window.location.href = data;
-            }
-        });
-    });
-</script>
-<script>
-
-    var btns = document.querySelectorAll('a[ansID]');
-    for (let i = 0;i<btns.length;i++){
-        btns[i].addEventListener("click",function (e){
-            let id = e.target.getAttribute("ansID");
-            let url= "backend/controller_answer.php?type=delete&id="
-            url= url+id;
             $.ajax({
                 type: "GET",
                 url: url,
+                data: form.serialize(), // rializes the form's elements.
                 success: function(data) {
                     console.log(data);
+                    //window.location.href = data;
                 }
             });
         });
-    }
-</script>
+    </script>
+    <script>
+
+        var btns = document.querySelectorAll('a[ansID]');
+        for (let i = 0;i<btns.length;i++){
+            btns[i].addEventListener("click",function (e){
+                let id = e.target.getAttribute("ansID");
+                let url= "backend/controller_answer.php?type=delete&id="
+                url= url+id;
+                $.ajax({
+                    type: "GET",
+                    url: url,
+                    success: function(data) {
+                        console.log(data);
+                    }
+                });
+            });
+        }
+    </script>
+    <?php include_once "footer.html"?>
+    </body>
 </html>

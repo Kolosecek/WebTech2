@@ -74,7 +74,7 @@ $testsActive = $stmt2->fetchAll(PDO::FETCH_CLASS, "Exam");
                 </table>
             </div>
 
-            <div class="table_wrapper" id="activeExamsTable">
+            <div class="table_wrapper" id="activeExamsTable" style="display: none;">
                 <table class="table">
                     <thead>
                     <th scope="col">#</th>

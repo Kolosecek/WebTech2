@@ -314,7 +314,6 @@ table {
     display: flex;
     width: 110%;
     flex-direction: column;
-    margin-top: 50px;
     background-image: linear-gradient(to right, #434343 0%, black 100%);
     padding: 30px;
     justify-content: center;
@@ -458,4 +457,29 @@ table {
     {
         transform: scale( .80 );
     }
+}
+
+.form-label {
+    font-family: Asap !important;
+}
+
+.mathField {
+    font-size: 32px;
+    padding: 8px;
+    border-radius: 8px;
+    border: 1px solid rgba(0, 0, 0, .3);
+    box-shadow: 0 0 8px rgba(0, 0, 0, .2);
+    color: white;
+}
+
+#questInfoWrapper {
+    display: flex;
+    flex-direction: column;
+    width: 120%;
+    justify-content: center;
+    align-items: center;
+    padding: 50px;
+    -webkit-box-shadow: inset 0px -32px 30px -17px rgba(0,0,0,0.38);
+    -moz-box-shadow: inset 0px -32px 30px -17px rgba(0,0,0,0.38);
+    box-shadow: inset 0px -32px 30px -17px rgba(0,0,0,0.38);
 }

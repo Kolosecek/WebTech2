@@ -42,7 +42,7 @@ class Answer {
     public function getRow() {
         $t = $this->getText();
         $id = $this->getId();
-        return "<span>$t </span><a class='btn btn-primary' ansID='$id'>Vymazať</a>";
+        return "<span>$t </span><i class='fas fa-trash-alt grow' ansID='$id' style='margin-left: 10px; cursor: pointer'></i>";
     }
 
     public function duplicate($q_id) {
