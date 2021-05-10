@@ -9,42 +9,32 @@ class Question {
     private $test_id;
     private $ucitel_email;
 
-    /**
-     * @return mixed
-     */
+
     public function getUcitelEmail()
     {
         return $this->ucitel_email;
     }
 
 
-    /**
-     * @return mixed
-     */
+
     public function getId()
     {
         return $this->id;
     }
 
-    /**
-     * @return mixed
-     */
+
     public function getQuestion()
     {
         return $this->question;
     }
 
-    /**
-     * @return mixed
-     */
+
     public function getType()
     {
         return $this->type;
     }
 
-    /**
-     * @return mixed
-     */
+
     public function getTestId()
     {
         return $this->test_id;

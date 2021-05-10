@@ -21,13 +21,13 @@ if ($type == "new_question")
         else
             $stmt->execute([$question,$typeQ,$testID,$email]);
 
-        $last_id = $conn->lastInsertId();
+        $question_id = $conn->lastInsertId();
     }
     if($typeQ == "short")
     {
         $shortAns = $_REQUEST["shortAns"];
         $stmt = $conn->prepare("INSERT INTO odpoved (text,correct,question_id) VALUES(?,?,?)");
-        $stmt->execute([$shortAns,1,$last_id]);
+        $stmt->execute([$shortAns,1,$question_id]);
     }
     if($typeQ == "math")
     {
@@ -40,4 +40,15 @@ if ($type == "new_question")
         else
             $stmt->execute([$latex,$typeQ,$testID,$email]);
     }
+
+    if($typeQ == "compare"){
+        $conn = (new Database())->getConnection();
+        $stmt = $conn->prepare("INSERT INTO otazka (question,type,test_id,ucitel_email) VALUES(?,?,?,?)");
+        if($testID == 0)
+            $stmt->execute([$question,$typeQ,null,$email]);
+        else
+            $stmt->execute([$question,$typeQ,$testID,$email]);
+    }
+
+    echo "/skuska/question.php?id=$question_id";
 }

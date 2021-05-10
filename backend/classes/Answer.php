@@ -7,33 +7,25 @@ class Answer {
     private $correct;
     private $question_id;
 
-    /**
-     * @return mixed
-     */
+
     public function getId()
     {
         return $this->id;
     }
 
-    /**
-     * @return mixed
-     */
+
     public function getText()
     {
         return $this->text;
     }
 
-    /**
-     * @return mixed
-     */
+
     public function getCorrect()
     {
         return $this->correct;
     }
 
-    /**
-     * @return mixed
-     */
+
     public function getQuestionId()
     {
         return $this->question_id;

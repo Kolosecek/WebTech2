@@ -2,6 +2,7 @@
 require_once "backend/classes/Database.php";
 require_once "backend/classes/Ucitel.php";
 require_once "backend/classes/Exam.php";
+
 session_start();
 
 if(!isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] !== true)
@@ -33,10 +34,7 @@ if(!isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] !== true)
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <title>New question</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
         <link href='https://use.fontawesome.com/releases/v5.8.1/css/all.css'>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <script src="https://www.w3schools.com/lib/w3.js"></script>
     </head>
 
 
@@ -49,20 +47,20 @@ if(!isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] !== true)
             <h1 class="h3 mb-3 fw-normal">Connect to exam</h1>
             <input style="display: none" name="mode" type="text" value="new_question" class="form-control">
             <?php
-            $email =$_SESSION["email"];
-            echo"<input style='display: none' name='email' type='text' value=$email class='form-control'>";
-            $conn = (new Database())->getConnection();
-            $stmt = $conn->prepare("SELECT * FROM test");
-            $stmt->execute();
-            $tests = $stmt->fetchAll(PDO::FETCH_CLASS, "Exam");
-            echo"<label for='exams' class='form-label'>Choose the exam</label><select class='form-select' id='exams' name='exam'>";
-            foreach ($tests as $t){
-                $tID = $t->getId();
-                $tTitle = $t->getTitle();
-                echo"<option value=$tID>$tTitle</option>";
-            }
-            echo"<option value='0'>Template Question</option>";
-            echo"</select>";
+                $email =$_SESSION["email"];
+                echo"<input style='display: none' name='email' type='text' value=$email class='form-control'>";
+                $conn = (new Database())->getConnection();
+                $stmt = $conn->prepare("SELECT * FROM test");
+                $stmt->execute();
+                $tests = $stmt->fetchAll(PDO::FETCH_CLASS, "Exam");
+                echo"<label for='exams' class='form-label'>Choose the exam</label><select class='form-select' id='exams' name='exam'>";
+                foreach ($tests as $t){
+                    $tID = $t->getId();
+                    $tTitle = $t->getTitle();
+                    echo"<option value=$tID>$tTitle</option>";
+                }
+                echo"<option value='0'>Template Question</option>";
+                echo"</select>";
             ?>
             <label for="type" class="form-label">Choose the type of question</label>
             <select class="form-select" id="type" name="type">
@@ -79,7 +77,38 @@ if(!isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] !== true)
                 <input type="text" id="shortAns" class="form-control" name="shortAns" placeholder="Answer" autofocus>
             </div>
             <div id="multi-question" style="display:none;">multi question</div>
-            <div id="compare-question" style="display:none;">compare question</div>
+
+
+            <div class="container" id="compare-question" style="display:none;">compare question
+                <!--
+                <div class="row">
+                    <div class="col">
+                        <ul>
+                            <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 1</li>
+                            <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 2</li>
+                            <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 3</li>
+                            <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 4</li>
+                            <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 5</li>
+                            <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 6</li>
+                            <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 7</li>
+                        </ul>
+                    </div>
+                    <div class="col"> <ul id="sortable">
+                            <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 1</li>
+                            <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 2</li>
+                            <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 3</li>
+                            <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 4</li>
+                            <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 5</li>
+                            <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 6</li>
+                            <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 7</li>
+                        </ul>
+                    </div>
+                </div>
+                !-->
+
+            </div>
+
+
             <div id="draw-question" style="display:none;">
                 <canvas id="canvas" width="400" height="400" style="border:2px solid;"></canvas>
                 <div>Choose Color</div>
@@ -104,31 +133,14 @@ if(!isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] !== true)
             <input type="submit" value="add new question" class="btn btn-primary">
         </form>
 
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        <script src="https://www.w3schools.com/lib/w3.js"></script>
+        <script src='https://unpkg.com/mathlive/dist/mathlive.min.js'></script>
+        <script src="javascript/new_question.js"></script>
+        <script src="javascript/canvas.js"></script>
+        <script src="javascript/compare.js"></script>
     </body>
-    <script src="javascript/new_question.js"></script>
-    <script src='https://unpkg.com/mathlive/dist/mathlive.min.js'></script>
-    <script src="javascript/canvas.js"></script>
-    <script>
-        var element = MathLive.makeMathField(document.getElementById('mathfield'),  {
-            virtualKeyboardMode: "manual",
-            virtualKeyboards: 'numeric functions symbols roman greek',
-            smartMode: true
-        });
-        $("#formToSend2").submit(function(e) {
-            e.preventDefault(); // avoid to execute the actual submit of the form.
-            let latex = document.getElementById('latex').value = element.getValue("latex");
-            let form = $(this);
-            let url = form.attr('action');
 
-            $.ajax({
-                type: "GET",
-                url: url,
-                data: form.serialize(), // serializes the form's elements.
-                success: function(data) {
-                    console.log(data);
-                    //window.location.href = data;
-                }
-            });
-        });
-    </script>
 </html>
