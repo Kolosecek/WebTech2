@@ -39,3 +39,8 @@ else if ($type == "new_question_to_exam")
     $stmt = $conn->prepare("UPDATE otazka SET test_id=? WHERE id=?");
     $stmt->execute([$test_id, $add_q]);
 }
+
+if ($type == "exam_submit")
+{
+
+}
