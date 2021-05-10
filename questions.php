@@ -44,7 +44,7 @@ $qTest = $stmt2->fetchAll(PDO::FETCH_CLASS, "Question");
         <h1 style="font-family: 'Asap', sans-serif">Your created questions</h1>
         <hr style="width: 50%; height: 2px; background-color: black !important;">
         <div style="display: flex; flex-direction: row; justify-content: center; width: 30%">
-            <a class="btn exams_btn grow" href="exams.php"><i class="fas fa-plus-circle fa-lg"></i> Create new question</a>
+            <a class="btn exams_btn grow" href="new_question.php"><i class="fas fa-plus-circle fa-lg"></i> Create new question</a>
         </div>
 <!--        <h1 class="h3 mb-3 fw-normal">Template questions</h1>-->
         <div class="table_wrapper">

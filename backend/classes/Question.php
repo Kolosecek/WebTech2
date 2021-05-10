@@ -16,7 +16,6 @@ class Question {
     }
 
 
-
     public function getId()
     {
         return $this->id;

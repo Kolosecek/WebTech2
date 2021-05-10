@@ -16,7 +16,7 @@ $("#formToSend2").submit(function(e) {
         data: form.serialize(), // serializes the form's elements.
         success: function(data) {
             console.log(data);
-            window.location.href = data;
+            //window.location.href = data;
         }
     });
 });

@@ -41,7 +41,8 @@ class Answer {
 
     public function getRow() {
         $t = $this->getText();
-        return "<span>$t</span>";
+        $id = $this->getId();
+        return "<span>$t </span><a class='btn btn-primary' ansID='$id'>Vymazať</a>";
     }
 
     public function duplicate($q_id) {

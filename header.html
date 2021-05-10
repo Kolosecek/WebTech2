@@ -1,35 +1,33 @@
-<div class="headerWrapper">
+<div className="headerWrapper">
     <div id="siteTitleWrapper">
-        <span class="grow" style="cursor: pointer; color: white;
+        <span className="grow" style="cursor: pointer; color: white;
     position: absolute;
     right: 10px;
     top: 10px;
-    font-family: 'Asap', sans-serif;" onclick="logout()"><i class="fas fa-sign-out-alt" style="color: white; margin-right: 5px"></i>Log out</span>
-        <h1 class="siteTitle">Online Exam</h1>
+    font-family: 'Asap', sans-serif;" onClick="logout()"><i className="fas fa-sign-out-alt"
+                                                            style="color: white; margin-right: 5px"></i>Log out</span>
+        <h1 className="siteTitle">Online Exam</h1>
     </div>
 
     <div id="menuWrapper">
-        <div class="navigation" style="border-right: 2px solid white;">
-            <a href="profile.php"><i class="fas fa-home"></i>Home</a>
+        <div className="navigation" style="border-right: 2px solid white;">
+            <a href="profile.php"><i className="fas fa-home"></i>Home</a>
         </div>
-        <div class="navigation" style="border-right: 2px solid white;">
-            <a href="exams.php"><i class="fas fa-list"></i>Exams</a>
+        <div className="navigation" style="border-right: 2px solid white;">
+            <a href="exams.php"><i className="fas fa-list"></i>Exams</a>
         </div>
-        <div class="navigation" style="border-right: 2px solid white;">
-            <a href="questions.php"><i class="fas fa-question-circle"></i>Questions</a>
-        </div>
-        <div class="navigation">
-            <a href="new_exam.php"><i class="fas fa-folder-plus"></i>New Exam</a>
+        <div className="navigation">
+            <a href="questions.php"><i className="fas fa-question-circle"></i>Questions</a>
         </div>
     </div>
 </div>
 <script>
-    function logout(){
+    function logout() {
         let url = "backend/controller_logout.php?type=logout";
         $.ajax({
                 type: "GET",
                 url: url,
-                success: function(data) {
+                success: function (data) {
                     window.location.href = data;
                 }
             }

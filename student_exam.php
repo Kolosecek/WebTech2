@@ -14,7 +14,7 @@ $conn = (new Database())->getConnection();
 $stmt = $conn->prepare("SELECT * FROM test where test_code=?");
 $stmt->execute([$code_test]);
 $exam = $stmt->fetchAll(PDO::FETCH_CLASS, "Exam");
-//$exam[0]->duplicate($code_test,$studentName,$studentID);
+$id = $exam[0]->duplicate($code_test,$studentName,$studentID);
 ?>
 
 
@@ -40,10 +40,10 @@ $exam = $stmt->fetchAll(PDO::FETCH_CLASS, "Exam");
 echo '<h2>Welcome, '. $exam[0]->getStudentName() .' ('. $exam[0]->getStudentId() .')</h2>';
 echo '<h3>To start writing exam ' . $exam[0]->getTitle().' with the code ' .$exam[0]->getTestCode() . ' click the button below</h3>';
 echo '<h3>Exam duration ' . $exam[0]->getTime().'</h3>';
+echo "<a class='btn btn-primary' href='student_active_exam.php?id=$id'>Start exam</a>";
 
 ?>
 
-<a class="btn btn-primary" href="student_active_exam.php">Start exam</a>
 
 
 </body>
