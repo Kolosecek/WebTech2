@@ -127,6 +127,7 @@ $result = $stmt->fetchAll(PDO::FETCH_CLASS, "Ucitel");
                     <input type="submit" value="Add this question to exam" class="btn btn-primary">
                 </form>
         </div>
+    <?php include_once "footer.html" ?>
     </body>
     <script src="javascript/new_exam.js"></script>
 </html>

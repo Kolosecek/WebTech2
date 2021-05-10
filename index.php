@@ -27,6 +27,7 @@ if(!isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] !== true){
         <link href="https://fonts.googleapis.com/css2?family=Asap&display=swap" rel="stylesheet">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://www.w3schools.com/lib/w3.js"></script>
+        <script src="https://kit.fontawesome.com/e73d803768.js" crossorigin="anonymous"></script>
     </head>
 
     <body>
@@ -40,13 +41,19 @@ if(!isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] !== true){
                         <form method="GET" action="backend/controller_login.php" id="formToSend" enctype="multipart/form-data">
                             <div class="inputs">
                                 <img class="mb-4" src="img.png" width="72" height="62">
-                                <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
-                                <input style="display: none" name="type" type="text" value="login" class="form-control">
-                                <label for="inputEmail" class="visually-hidden">Email address</label>
-                                <input type="email" id="inputEmail" class="form-control" name="email" placeholder="Email address" required autofocus>
-                                <label for="inputPassword" class="visually-hidden">Password</label>
-                                <input type="password" id="inputPassword" class="form-control" name="password" placeholder="Password" required>
-                                <button class="w-100 btn btn-lg btn-primary grow btn-index" type="submit">Sign in</button>
+                                <h1 class="h3 mb-3 fw-normal">Sign in</h1>
+                                <div class='mb-3'>
+                                    <input style="display: none" name="type" type="text" value="login" class="form-control">
+                                    <label for="inputEmail" class="visually-hidden">Email address</label>
+                                    <input type="email" id="inputEmail" class="form-control" name="email" placeholder="Email address" required autofocus>
+                                </div>
+                                <div class='mb-3'>
+                                    <input type="password" id="inputPassword" class="form-control" name="password" placeholder="Password" required>
+                                    <label for="inputPassword" class="visually-hidden">Password</label>
+                                </div>
+                                <div class='mb-3'>
+                                    <button class="w-100 btn btn-lg btn-primary grow btn-index" type="submit">Sign in</button>
+                                </div>
                                 <p>Don't have account? <a href="register.php">Sign up</a></p>
                             </div>
                         </form>
@@ -58,21 +65,32 @@ if(!isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] !== true){
                                 <img class="mb-4" src="img.png" width="72" height="62">
 
                                 <h1 class="h3 mb-3 fw-normal">Connect to exam</h1>
-                                <input style="display: none" name="type" type="text" value="login" class="form-control">
-                                <label for="studentName" class="visually-hidden">Student Name</label>
-                                <input type="text" id="studentName" class="form-control" name="studentName" placeholder="Your Name" required autofocus>
-                                <label for="studentID" class="visually-hidden">Student ID</label>
-                                <input type="text" id="studentID" class="form-control" name="studentID" placeholder="Your Student ID" required>
-                                <label for="testID" class="visually-hidden">Exam ID</label>
-                                <input type="text" id="testID" class="form-control" name="testID" placeholder="Exam ID" required>
+                                <div class='mb-3'>
+                                    <input style="display: none" name="type" type="text" value="login" class="form-control">
+                                    <label for="studentName" class="visually-hidden">Student Name</label>
+                                </div>
+                                <div class='mb-3'>
+                                    <input type="text" id="studentName" class="form-control" name="studentName" placeholder="Your Name" required autofocus>
+                                    <label for="studentID" class="visually-hidden">Student ID</label>
+                                </div>
+                                <div class='mb-3'>
+                                    <input type="text" id="studentID" class="form-control" name="studentID" placeholder="Your Student ID" required>
+                                    <label for="testID" class="visually-hidden">Exam ID</label>
+                                </div>
+                                <div class='mb-3'>
+                                    <input type="text" id="testID" class="form-control" name="testID" placeholder="Exam ID" required>
+                                </div>
+
                                 <button class="w-100 btn btn-lg btn-primary grow btn-index" type="button" onclick="redirect()">Next</button>
+
+
                             </div>
                         </form>
                     </div>
                 </main>
             </div>
         </div>
-
+        <?php include_once "footer.html" ?>
         <script src="javascript/index.js"></script>
         <script>
             function redirect(){

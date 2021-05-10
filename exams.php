@@ -99,6 +99,7 @@ $testsActive = $stmt2->fetchAll(PDO::FETCH_CLASS, "Exam");
                 ?>
             </div>
         </div>
+        <?php include_once "footer.html" ?>
     </body>
     <script src="javascript/new_exam.js"></script>
     <script>

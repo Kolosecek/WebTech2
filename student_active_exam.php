@@ -9,11 +9,11 @@ session_start();
 $conn = (new Database())->getConnection();
 
 $stmt = $conn->prepare("SELECT * FROM test where id=?");
-$stmt->execute([2]);
+$stmt->execute([1]);
 $exam = $stmt->fetchAll(PDO::FETCH_CLASS, "Exam");
 
 $stmt = $conn->prepare("SELECT * FROM otazka where test_id=?");
-$stmt->execute([2]);
+$stmt->execute([1]);
 $questions = $stmt->fetchAll(PDO::FETCH_CLASS, "Question");
 
 ?>

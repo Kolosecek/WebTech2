@@ -46,9 +46,8 @@ $ucitel_id = $result[0]->getId();
 
     <body>
         <?php include_once "header.html" ?>
-        <div class="content bg-lg" style="justify-content: center;">
+        <div class="content bg-lg" style="justify-content: center; flex-direction: column; padding: 0">
             <img src="graphic.png" alt="" id="bg_blurred">
-
             <div id="statsWrapper">
                 <h1>Hello <?= "$name $surname!"?></h1>
                 <hr style="background-color: white; height: 2; width: 100%;">
@@ -56,13 +55,10 @@ $ucitel_id = $result[0]->getId();
                     <h2>Profile Information</h2>
                     <?php echo Ucitel::getStats($ucitel_id, $email); ?>
                 </div>
-
             </div>
-
-
-
         </div>
-
+        <?php include_once "footer.html" ?>
     </body>
+
     <script src="javascript/profile.js"></script>
 </html>

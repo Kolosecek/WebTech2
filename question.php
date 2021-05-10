@@ -51,8 +51,6 @@ $email = $_SESSION["email"];
             <h1 style="font-family: 'Asap', sans-serif">Question detail</h1>
             <hr style="width: 50%; height: 2px; background-color: black !important;">
 
-
-
             <?php
             if(isset($_REQUEST["id"]))
             {
@@ -129,7 +127,7 @@ $email = $_SESSION["email"];
 
             <div id="newAnswerFormWrapper">
                 <h1 style="text-align: center; color: white">Add new answer</h1>
-                <form method="GET" action="backend/controller_answer.php" id="formToSend2" enctype="multipart/form-data">
+                <form method="GET" action="backend/controller_answer.php" id="formToSend3" enctype="multipart/form-data">
                     <input style="display: none" name="type" type="text" value="new_answer" class="form-control">
                     <?php
                     echo"<input style='display: none' name='question_id' type='text' value='$q_ID' class='form-control'>";
@@ -204,7 +202,7 @@ $email = $_SESSION["email"];
             virtualKeyboards: 'numeric functions symbols roman greek',
             smartMode: true
         });
-        $("#formToSend2").submit(function(e) {
+        $("#formToSend3").submit(function(e) {
             e.preventDefault(); // avoid to execute the actual submit of the form.
             let latex = document.getElementById('latex').value = element.getValue("latex");
             let form = $(this);

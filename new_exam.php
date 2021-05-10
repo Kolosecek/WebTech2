@@ -30,46 +30,61 @@ $id = $result[0]->getId();
         <meta name="viewport"
               content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <title>New question</title>
+        <title>Online Exam - Create new exam</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
         <link href='https://use.fontawesome.com/releases/v5.8.1/css/all.css'>
+        <link rel="stylesheet" href="styles.css">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://www.w3schools.com/lib/w3.js"></script>
+        <script src="https://kit.fontawesome.com/e73d803768.js" crossorigin="anonymous"></script>
     </head>
 
-
     <body>
-        <h1>Add a new exam</h1>
-        <a class="btn btn-primary" href="exams.php">List of already existing exams</a>
-        <a class="btn btn-primary" href="profile.php">Profile</a>
+        <?php include_once "header.html" ?>
+        <div class="exams_content">
+            <img src="graphic.png" alt="" id="bg_blurred">
+            <div class="table_wrapper">
+                <h1 style="font-family: 'Asap', sans-serif; text-align: center">Add a new exam</h1>
+                <hr style="width: 90%; height: 2px; background-color: black !important;">
 
-        <form method="GET" action="backend/controller_exam.php" id="formToSend2" enctype="multipart/form-data">
-            <h1 class="h3 mb-3 fw-normal">Create new exam</h1>
-            <input style="display: none" name="type" type="text" value="new_exam" class="form-control">
-            <?php
-            echo "<input style='display: none' name='creator' type='text' value=$id class='form-control'>";
-            ?>
-            <label for="title">Title</label>
-            <input type="text" id="title" class="form-control" name="title" placeholder="Exam Title" required autofocus>
-            <label for="time" class="form-label">Length</label>
-            <input type="time" id="time" name="time" required><br>
+                <form method="GET" action="backend/controller_exam.php" id="formToSend3" enctype="multipart/form-data">
+                    <input style="display: none" name="type" type="text" value="new_exam" class="form-control">
+                    <?php
+                    echo "<input style='display: none' name='creator' type='text' value=$id class='form-control'>";
+                    ?>
+                    <div class='mb-3'>
+                        <label for="title">Title</label>
+                        <input type="text" id="title" class="form-control" name="title" placeholder="Exam Title" required autofocus>
+                    </div>
+                    <div class='mb-3'>
+                        <label for="time" class="form-label">Length</label>
+                        <input type="time" id="time" name="time" required><br>
+                    </div>
 
-            <?php
-            $stmt = $conn->prepare("SELECT * FROM otazka WHERE test_id IS NULL");
-            $stmt->execute();
-            $result = $stmt->fetchAll();
+                    <h4 style="font-family: 'Asap', sans-serif; text-align: center">Choose templates questions</h4>
 
-            foreach ($result as $index => $question)
-            {
-                $id = $question["id"];
-                echo "<input type='checkbox' name='questions[]' value='$id'>
-                      <label>" . ($index + 1) . ". otázka:</label><br>" . $question["question"] . "<br>";
-            }
-            ?>
+                    <div id="temp_quest_wrapper">
+                        <?php
+                            $stmt = $conn->prepare("SELECT * FROM otazka WHERE test_id IS NULL");
+                            $stmt->execute();
+                            $result = $stmt->fetchAll();
 
-            <input type="submit" value="Create new exam" class="btn btn-primary">
-        </form>
+                            foreach ($result as $index => $question)
+                            {
+                                $id = $question["id"];
+                                echo "<div class='mb-3' style='display: flex; align-items: center'>
+                                        <input type='checkbox' name='questions[]' value='$id' style='width: 20px; height: 20px; margin-right: 10px '>
+                                        <label>" . ($index + 1) . ". Otázka: " . $question["question"] ."</label><br>
+                                      </div>";
+                            }
+                        ?>
+                    </div>
+
+                    <input type="submit" class='btn btn-grad grow' value="Add" style="width: 100px; text-transform: none;">
+                </form>
+            </div>
+        </div>
     </body>
     <script src="javascript/new_exam.js"></script>
 </html>
