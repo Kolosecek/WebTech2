@@ -8,9 +8,9 @@ $("#formToSend3").submit(function(e) {
         url: url,
         data: form.serialize(), // serializes the form's elements.
         success: function(data) {
-            //console.log(data);
+            console.log(data);
 
-            window.location.href = data;
+            //window.location.href = data;
         }
     });
 });

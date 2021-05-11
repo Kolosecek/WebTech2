@@ -87,7 +87,7 @@ class Question {
                 </tr>";
     }
     public function duplicate($test_id){
-        $conn = (new Database())->getConnection();
+        $conn = (new database())->getConnection();
         $stmt = $conn->prepare("INSERT INTO otazka (question,type,test_id,ucitel_email) VALUES (?,?,?,?)");
         $stmt->execute([$this->question,$this->type,$test_id,$this->ucitel_email]);
         return $conn->lastInsertId();

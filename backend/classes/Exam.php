@@ -114,27 +114,12 @@ class Exam
         $stmt2->execute([$this->id]);
         $questions = $stmt2->fetchAll(PDO::FETCH_CLASS, "Question");
         foreach ($questions as $q) {
-            $newQ = $q->duplicate($id);
-            $Qid = $q->getId();
-            $type = $q->getType();
-            if($type == "compare"){
-                $stmt4 = $conn->prepare("SELECT * FROM drag WHERE question_id=?");
-                $stmt4->execute([$Qid]);
-                $draggs = $stmt4->fetchAll(PDO::FETCH_CLASS, "Drag");
-                foreach ($draggs as $d) {
-                    $d->duplicate($newQ);
-                }
-            }
-            else{
-                $stmt3 = $conn->prepare("SELECT * FROM odpoved WHERE question_id=?");
-                $stmt3->execute([$Qid]);
-                $anss = $stmt3->fetchAll(PDO::FETCH_CLASS, "Answer");
-                foreach ($anss as $a) {
-                    $a->duplicate($newQ);
-                }
+            if($q->getType() != "draw" && $q->getType() != "math"){
+                $q->duplicate($id);
             }
         }
         return $id;
+
     }
 
     public static function showExamToTeacher($exam, $questions): string {
@@ -157,7 +142,7 @@ class Exam
                 $correct_answer = $stmt->fetchAll(PDO::FETCH_CLASS, "Answer");
 
                 $stmt = $conn->prepare("SELECT * FROM odpoved_student WHERE question_id=? AND test_id=?");
-                $stmt->execute([$q_ID, 1]);
+                $stmt->execute([$q_ID, $exam_ID]);
                 $student_answer = $stmt->fetchAll(PDO::FETCH_CLASS, "Odpoved_student");
 
 
@@ -187,12 +172,16 @@ class Exam
         return $string;
     }
 
+    //STUDENT
+    //STUDENT
+    //STUDENT
+
     public static function showExamToStudent($exam, $questions): string {
 
         $string = "<div id='student_active_exam'><h1>Exam</h1>";
         $string .= ("<h3>Test id: {$exam->getId()}</h3>");
         $string .= ("<h3>Test code: {$exam->getTestCode()}</h3>");
-        $string .= "<form method='POST' action='...' id='examID{$exam->getId()}' enctype='multipart/form-data'>";
+        $string .= "<form method='POST' action='student_active_exam.php?id={$exam->getId()}' id='exam' enctype='multipart/form-data'>";
 
         foreach ($questions as $index => $question)
         {
@@ -243,7 +232,7 @@ class Exam
                                         $text1=$answer->getText1();
                                         $string .="<li class='ui-state-default'><span class='ui-icon ui-icon-arrowthick-2-n-s'></span>$text1</li>";
                                     }
-                                    $string ="
+                                    $string .="
                                 </ul>
                             </div>
                             <div class='col'>
@@ -261,7 +250,6 @@ class Exam
             }
             else if ($question->getType() === "draw")
             {
-
                 $tId = $exam->getId();
                 $string .= "<br><h1>$number. Draw question: </h1><br><h3>{$question->getQuestion()}</h3>";
                 $string .= "
@@ -284,8 +272,7 @@ class Exam
             }
             $string .= "<br>";
         }
-
-        $string .= "<input value='Submit completed exam' class='btn btn-primary' onclick='result()'></form></div>";
+        $string .= "<button type='submit' class='btn btn-primary'>Submit completed exam</button></form></div>";
         return $string;
     }
 }

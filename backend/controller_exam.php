@@ -2,6 +2,7 @@
 require_once "classes/Ucitel.php";
 require_once "classes/Database.php";
 require_once "classes/Question.php";
+require_once "classes/Answer.php";
 
 $type = $_REQUEST["type"];
 

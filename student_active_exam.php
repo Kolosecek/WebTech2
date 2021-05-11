@@ -6,6 +6,11 @@ require_once "backend/classes/Question.php";
 
 session_start();
 
+if(!isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] !== true)
+{
+    header("location: index.php");
+    exit;
+}
 
 $conn = (new Database())->getConnection();
 $id = $_REQUEST["id"];
@@ -51,7 +56,6 @@ $questions = $stmt->fetchAll(PDO::FETCH_CLASS, "Question");
         <script src="javascript/compare.js"></script>
         <script>
             let DrawElements = document.querySelectorAll('button[qId]');
-            console.log(DrawElements);
             for (let i = 0; i < DrawElements.length; i++) {
                 DrawElements[i].addEventListener("click", function (event){
                     saveDrawing(event);
@@ -67,7 +71,9 @@ $questions = $stmt->fetchAll(PDO::FETCH_CLASS, "Question");
                 }))
             }
 
-            function result(){
+            $("#exam").submit(function(e){
+                e.preventDefault()
+                console.log("kill me");
                 let arr = [];
                 let tmp = document.getElementsByTagName("input");
                 for (let i = 0; i < tmp.length; i++) {
@@ -78,6 +84,7 @@ $questions = $stmt->fetchAll(PDO::FETCH_CLASS, "Question");
                     let test_id = document.getElementById("test_id").innerHTML;
                     let url = "";
                     if (arr[i].type != "radio"){
+                        console.log("kill me not radio");
                         url = "backend/controller_question.php?mode=result&id="+arr[i].getAttribute('ansId')+"&text="+arr[i].value+"&test_id="+test_id;
                         $.ajax({
                             type: "GET",
@@ -90,6 +97,7 @@ $questions = $stmt->fetchAll(PDO::FETCH_CLASS, "Question");
 
                     else if (arr[i].type == "radio" && arr[i].checked == true){
                         url = "backend/controller_question.php?mode=result&id="+arr[i].getAttribute('ansId')+"&text="+arr[i].value+"&test_id="+test_id;
+                        console.log("kill me radio checked");
                         $.ajax({
                             type: "GET",
                             url: url,
@@ -102,6 +110,7 @@ $questions = $stmt->fetchAll(PDO::FETCH_CLASS, "Question");
                 for (let i = 0; i < MathElements.length; i++) {
                     let test_id = document.getElementById("test_id").innerHTML;
                     let url = "backend/controller_question.php?mode=result&id="+MathElements[i].element.getAttribute('ansId')+"&text="+MathElements[i].getValue('latex')+"&test_id="+test_id;
+                    console.log("kill me math");
                     $.ajax({
                         type: "GET",
                         url: url,
@@ -110,7 +119,7 @@ $questions = $stmt->fetchAll(PDO::FETCH_CLASS, "Question");
                         }
                     });
                 }
-            }
+            })
         </script>
     </body>
 </html>

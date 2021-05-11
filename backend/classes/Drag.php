@@ -38,10 +38,9 @@ class Drag {
         $stmt->execute([$this->question_id,$this->text1,$this->text2,$this->id]);
     }
 
-    public function duplicate($drag_id){
-        $conn = (new Database())->getConnection();
+    public function duplicate($q_id){
+        $conn = (new database())->getConnection();
         $stmt = $conn->prepare("INSERT INTO drag (question_id,text1,text2) VALUES (?,?,?)");
-        $stmt->execute([$drag_id,$this->text1,$this->text2]);
-        return $conn->lastInsertId();
+        $stmt->execute([$q_id,$this->text1,$this->text2]);
     }
 }

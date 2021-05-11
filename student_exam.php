@@ -14,7 +14,8 @@ $conn = (new Database())->getConnection();
 $stmt = $conn->prepare("SELECT * FROM test where test_code=?");
 $stmt->execute([$code_test]);
 $exam = $stmt->fetchAll(PDO::FETCH_CLASS, "Exam");
-$id = $exam[0]->duplicate($code_test,$studentName,$studentID);
+$id = $exam[0]->getId();
+//$id = $exam[0]->duplicate($code_test,$studentName,$studentID);
 ?>
 
 

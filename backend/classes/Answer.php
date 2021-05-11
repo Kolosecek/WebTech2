@@ -46,8 +46,9 @@ class Answer {
     }
 
     public function duplicate($q_id) {
-        $conn = (new Database())->getConnection();
-        $stmt = $conn->prepare("INSERT INTO odpoved (text,correct,question_id) VALUES (?,?,?)");
-        $stmt->execute([$this->text,$this->correct,$q_id]);
+        $conn = (new database())->getConnection();
+        $stmt = $conn->prepare("INSERT INTO odpoved (text,correct,question_id) VALUES ($this->text,$this->correct,$q_id)");
+        $stmt->execute();
+        return $conn->lastInsertId();
     }
 }
