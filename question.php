@@ -154,20 +154,20 @@ $email = $_SESSION["email"];
                             </select>
                           </div>
                           <input style="display: none" name="latex" id="latex" type="text" value="" class="form-control">
-                          <div style="visibility: hidden;" id="mathfield" smart-mode></div>
+                          <div style="display: none;" id="mathfield" smart-mode></div>
                           <input style="display: none" name="q_type" type="text" value="multi" class="form-control">';
             }
             elseif ($type == "multi" && $correctExist!=0){
                 echo '<input type="text" id="ans" class="form-control" name="answer" placeholder="Answer" required autofocus>
                           <input style="display: none" name="correct" type="text" value="0" class="form-control">
                           <input style="display: none" name="latex" id="latex" type="text" value="" class="form-control">
-                          <div style="visibility: hidden;" id="mathfield" smart-mode></div>
+                          <div style="display: none;" id="mathfield" smart-mode></div>
                           <input style="display: none" name="q_type" type="text" value="multi" class="form-control">';
             }
             elseif ($type == "short"){
                 echo '<input type="text" id="ans" class="form-control" name="answer" placeholder="Answer" required autofocus>
                           <input style="display: none" name="latex" id="latex" type="text" value="" class="form-control">
-                          <div style="visibility: hidden;" id="mathfield" smart-mode></div>
+                          <div style="display: none;" id="mathfield" smart-mode></div>
                           <input style="display: none" name="q_type" type="text" value="short" class="form-control">';
             }
             elseif ($type == "math"){
@@ -195,7 +195,9 @@ $email = $_SESSION["email"];
                         <input name='text2' id='text2' type='text' value='' class='form-control'>
                      </div>                        
                         <input style='display: none' name='correct' type='text' value='1' class='form-control'>
-                        <input style='display: none' name='q_type' type='text' value='compare' class='form-control'> ";
+                        <input style='display: none' name='q_type' type='text' value='compare' class='form-control'>
+                        <div style='display: none;' id='mathfield' smart-mode>
+                     </div>";
             }
 
             echo '<input type="submit" class="btn btn-grad grow" value="Add" style="box-shadow: none; width: 100px; text-transform: none;"></form>';

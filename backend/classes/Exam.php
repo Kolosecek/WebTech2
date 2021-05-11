@@ -2,7 +2,8 @@
 require_once "Database.php";
 require_once "Question.php";
 require_once "Answer.php";
-
+require_once "Drag.php";
+require_once "Odpoved_student.php";
 class Exam
 {
     private $id;
@@ -83,13 +84,24 @@ class Exam
         $time = $this->getTime();
         $ID = $this->getId();
         $code = $this->getTestCode();
-        return "<tr>
+        $bool = $this->getIsActive();
+        if ($bool == "1") {
+            return "<tr>
+                <th scope='row'>$ID</th>
+                <td>$title</td>
+                <td>$code</td>
+                <td>$time</td>
+                <td><a class='btn btn-grad grow' href='teacher_active_exam.php?id=$ID'>Open</a></td>
+                </tr>";
+        } else {
+                return "<tr>
                 <th scope='row'>$ID</th>
                 <td>$title</td>
                 <td>$code</td>
                 <td>$time</td>
                 <td><a class='btn btn-grad grow' href='exam.php?id=$ID'>Open</a></td>
                 </tr>";
+        }
     }
 
     public function duplicate($test_code, $student_name, $student_id){
@@ -104,14 +116,75 @@ class Exam
         foreach ($questions as $q) {
             $newQ = $q->duplicate($id);
             $Qid = $q->getId();
-            $stmt3 = $conn->prepare("SELECT * FROM odpoved WHERE question_id=?");
-            $stmt3->execute([$Qid]);
-            $anss = $stmt3->fetchAll(PDO::FETCH_CLASS, "Answer");
-            foreach ($anss as $a) {
-                $a->duplicate($newQ);
+            $type = $q->getType();
+            if($type == "compare"){
+                $stmt4 = $conn->prepare("SELECT * FROM drag WHERE question_id=?");
+                $stmt4->execute([$Qid]);
+                $draggs = $stmt4->fetchAll(PDO::FETCH_CLASS, "Drag");
+                foreach ($draggs as $d) {
+                    $d->duplicate($newQ);
+                }
+            }
+            else{
+                $stmt3 = $conn->prepare("SELECT * FROM odpoved WHERE question_id=?");
+                $stmt3->execute([$Qid]);
+                $anss = $stmt3->fetchAll(PDO::FETCH_CLASS, "Answer");
+                foreach ($anss as $a) {
+                    $a->duplicate($newQ);
+                }
             }
         }
         return $id;
+    }
+
+    public static function showExamToTeacher($exam, $questions): string {
+
+        $exam_ID = $exam->getId();
+        $string = "<div id='student_active_exam'><h1>Exam</h1>";
+        $string .= ("<h3>Test id: {$exam->getId()}</h3>");
+        $string .= ("<h3>Test code: {$exam->getTestCode()}</h3>");
+        $string .= "<form method='POST' action='...' id='examID{$exam->getId()}' enctype='multipart/form-data'>";
+
+        foreach ($questions as $index => $question) {
+            $number = $index + 1;
+
+            $q_ID = $question->getId();
+            $conn = (new database())->getConnection();
+
+            if ($question->getType() === "short") {
+                $stmt = $conn->prepare("SELECT * FROM odpoved WHERE question_id=? AND correct=1");
+                $stmt->execute([$q_ID]);
+                $correct_answer = $stmt->fetchAll(PDO::FETCH_CLASS, "Answer");
+
+                $stmt = $conn->prepare("SELECT * FROM odpoved_student WHERE question_id=? AND test_id=?");
+                $stmt->execute([$q_ID, 1]);
+                $student_answer = $stmt->fetchAll(PDO::FETCH_CLASS, "Odpoved_student");
+
+
+                $string .= "<h1>$number. Short question: </h1><h3>{$question->getQuestion()}</h3>";
+                $string .= "<p>Students answer: {$student_answer[0]->getOdpoved()}</p>";
+                $string .= "<p>Correct answer: {$correct_answer[0]->getText()}</p>";
+            } else if ($question->getType() === "multi") {
+                $string .= "<br><h1>$number. Multi question: </h1><br><h3>{$question->getQuestion()}</h3>";
+                $string .= "<p>Students answer:</p>";
+                $string .= "<p>TU IDE SPRAVNA ODPOVED.</p>";
+            } else if ($question->getType() === "math") {
+                $string .= "<br><h1>$number. Math question: </h1><br><math-field read-only '>{$question->getQuestion()}</math-field>";
+                $string .= "<p></p>";
+                $string .= "<p>TU IDE SPRAVNA ODPOVED.</p>";
+            } else if ($question->getType() === "compare") {
+                $string .= "<br><h1>$number. Compare question: </h1><br><h3>{$question->getQuestion()}</h3>";
+                $string .= "<p>TU IDE AKE STUDENT ZOVLIL PORADIE</p>";
+                $string .= "<p>TU IDE SPRAVNE PORADIE</p>";
+            } else if ($question->getType() === "draw") {
+                $string .= "<br><h1>$number. Draw question: </h1><br><h3>{$question->getQuestion()}</h3>";
+                $string .= "<p>TU IDE STUDENTOV OBRAZOK</p>s";
+                $string .= "<p>TU IDE CHECKBOX KTORYM UCITEL PRIDELI BODY ZA OBRAZOK</p>";
+            }
+            $string .= "<br>";
+        }
+        $string .= "<input value='Submit completed exam' class='btn btn-primary' onclick='result()'></form></div>";
+        return $string;
     }
 
     public static function showExamToStudent($exam, $questions): string {
@@ -123,17 +196,16 @@ class Exam
 
         foreach ($questions as $index => $question)
         {
+            $qId = $question->getId();
             $number = $index + 1;
 
             if ($question->getType() === "short")
             {
-                $qId = $question->getId();
                 $string .= "<h1>$number. Short question: </h1><h3>{$question->getQuestion()}</h3>";
                 $string .= "<input ansId='$qId' type='text' id='short-answer' name='short-answer'>";
             }
             else if ($question->getType() === "multi")
             {
-                $qId = $question->getId();
                 $string .= "<br><h1>$number. Multi question: </h1><br><h3>{$question->getQuestion()}</h3>";
 
                 $conn = (new database())->getConnection();
@@ -151,42 +223,46 @@ class Exam
             }
             else if ($question->getType() === "math")
             {
-                $qId = $question->getId();
                 $string .= "<br><h1>$number. Math question: </h1><br><math-field read-only '>{$question->getQuestion()}</math-field>";
                 $string .= "<div ansId=$qId style='font-size: 32px; margin: 3em; padding: 8px; border-radius: 8px; border: 1px solid rgba(0, 0, 0, .3); box-shadow: 0 0 8px rgba(0, 0, 0, .2);' id='mathfield' smart-mode></div>";
             }
             else if ($question->getType() === "compare")
             {
-                $qId = $question->getId();
                 $conn = (new database())->getConnection();
-                $stmt = $conn->prepare("SELECT * FROM odpoved WHERE question_id=?");
+                $stmt = $conn->prepare("SELECT * FROM drag WHERE question_id=?");
                 $stmt->execute([$qId]);
-                $answers = $stmt->fetchAll(PDO::FETCH_CLASS, "Answer");
-
+                $answers = $stmt->fetchAll(PDO::FETCH_CLASS, "Drag");
                 $string .= "<br><h1>$number. Compare question: </h1><br><h3>{$question->getQuestion()}</h3>";
-
-                foreach ($answers as $answer)
-                {
-
                 $string .=" 
                     <div class='container' id='compare-question'>Compare question
                         <div class='row'>
                             <div class='col'>
-                                <ul>
-                                    <li class='ui-state-default'><span class='ui-icon ui-icon-arrowthick-2-n-s'></span>Item 1</li>
+                                <ul>";
+                                    foreach ($answers as $answer)
+                                    {
+                                        $text1=$answer->getText1();
+                                        $string .="<li class='ui-state-default'><span class='ui-icon ui-icon-arrowthick-2-n-s'></span>$text1</li>";
+                                    }
+                                    $string ="
                                 </ul>
                             </div>
                             <div class='col'>
-                                <ul id='sortable'>
-                                    <li class='ui-state-default'><span class='ui-icon ui-icon-arrowthick-2-n-s'></span>Item 1</li>
+                                <ul id='sortable'>";
+                                    foreach ($answers as $answer)
+                                    {
+                                        $text2=$answer->getText2();
+                                        $string .="<li class='ui-state-default'><span class='ui-icon ui-icon-arrowthick-2-n-s'></span>$text2</li>";
+                                    }
+                                    $string .="
                                 </ul>
                             </div>
                         </div>
                     </div>";
-                }
             }
             else if ($question->getType() === "draw")
             {
+
+                $tId = $exam->getId();
                 $string .= "<br><h1>$number. Draw question: </h1><br><h3>{$question->getQuestion()}</h3>";
                 $string .= "
                 <div id='draw-question'>
@@ -202,7 +278,8 @@ class Exam
                     <div id='white' onclick='switchColor(this)'></div>
                     <img id='canvasimg'>
                     <input type='button' value='clear' id='clr' size='23' onclick='erase()'>
-                    <button type='button' onclick='saveDrawing()'>Save drawing</button>
+                    <button type='button' tID='$tId' qID='$qId'>Save drawing</button>
+                    <img src='' tID='$tId' qID='$qId' alt=''>
                 </div>";
             }
             $string .= "<br>";

@@ -99,23 +99,37 @@ function findxy(res, e) {
     }
 }
 
-function saveDrawing() {
+function saveDrawing(event) {
+    let canvas = document.getElementById('canvas');
     let dataURL = canvas.toDataURL();
     const success = document.querySelector("#success-alert");
     const error = document.querySelector("#error-alert");
+    let QID = event.target.getAttribute("qId");
+    let tID = event.target.getAttribute("tId");
     $.ajax({
         type: "POST",
         url: "backend/save_canvas.php",
         data: {
-            imgBase64: dataURL
+            imgBase64: dataURL,
+            qID: QID,
+            tID: tID
         },
-        success: function() {
-            success.setAttribute('style', 'display: block');
-            error.setAttribute('style', 'display:none !important');
+        success: function(data) {
+            let imgs = document.getElementsByTagName("img")
+            for (let i = 0; i <  imgs.length; i++) {
+                if(imgs[i].getAttribute("qId") == QID){
+                    imgs[i].setAttribute("src","backend/"+data);
+                }
+            }
+
+            //success.setAttribute('style', 'display: block');
+            //error.setAttribute('style', 'display:none !important');
         },
         error: function() {
-            success.setAttribute('style', 'display:none !important');
-            error.setAttribute('style', 'display: block');
+            alert(data);
+            //success.setAttribute('style', 'display:none !important');
+            //error.setAttribute('style', 'display: block');
         }
     });
+
 }

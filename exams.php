@@ -12,7 +12,7 @@ if(!isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] !== true)
 }
 
 $conn = (new Database())->getConnection();
-$stmt = $conn->prepare("SELECT * FROM test");
+$stmt = $conn->prepare("SELECT * FROM test WHERE isActive=0");
 $stmt->execute();
 $tests = $stmt->fetchAll(PDO::FETCH_CLASS, "Exam");
 $stmt2 = $conn->prepare("SELECT * FROM test WHERE isActive=1");
@@ -74,7 +74,7 @@ $testsActive = $stmt2->fetchAll(PDO::FETCH_CLASS, "Exam");
                 </table>
             </div>
 
-            <div class="table_wrapper" id="activeExamsTable" style="display: none;">
+            <div class="table_wrapper" id="activeExamsTable">
                 <table class="table">
                     <thead>
                     <th scope="col">#</th>
