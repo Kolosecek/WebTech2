@@ -58,6 +58,7 @@ if ($type == "new_answer")
         $stmt = $conn->prepare("INSERT INTO drag(question_id, text1, text2) VALUES(?, ?, ?)");
         $stmt->execute([$q_ID, $text1, $text2]);
     }
+    
 }
 elseif ($type == "delete"){
     $conn = (new Database())->getConnection();

@@ -38,10 +38,14 @@ $email = $_SESSION["email"];
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
     <link href='https://use.fontawesome.com/releases/v5.8.1/css/all.css'>
     <link rel="stylesheet" href="styles.css">
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
+    <script src='https://unpkg.com/mathlive/dist/mathlive.min.js'></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://www.w3schools.com/lib/w3.js"></script>
+    <script src='https://unpkg.com/mathlive/dist/mathlive.min.js'></script>
     <script src="https://kit.fontawesome.com/e73d803768.js" crossorigin="anonymous"></script>
+    
 </head>
 
 <body style="    background-image: linear-gradient(to right, #50C9C3 0%, #96DEDA 51%, #50C9C3 100%);">
@@ -134,7 +138,7 @@ $email = $_SESSION["email"];
         echo"<div id='newAnswerFormWrapper'>
         <h1 style='text-align: center; color: white'>Add new answer</h1>
         <form method='GET' action='backend/controller_answer.php' id='formToSend2' enctype='multipart/form-data' style='display: contents'>
-            <input style='display: none' name='type' type='text' value='new_answer' class='form-control'> 
+            <input style='display: none' name='type' type='text' value='new_answer' class='form-control'>
             <input style='display: none' name='question_id' type='text' value='$q_ID' class='form-control'>";
 
                     if($type == "multi" && $correctExist==0)
@@ -186,18 +190,16 @@ $email = $_SESSION["email"];
                         <label for='text2' class='form-label' style='color: white'>Text 2</label>
                         <input name='text2' id='text2' type='text' value='' class='form-control'>
                      </div>                        
-                        <input style='display: none' name='correct' type='text' value='1' class='form-control'>";
+                        <input style='display: none' name='correct' type='text' value='1' class='form-control'>
+                        <input style='display: none' name='q_type' type='text' value='compare' class='form-control'> ";
             }
 
             echo '<input type="submit" class="btn btn-grad grow" value="Add" style="box-shadow: none; width: 100px; text-transform: none;"></form>';
     }?>
         </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
-    <script src='https://unpkg.com/mathlive/dist/mathlive.min.js'></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://www.w3schools.com/lib/w3.js"></script>
-    <script src='https://unpkg.com/mathlive/dist/mathlive.min.js'></script>
+    
+
     <script>
         var element = MathLive.makeMathField(document.querySelector('div[id="mathfield"]'),  {
             virtualKeyboardMode: "manual",
@@ -221,6 +223,7 @@ $email = $_SESSION["email"];
                 data: form.serialize(), // rializes the form's elements.
                 success: function(data) {
                     console.log(data);
+                    console.log("success");
                     //window.location.href = data;
                 }
             });
