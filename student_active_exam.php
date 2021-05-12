@@ -107,7 +107,6 @@ $questions = $stmt->fetchAll(PDO::FETCH_CLASS, "Question");
 
                     else if (arr[i].type == "radio" && arr[i].checked == true){
                         url = "backend/controller_question.php?mode=result&id="+arr[i].getAttribute('ansId')+"&text="+arr[i].value+"&test_id="+test_id;
-                        console.log("kill me radio checked");
                         $.ajax({
                             type: "GET",
                             url: url,
@@ -120,7 +119,6 @@ $questions = $stmt->fetchAll(PDO::FETCH_CLASS, "Question");
                 for (let i = 0; i < MathElements.length; i++) {
                     let test_id = document.getElementById("test_id").innerHTML;
                     let url = "backend/controller_question.php?mode=result&id="+MathElements[i].element.getAttribute('ansId')+"&text="+MathElements[i].getValue('latex')+"&test_id="+test_id;
-                    console.log("kill me math");
                     $.ajax({
                         type: "GET",
                         url: url,
@@ -149,11 +147,11 @@ $questions = $stmt->fetchAll(PDO::FETCH_CLASS, "Question");
                     }
 
                 }
-                alert("Test sa odovzdáva");
+
                 setTimeout(function (){
                     window.location.href = "index.php";
                 },3000)
-
+                alert("Test sa odovzdáva");
             })
         </script>
         <script src="timer.js"></script>

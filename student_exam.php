@@ -50,7 +50,7 @@ if ($TestDuplicate){
     echo "<a class='btn btn-primary' href='index.php'>Spať na pôvodnú stránku</a>";
 }
 else{
-    echo '<h2>Welcome, '. $studentName .')</h2>';
+    echo '<h2>Welcome, '. $studentName .'</h2>';
     echo '<h3>To start writing exam ' . $exam[0]->getTitle().' with the code ' .$exam[0]->getTestCode() . ' click the button below</h3>';
     echo '<h3>Exam duration ' . $exam[0]->getTime().'</h3>';
     echo "<a class='btn btn-primary' href='student_active_exam.php?id=$id'>Start exam</a>";

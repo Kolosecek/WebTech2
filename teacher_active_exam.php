@@ -53,6 +53,7 @@ $questions = $stmt->fetchAll(PDO::FETCH_CLASS, "Question");
         <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
         <script src="https://www.w3schools.com/lib/w3.js"></script>
         <script src='https://unpkg.com/mathlive/dist/mathlive.min.js'></script>
+        <script src="https://kit.fontawesome.com/e73d803768.js" crossorigin="anonymous"></script>
         <script src="javascript/canvas.js"></script>
         <script src="javascript/compare.js"></script>
         <script>
@@ -66,51 +67,36 @@ $questions = $stmt->fetchAll(PDO::FETCH_CLASS, "Question");
                 }))
             }
 
-            function result(){
-                let arr = [];
-                let tmp = document.getElementsByTagName("input");
-                for (let i = 0; i < tmp.length; i++) {
-                    arr.push(tmp[i]);
-                }
-                //console.log(arr);
-                for (let i = 0; i < arr.length; i++) {
-                    let test_id = document.getElementById("test_id").innerHTML;
-                    let url = "";
-                    if (arr[i].type != "radio"){
-                        url = "backend/controller_question.php?mode=result&id="+arr[i].getAttribute('ansId')+"&text="+arr[i].value+"&test_id="+test_id;
-                        $.ajax({
-                            type: "GET",
-                            url: url,
-                            success: function(data) {
-                                //console.log(data);
-                            }
-                        });
+            var imgButtons = document.querySelectorAll('button[qID]')
+            for (let i = 0; i <imgButtons.length ; i++) {
+                imgButtons[i].addEventListener("click",function (event){
+                    correctDrawing(event);
+                })
+            }
+            function correctDrawing(event){
+                var button = event.target;
+                var url = "backend/controller_question.php?mode=resultDrawing&qID="+button.getAttribute("qID")+"&tID="+button.getAttribute("tID");
+                $.ajax({
+                    type: "GET",
+                    url: url,
+                    success: function(data) {
+                        console.log(data);
                     }
+                });
+            }
 
-                    else if (arr[i].type == "radio" && arr[i].checked == true){
-                        url = "backend/controller_question.php?mode=result&id="+arr[i].getAttribute('ansId')+"&text="+arr[i].value+"&test_id="+test_id;
-                        $.ajax({
-                            type: "GET",
-                            url: url,
-                            success: function(data) {
-                                //console.log(data);
-                            }
-                        });
+            function closeExam(){
+                var div = document.getElementById("student_active_exam");
+                //console.log(div.getAttribute("tID"));
+                var url="backend/controller_exam.php?type=closeExam&tID="+div.getAttribute("tID");
+                $.ajax({
+                    type: "GET",
+                    url: url,
+                    success: function(data) {
+                        console.log(data);
+                        window.location.href = "exams.php";
                     }
-                }
-
-                for (let i = 0; i < MathElements.length; i++) {
-                    let test_id = document.getElementById("test_id").innerHTML;
-                    let url = "backend/controller_question.php?mode=result&id="+MathElements[i].element.getAttribute('ansId')+"&text="+MathElements[i].getValue('latex')+"&test_id="+test_id;
-                    $.ajax({
-                        type: "GET",
-                        url: url,
-                        success: function(data) {
-                            //console.log(data);
-                        }
-                    });
-                }
-
+                });
             }
         </script>
     </body>

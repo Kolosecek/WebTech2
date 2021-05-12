@@ -54,15 +54,13 @@ if ($type == "new_question")
             $stmt->execute([$question,$typeQ,$testID,$email]);
     }
 
-    //echo "/skuska/question.php?id=$question_id";
+    $tmp = "../question.php?id=".$question_id;
+    header('Location:'.$tmp);
 }
-elseif ($type="result"){
+elseif ($type=="result"){
     $q_id = $_REQUEST["id"];
     if(isset($_REQUEST["text"])){
         $text = $_REQUEST["text"];
-    }
-    if (isset($_REQUEST["test_id"])){
-        $t_id = $_REQUEST["test_id"];
     }
     if (isset($_REQUEST["text1"])){
         $text1 = $_REQUEST["text1"];
@@ -70,7 +68,7 @@ elseif ($type="result"){
     if (isset($_REQUEST["text2"])){
         $text2 = $_REQUEST["text2"];
     }
-
+    $t_id = $_REQUEST["test_id"];
     if($q_id != "null"){
 
         $conn = (new Database())->getConnection();
@@ -81,7 +79,7 @@ elseif ($type="result"){
             $foundRightAns= 0;
 
 
-            $questionString = "[Template]".$foundTestQuestion[0]->getQuestion();
+            $questionString = $foundTestQuestion[0]->getQuestion();
             $findTemplateQuestion = $conn->prepare("SELECT * FROM otazka WHERE test_id IS NULL AND question=? AND type=?");
             $findTemplateQuestion->execute([$questionString,$foundTestQuestion[0]->getType()]);
             $foundTemplateQuestion = $findTemplateQuestion->fetchAll(PDO::FETCH_CLASS, "Question");
@@ -105,34 +103,54 @@ elseif ($type="result"){
             }
         }
         else{
-            if($foundTestQuestion[0]->getType() == "math"){
-                $oldstr = $foundTestQuestion[0]->getQuestion();
-                $questionString = substr_replace($oldstr, "[Template]", 6, 0);
-                //$questionString = "[Template]".$foundTestQuestion[0]->getQuestion();
-            }
-            else{
-                $questionString = "[Template]".$foundTestQuestion[0]->getQuestion();
-            }
+
+            $questionString = $foundTestQuestion[0]->getQuestion();
+
             $findTemplateQuestion = $conn->prepare("SELECT * FROM otazka WHERE test_id IS NULL AND question=? AND type=?");
             $findTemplateQuestion->execute([$questionString,$foundTestQuestion[0]->getType()]);
             $foundTemplateQuestion = $findTemplateQuestion->fetchAll(PDO::FETCH_CLASS, "Question");
 
-            $stmt = $conn->prepare("SELECT * FROM odpoved where question_id=? AND correct=1");
-            $stmt->execute([$foundTemplateQuestion[0]->getId()]);
-            $result = $stmt->fetchAll(PDO::FETCH_CLASS, "Answer");
+            if(!$foundTemplateQuestion){
+                echo $q_id;
+
+                $findTemplateQuestion2 = $conn->prepare("SELECT * FROM otazka WHERE question=? AND type=? ORDER BY test_id ASC");
+                $findTemplateQuestion2->execute([$questionString,$foundTestQuestion[0]->getType()]);
+                $foundTemplateQuestion2 = $findTemplateQuestion2->fetchAll(PDO::FETCH_CLASS, "Question");
+                echo $foundTemplateQuestion2[0]->getId();
+                $stmt = $conn->prepare("SELECT * FROM odpoved WHERE question_id=?");
+                $stmt->execute([$foundTemplateQuestion2[0]->getId()]);
+                $result = $stmt->fetchAll(PDO::FETCH_CLASS, "Answer");
+            }
+            else{
+                $stmt = $conn->prepare("SELECT * FROM odpoved where question_id=? AND correct=1");
+                $stmt->execute([$foundTemplateQuestion[0]->getId()]);
+                $result = $stmt->fetchAll(PDO::FETCH_CLASS, "Answer");
+            }
             foreach ($result as $r){
                 if($text == $r->getText())
                 {
-                    $stmt = $conn->prepare("INSERT INTO odpoved_student (question_id, test_id, odpoved, correct) VALUES (?,?,?,?)");
-                    $stmt->execute([$q_id, $t_id, $text, 1]);
+                    echo"1";
+                    $stmt2 = $conn->prepare("INSERT INTO odpoved_student (question_id, test_id, odpoved, correct) VALUES (?,?,?,?)");
+                    $stmt2->execute([$q_id, $t_id, $text, 1]);
                 }else
                 {
-                    $stmt = $conn->prepare("INSERT INTO odpoved_student (question_id, test_id, odpoved, correct) VALUES (?,?,?,?)");
-                    $stmt->execute([$q_id, $t_id, $text, 0]);
+                    echo"2";
+                    $stmt2 = $conn->prepare("INSERT INTO odpoved_student (question_id, test_id, odpoved, correct) VALUES (?,?,?,?)");
+                    $stmt2->execute([$q_id, $t_id, $text, 0]);
                 }
             }
         }
     }
     //echo $q_id." ".$text." ".$t_id;
+}
+elseif($type=="resultDrawing"){
+
+    $qID = $_REQUEST["qID"];
+    $tID = $_REQUEST["tID"];
+    //$img_path = $_REQUEST["img"];
+    $conn = (new Database())->getConnection();
+    $update = $conn->prepare("UPDATE odpoved_student SET correct=1 WHERE question_id=? AND test_id=?");
+    $update->execute([$qID,$tID]);
+    //echo $qID." ".$tID;
 }
 

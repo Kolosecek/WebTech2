@@ -91,10 +91,10 @@ class Question {
         if ($type == "math") {
             return "<tr>
                         <td>$ID</td>
-                        <td><math-field read-only style='color: black;'>$q</math-field></td>
+                        <td><math-field read-only style='pointer-events: none;color:  black;'>$q</math-field></td>
                         <td>$type</td>
                         <td>$test_ID</td>
-                        <td><a class='btn btn-grad grow' href='question.php?id=$ID'>Open</td>
+                        <td></td>
                     </tr>";
         }
         else {
@@ -103,7 +103,7 @@ class Question {
                         <td>$q</td>
                         <td>$type</td>
                         <td>$test_ID</td>
-                        <td><a class='btn btn-grad grow' href='question.php?id=$ID'>Open</td>
+                        <td></td>
                 </tr>";
         }
 

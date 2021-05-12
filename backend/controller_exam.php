@@ -28,9 +28,7 @@ if ($type == "new_exam")
 
     echo "/skuska/exam.php?id=$test_id";
 }
-
-
-else if ($type == "new_question_to_exam")
+elseif ($type == "new_question_to_exam")
 {
     echo "mayday";
     $add_q = $_REQUEST["question_add"];
@@ -40,8 +38,12 @@ else if ($type == "new_question_to_exam")
     $stmt = $conn->prepare("UPDATE otazka SET test_id=? WHERE id=?");
     $stmt->execute([$test_id, $add_q]);
 }
-
-if ($type == "exam_submit")
-{
-
+elseif ($type=="closeExam"){
+    $tID = $_REQUEST["tID"];
+    $conn = (new Database())->getConnection();
+    $stmt = $conn->prepare("UPDATE test SET isActive=2 WHERE id=?");
+    $stmt->execute([$tID]);
+    //echo $tID;
 }
+
+

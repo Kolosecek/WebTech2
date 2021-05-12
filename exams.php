@@ -16,10 +16,13 @@ $stmt = $conn->prepare("SELECT * FROM test WHERE isActive=0");
 $stmt->execute();
 $tests = $stmt->fetchAll(PDO::FETCH_CLASS, "Exam");
 
-$stmt = $conn->prepare("SELECT * FROM test WHERE isActive=1");
-$stmt->execute();
-$testsActive = $stmt->fetchAll(PDO::FETCH_CLASS, "Exam");
+$stmt2 = $conn->prepare("SELECT * FROM test WHERE isActive=1");
+$stmt2->execute();
+$testsActive = $stmt2->fetchAll(PDO::FETCH_CLASS, "Exam");
 
+$stmt2 = $conn->prepare("SELECT * FROM test WHERE isActive=2");
+$stmt2->execute();
+$testsClosed = $stmt2->fetchAll(PDO::FETCH_CLASS, "Exam");
 ?>
 
 <!doctype html>
@@ -65,14 +68,36 @@ $testsActive = $stmt->fetchAll(PDO::FETCH_CLASS, "Exam");
                     <th scope="col"></th>
                     </thead>
                     <tbody>
-                        <?php
-                        foreach ($tests as $t)
-                        {
-                            echo $t->getRow();
-                        }
-                        ?>
+                    <?php
+                    foreach ($tests as $t)
+                    {
+                        echo $t->getRow();
+                    }
+                    ?>
                     </tbody>
                 </table>
+                <h2>Closed exams</h2>
+                <table class="table">
+                    <thead>
+                    <th scope="col">#</th>
+                    <th scope="col">Title</th>
+                    <th scope="col">Student</th>
+                    <th scope="col">Result</th>
+                    </thead>
+                    <tbody>
+                    <?php
+                    foreach ($testsClosed as $t)
+                    {
+                        echo $t->getRow2();
+                    }
+                    ?>
+                    </tbody>
+                </table>
+
+
+
+
+
                 <?php
                 if(!$tests)
                     echo "<h1 style='text-align: center; font-family:'Asap'>You have no template exams</h1>";
