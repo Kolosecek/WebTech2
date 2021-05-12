@@ -47,7 +47,7 @@ class Ucitel {
     public static function getStats($id, $email): string {
 
         //EXAMS
-        $conn = (new database())->getConnection();
+        $conn = (new Database())->getConnection();
         $stmt = $conn->prepare("SELECT COUNT(*) FROM `test` WHERE creator_id=?");
         $stmt->execute([$id]);
         $exams = $stmt->fetch();
@@ -55,6 +55,10 @@ class Ucitel {
         $stmt = $conn->prepare("SELECT COUNT(*) FROM `test` WHERE creator_id=? AND isActive=1");
         $stmt->execute([$id]);
         $active_exams = $stmt->fetch();
+
+        $stmt = $conn->prepare("SELECT COUNT(*) FROM `test` WHERE creator_id=? AND isActive=0");
+        $stmt->execute([$id]);
+        $template_exams = $stmt->fetch();
 
         //QUESTIONS
         $stmt = $conn->prepare("SELECT COUNT(*) FROM `otazka` WHERE ucitel_email=?");
@@ -85,6 +89,7 @@ class Ucitel {
                     <div>
                         <h4>Exams</h4>
                         <p>All created: $exams[0]</p>
+                        <p>Templates: $template_exams[0]</p>
                         <p>Active: $active_exams[0]</p>
                     </div>
                     <div>
@@ -96,6 +101,6 @@ class Ucitel {
                         <p>Math: $math[0]</p>
                         <p>Compare: $compare[0]</p>
                     </div>
-                ";
+                </div>";
     }
 }

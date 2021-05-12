@@ -16,8 +16,7 @@ function console_log($output, $with_script_tags = true)
     echo $js_code;
 }
 
-class database
-{
+class Database {
     private $servername = "localhost";
     private $username = "xgajdosf";
     private $password = "123456";
@@ -34,7 +33,6 @@ class database
         }
         return $this->conn;
     }
-
 }
 
 /*

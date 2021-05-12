@@ -39,7 +39,7 @@ class Drag {
     }
 
     public function duplicate($q_id){
-        $conn = (new database())->getConnection();
+        $conn = (new Database())->getConnection();
         $stmt = $conn->prepare("INSERT INTO drag (question_id,text1,text2) VALUES (?,?,?)");
         $stmt->execute([$q_id,$this->text1,$this->text2]);
     }

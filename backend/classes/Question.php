@@ -67,27 +67,49 @@ class Question {
         $q = $this->getQuestion();
         $type = $this->getType();
         $ID = $this->getId();
-        return "<tr>
+        if ($type == "math") {
+            return "<tr>
+                        <td><math-field read-only style='color: black;'>$q</math-field></td>
+                        <td>$type</td>
+                        <td><a class='btn btn-grad grow' href='question.php?id=$ID'>Open</td>
+                    </tr>";
+        }
+        else {
+            return "<tr>
                 <td>$q</td>
                 <td>$type</td>
                 <td><a class='btn btn-grad grow' href='question.php?id=$ID'>Open</td>
                 </tr>";
+        }
+
     }
     public function getTableRowTest(){
         $q = $this->getQuestion();
         $type = $this->getType();
         $ID = $this->getId();
         $test_ID = $this->getTestId();
-        return "<tr>
-                <td>$ID</td>
-                <td>$q</td>
-                <td>$type</td>
-                <td>$test_ID</td>
-                <td><a class='btn btn-grad grow' href='question.php?id=$ID'>Open</td>
+        if ($type == "math") {
+            return "<tr>
+                        <td>$ID</td>
+                        <td><math-field read-only style='color: black;'>$q</math-field></td>
+                        <td>$type</td>
+                        <td>$test_ID</td>
+                        <td><a class='btn btn-grad grow' href='question.php?id=$ID'>Open</td>
+                    </tr>";
+        }
+        else {
+            return "<tr>
+                        <td>$ID</td>
+                        <td>$q</td>
+                        <td>$type</td>
+                        <td>$test_ID</td>
+                        <td><a class='btn btn-grad grow' href='question.php?id=$ID'>Open</td>
                 </tr>";
+        }
+
     }
     public function duplicate($test_id){
-        $conn = (new database())->getConnection();
+        $conn = (new Database())->getConnection();
         $stmt = $conn->prepare("INSERT INTO otazka (question,type,test_id,ucitel_email) VALUES (?,?,?,?)");
         $stmt->execute([$this->question,$this->type,$test_id,$this->ucitel_email]);
         return $conn->lastInsertId();
