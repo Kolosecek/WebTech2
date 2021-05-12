@@ -15,9 +15,10 @@ $conn = (new Database())->getConnection();
 $stmt = $conn->prepare("SELECT * FROM test WHERE isActive=0");
 $stmt->execute();
 $tests = $stmt->fetchAll(PDO::FETCH_CLASS, "Exam");
-$stmt2 = $conn->prepare("SELECT * FROM test WHERE isActive=1");
-$stmt2->execute();
-$testsActive = $stmt2->fetchAll(PDO::FETCH_CLASS, "Exam");
+
+$stmt = $conn->prepare("SELECT * FROM test WHERE isActive=1");
+$stmt->execute();
+$testsActive = $stmt->fetchAll(PDO::FETCH_CLASS, "Exam");
 
 ?>
 
@@ -43,14 +44,14 @@ $testsActive = $stmt2->fetchAll(PDO::FETCH_CLASS, "Exam");
         <?php include_once "header.html" ?>
         <div class="exams_content">
             <img src="graphic.png" alt="" id="bg_blurred">
-            <h1 style="font-family: 'Asap', sans-serif" id="examsTitle">Your created exams</h1>
+            <h1 style="font-family: 'Asap', sans-serif" id="examsTitle">Your template exams</h1>
 
             <hr style="width: 50%; height: 2px; background-color: black !important;">
 
             <div style="display: flex; flex-direction: row; justify-content: center; width: 40%">
                 <a class="btn exams_btn grow" href="new_exam.php"><i class="fas fa-folder-plus fa-lg"></i> Create new exam</a>
                 <span class="btn exams_btn grow" id="btn1"><i class="fas fa-pen-alt fa-lg"></i> Show active exams</span>
-                <span class="btn exams_btn grow" id="btn2" style="display: none"><i class="fas fa-list fa-lg"></i> Show all exams</span>
+                <span class="btn exams_btn grow" id="btn2" style="display: none"><i class="fas fa-list fa-lg"></i> Show template exams</span>
             </div>
 
     <!--        <h1 class="h3 mb-3 fw-normal">Template exams</h1>-->
@@ -72,9 +73,13 @@ $testsActive = $stmt2->fetchAll(PDO::FETCH_CLASS, "Exam");
                         ?>
                     </tbody>
                 </table>
+                <?php
+                if(!$tests)
+                    echo "<h1 style='text-align: center; font-family:'Asap'>You have no template exams</h1>";
+                ?>
             </div>
 
-            <div class="table_wrapper" id="activeExamsTable">
+            <div class="table_wrapper" id="activeExamsTable" style="display: none">
                 <table class="table">
                     <thead>
                     <th scope="col">#</th>
@@ -95,7 +100,7 @@ $testsActive = $stmt2->fetchAll(PDO::FETCH_CLASS, "Exam");
 
                 <?php
                 if(!$testsActive)
-                    echo"<h1 style='text-align: center; font-family: 'Asap'  >You have no active exams</h1>";
+                    echo "<h1 style='text-align: center; font-family:'Asap'>You have no active exams</h1>";
                 ?>
             </div>
         </div>
@@ -117,7 +122,7 @@ $testsActive = $stmt2->fetchAll(PDO::FETCH_CLASS, "Exam");
             $("#activeExamsTable").css('display', 'none');
             $("#btn1").css('display', 'block');
             $("#btn2").css('display', 'none');
-            $("#examsTitle").html("Your created exams");
+            $("#examsTitle").html("Your template exams");
 
         }))
     </script>

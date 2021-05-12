@@ -42,11 +42,11 @@ class Answer {
     public function getRow() {
         $t = $this->getText();
         $id = $this->getId();
-        return "<span>$t </span><a class='fas fa-trash-alt grow' ansID='$id' style='margin-left: 10px; cursor: pointer; color: white'></a>";
+        return "<span>$t </span><div style='display: flex; justify-content: flex-end; flex-grow: 3; align-items: center;'><a class='fas fa-trash-alt grow' ansID='$id' style='margin-left: 20px; cursor: pointer; color: white'></a></div>";
     }
 
     public function duplicate($q_id) {
-        $conn = (new database())->getConnection();
+        $conn = (new Database())->getConnection();
         $stmt = $conn->prepare("INSERT INTO odpoved (text,correct,question_id) VALUES ($this->text,$this->correct,$q_id)");
         $stmt->execute();
         return $conn->lastInsertId();

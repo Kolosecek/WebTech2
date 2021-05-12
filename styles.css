@@ -470,6 +470,9 @@ table {
     border: 1px solid rgba(0, 0, 0, .3);
     box-shadow: 0 0 8px rgba(0, 0, 0, .2);
     color: white;
+    width: 500px;
+    background: white;
+    color: black;
 }
 
 #questInfoWrapper {
@@ -482,4 +485,65 @@ table {
     -webkit-box-shadow: inset 0px -32px 30px -17px rgba(0,0,0,0.38);
     -moz-box-shadow: inset 0px -32px 30px -17px rgba(0,0,0,0.38);
     box-shadow: inset 0px -32px 30px -17px rgba(0,0,0,0.38);
+}
+
+
+#activeExamInfo {
+    display: flex;
+    height: 200px;
+    width: 100%;
+    background: rgba(0,0,0,0.3);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+}
+#student_active_exam {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+#activeExamFormWrapper {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+        /*padding: 70px;*/
+}
+
+.oneQuestionWrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 70px;
+    border-bottom: 2px solid;
+
+}
+
+.mathfld {
+    font-size: 32px;
+    font-family: Asap;
+    padding: 8px;
+    border-radius: 8px;
+    border: 1px solid rgba(0, 0, 0, .3);
+    box-shadow: 0 0 8px rgba(0, 0, 0, .2);
+}
+
+.newAnswerForm input {
+    margin: 20px
+}
+
+#questTitleTypeWrapper {
+    display: flex;
+    flex-direction: column;
+    color: white;
+    font-family: 'Asap', sans-serif;
+    margin-bottom: 20px;
+    margin-top: 10px;
+    font-size: 17px;
+    text-align: center
 }

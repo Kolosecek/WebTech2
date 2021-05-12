@@ -35,6 +35,7 @@ $result = $stmt->fetchAll(PDO::FETCH_CLASS, "Ucitel");
         <link href='https://use.fontawesome.com/releases/v5.8.1/css/all.css'>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://www.w3schools.com/lib/w3.js"></script>
+        <script src='https://unpkg.com/mathlive/dist/mathlive.min.js'></script>
         <script src="https://kit.fontawesome.com/e73d803768.js" crossorigin="anonymous"></script>
     </head>
 
@@ -49,21 +50,18 @@ $result = $stmt->fetchAll(PDO::FETCH_CLASS, "Ucitel");
             </div>
 
                 <?php
-                if(isset($_REQUEST["id"]))
-                {
+                if(isset($_REQUEST["id"])) {
                     $conn = (new Database())->getConnection();
                     $stmt = $conn->prepare("SELECT * FROM test where id=?");
                     $stmt->execute([$_REQUEST["id"]]);
                     $test = $stmt->fetchAll(PDO::FETCH_CLASS, "Exam");
-                    if($test)
-                    {
-                        foreach ($test as $t)
-                        {
+                    if($test) {
+                        foreach ($test as $t) {
                             $title = $t->getTitle();
                             $time = $t->getTime();
                             $ID = $t->getId();
                             $code = $t->getTestCode();
-                            echo "<div id='examInfoWrapper'>
+                            echo "<div id='examInfoWrapper' style='width: 38%;'>
                                       <h1 class='exam_name'>Name: $title</h1>
                                       <span class='exam_info'><i class='fas fa-key'></i> Code: $code</span>
                                       <span class='exam_info'><i class='far fa-clock'></i> Time: $time h.</span>
@@ -74,37 +72,36 @@ $result = $stmt->fetchAll(PDO::FETCH_CLASS, "Ucitel");
                         $stmt = $conn->prepare("SELECT * FROM otazka WHERE test_id=?");
                         $stmt->execute([$ID]);
                         $questions = $stmt->fetchAll(PDO::FETCH_CLASS, "Question");
-
-                    }
-                    else
+                    } else {
                         echo "<h1>Exam not found</h1>";
+                    }
                 }
                 $stmt2 = $conn->prepare("SELECT * FROM otazka WHERE test_id=? AND ucitel_email=?");
                 $stmt2->execute([$_REQUEST["id"],$email]);
                 $qTest = $stmt2->fetchAll(PDO::FETCH_CLASS, "Question");
                 ?>
 
-                <h1 class="h3 mb-3 fw-normal">Exam questions</h1>
-            <div class="table_wrapper">
 
+            <div class="table_wrapper" style="margin-top: 50px">
+                <h1 class="h3 mb-3 fw-normal" style="font-family: 'Asap', sans-serif;">Exam questions</h1>
                 <table class="table">
-                        <thead>
-                        <th scope="col">#</th>
-                        <th scope="col">Question</th>
-                        <th scope="col">Type</th>
-                        <th scope="col">Test ID</th>
-                        <th scope="col"></th>
-                        </thead>
+                    <thead>
+                    <th scope="col">#</th>
+                    <th scope="col">Question</th>
+                    <th scope="col">Type</th>
+                    <th scope="col">Test ID</th>
+                    <th scope="col"></th>
+                    </thead>
 
-                        <tbody>
-                        <?php
-                        foreach ($qTest as $q2)
-                        {
-                            echo $q2->getTableRowTest();
-                        }
-                        ?>
-                        </tbody>
-                    </table>
+                    <tbody>
+                    <?php
+                    foreach ($qTest as $q2)
+                    {
+                        echo $q2->getTableRowTest();
+                    }
+                    ?>
+                    </tbody>
+                </table>
             </div>
 
             <div class="table_wrapper" style="margin-top: 50px;">
@@ -120,17 +117,16 @@ $result = $stmt->fetchAll(PDO::FETCH_CLASS, "Ucitel");
                         $stmt = $conn->prepare("SELECT * FROM otazka WHERE test_id IS NULL AND ucitel_email=?");
                         $stmt->execute([$email]);
                         $result = $stmt->fetchAll();
-                        foreach ($result as $r)
-                        {
-                            echo  '<option value="'.$r["id"]. '">'.$r["question"] . "</short>";
+                        foreach ($result as $r) {
+                            echo  "<option value='{$r["id"]}'>{$r["question"]}</short>";
                         }
                         ?>
                     </select>
-                    <input type="submit" class="btn btn-grad grow" value="Add" style=" width: 100px; text-transform: none;">
+                    <input type="submit" class="btn btn-grad grow" value="Add" style="width: 100px; text-transform: none; margin-top: 35px">
                 </form>
             </div>
         </div>
-    <?php include_once "footer.html" ?>
+        <?php include_once "footer.html" ?>
     </body>
     <script src="javascript/new_exam.js"></script>
 </html>

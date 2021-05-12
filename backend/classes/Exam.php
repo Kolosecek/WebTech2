@@ -4,6 +4,7 @@ require_once "Question.php";
 require_once "Answer.php";
 require_once "Drag.php";
 require_once "Odpoved_student.php";
+
 class Exam
 {
     private $id;
@@ -134,7 +135,7 @@ class Exam
             $number = $index + 1;
 
             $q_ID = $question->getId();
-            $conn = (new database())->getConnection();
+            $conn = (new Database())->getConnection();
 
             if ($question->getType() === "short") {
                 $stmt = $conn->prepare("SELECT * FROM odpoved WHERE question_id=? AND correct=1");
@@ -178,26 +179,29 @@ class Exam
 
     public static function showExamToStudent($exam, $questions): string {
 
-        $string = "<div id='student_active_exam'><h1>Exam</h1>";
-        $string .= ("<h3>Test id: {$exam->getId()}</h3>");
-        $string .= ("<h3>Test code: {$exam->getTestCode()}</h3>");
-        $string .= "<form method='POST' action='student_active_exam.php?id={$exam->getId()}' id='exam' enctype='multipart/form-data'>";
+        $string = "<div id='student_active_exam'>";
+        $string .= ("<div id='activeExamInfo'><div style='display: flex; flex-direction: row'><h3 style='text-align: center; font-weight: bold; margin-right: 5px'># </h3><h3 style='text-align: center'>Test id: {$exam->getId()}</h3></div>");
+        $string .= ("<div style='display: flex; flex-direction: row'><i class='fas fa-key fa-lg'></i><h3 style='text-align: center'>Test code: {$exam->getTestCode()}</h3></div></div>");
+        $string .= "<div id='activeExamFormWrapper'><form method='POST' action='student_active_exam.php?id={$exam->getId()}' id='exam' enctype='multipart/form-data' style='width: 100%'>";
 
         foreach ($questions as $index => $question)
         {
             $qId = $question->getId();
             $number = $index + 1;
 
+            // SHORT
             if ($question->getType() === "short")
             {
-                $string .= "<h1>$number. Short question: </h1><h3>{$question->getQuestion()}</h3>";
-                $string .= "<input ansId='$qId' type='text' id='short-answer' name='short-answer'>";
+                $string .= "<div class='oneQuestionWrapper'><h1>$number. Short question: </h1><h3>{$question->getQuestion()}</h3>";
+                $string .= "<input ansId='$qId' type='text' id='short-answer' name='short-answer'></div>";
             }
+
+            // MULTI CHOICE
             else if ($question->getType() === "multi")
             {
-                $string .= "<br><h1>$number. Multi question: </h1><br><h3>{$question->getQuestion()}</h3>";
+                $string .= "<div class='oneQuestionWrapper'><h1>$number. Multi question: </h1><h3>{$question->getQuestion()}</h3>";
 
-                $conn = (new database())->getConnection();
+                $conn = (new Database())->getConnection();
                 $stmt = $conn->prepare("SELECT * FROM odpoved WHERE question_id=?");
                 $stmt->execute([$qId]);
                 $answers = $stmt->fetchAll(PDO::FETCH_CLASS, "Answer");
@@ -205,25 +209,32 @@ class Exam
                 foreach ($answers as $indexes => $answer)
                 {
                     $i = $indexes + 1;
-                    $string .= "
-                        <input ansId='$qId' type='radio' id='answer$i' name='question$index' value='{$answer->getText()}'>
-                        <label for='answer$i'>{$answer->getText()}</label><br>";
+                    $string .= "<div>
+                                    <input ansId='$qId' type='radio' id='answer$i' name='question$index' value='{$answer->getText()}'>
+                                    <label for='answer$i'>{$answer->getText()}</label>
+                                </div>";
                 }
+                $string .= "</div>";
             }
+
+            // MATH
             else if ($question->getType() === "math")
             {
-                $string .= "<br><h1>$number. Math question: </h1><br><math-field read-only '>{$question->getQuestion()}</math-field>";
+                $string .= "<div class='oneQuestionWrapper'><h1>$number. Math question: </h1><br><math-field read-only '>{$question->getQuestion()}</math-field>";
                 $string .= "<div ansId=$qId style='font-size: 32px; margin: 3em; padding: 8px; border-radius: 8px; border: 1px solid rgba(0, 0, 0, .3); box-shadow: 0 0 8px rgba(0, 0, 0, .2);' id='mathfield' smart-mode></div>";
+                $string .= "</div>";
             }
+
+            // COMPARE
             else if ($question->getType() === "compare")
             {
-                $conn = (new database())->getConnection();
+                $conn = (new Database())->getConnection();
                 $stmt = $conn->prepare("SELECT * FROM drag WHERE question_id=?");
                 $stmt->execute([$qId]);
                 $answers = $stmt->fetchAll(PDO::FETCH_CLASS, "Drag");
-                $string .= "<br><h1>$number. Compare question: </h1><br><h3>{$question->getQuestion()}</h3>";
+                $string .= "<div class='oneQuestionWrapper'><h1>$number. Compare question: </h1><br><h3>{$question->getQuestion()}</h3>";
                 $string .=" 
-                    <div class='container' id='compare-question'>Compare question
+                    <div class='container' id='compare-question'>
                         <div class='row'>
                             <div class='col'>
                                 <ul>";
@@ -246,12 +257,16 @@ class Exam
                                 </ul>
                             </div>
                         </div>
+                    </div>
                     </div>";
+
             }
+
+            // DRAW
             else if ($question->getType() === "draw")
             {
                 $tId = $exam->getId();
-                $string .= "<br><h1>$number. Draw question: </h1><br><h3>{$question->getQuestion()}</h3>";
+                $string .= "<div class='oneQuestionWrapper'><h1>$number. Draw question: </h1><br><h3>{$question->getQuestion()}</h3>";
                 $string .= "
                 <div id='draw-question'>
                     <canvas id='canvas' width='400' height='400' style='border:2px solid;'></canvas>
@@ -268,11 +283,12 @@ class Exam
                     <input type='button' value='clear' id='clr' size='23' onclick='erase()'>
                     <button type='button' tID='$tId' qID='$qId'>Save drawing</button>
                     <img src='' tID='$tId' qID='$qId' alt=''>
-                </div>";
+                </div>
+                 </div>";
             }
             $string .= "<br>";
         }
-        $string .= "<button type='submit' class='btn btn-primary'>Submit completed exam</button></form></div>";
+        $string .= "<div style='display: flex; justify-content: center; align-content: center'><button type='submit' class='btn btn-grad'>Submit completed exam</button></form></div></div></div>";
         return $string;
     }
 }
