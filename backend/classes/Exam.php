@@ -115,9 +115,7 @@ class Exam
         $stmt2->execute([$this->id]);
         $questions = $stmt2->fetchAll(PDO::FETCH_CLASS, "Question");
         foreach ($questions as $q) {
-            if($q->getType() != "draw" && $q->getType() != "math"){
-                $q->duplicate($id);
-            }
+            $q->duplicate($id);
         }
         return $id;
 
@@ -202,8 +200,13 @@ class Exam
                 $string .= "<div class='oneQuestionWrapper'><h1>$number. Multi question: </h1><h3>{$question->getQuestion()}</h3>";
 
                 $conn = (new Database())->getConnection();
+                $questionString = "[Template]".$question->getQuestion();
+                $findTemplateQuestion = $conn->prepare("SELECT * FROM otazka WHERE test_id IS NULL AND question=? AND type=?");
+                $findTemplateQuestion->execute([$questionString,$question->getType()]);
+                $foundTemplateQuestion = $findTemplateQuestion->fetchAll(PDO::FETCH_CLASS, "Question");
+
                 $stmt = $conn->prepare("SELECT * FROM odpoved WHERE question_id=?");
-                $stmt->execute([$qId]);
+                $stmt->execute([$foundTemplateQuestion[0]->getId()]);
                 $answers = $stmt->fetchAll(PDO::FETCH_CLASS, "Answer");
 
                 foreach ($answers as $indexes => $answer)
@@ -229,25 +232,32 @@ class Exam
             else if ($question->getType() === "compare")
             {
                 $conn = (new Database())->getConnection();
+
+                $questionString = "[Template]".$question->getQuestion();
+                $findTemplateQuestion = $conn->prepare("SELECT * FROM otazka WHERE test_id IS NULL AND question=? AND type=?");
+                $findTemplateQuestion->execute([$questionString,$question->getType()]);
+                $foundTemplateQuestion = $findTemplateQuestion->fetchAll(PDO::FETCH_CLASS, "Question");
+
                 $stmt = $conn->prepare("SELECT * FROM drag WHERE question_id=?");
-                $stmt->execute([$qId]);
+                $stmt->execute([$foundTemplateQuestion[0]->getId()]);
                 $answers = $stmt->fetchAll(PDO::FETCH_CLASS, "Drag");
                 $string .= "<div class='oneQuestionWrapper'><h1>$number. Compare question: </h1><br><h3>{$question->getQuestion()}</h3>";
                 $string .=" 
                     <div class='container' id='compare-question'>
                         <div class='row'>
                             <div class='col'>
-                                <ul>";
+                                <ul t='static'>";
                                     foreach ($answers as $answer)
                                     {
                                         $text1=$answer->getText1();
-                                        $string .="<li class='ui-state-default'><span class='ui-icon ui-icon-arrowthick-2-n-s'></span>$text1</li>";
+                                        $string .="<li qID='$qId' class='ui-state-default'><span class='ui-icon ui-icon-arrowthick-2-n-s'></span>$text1</li>";
                                     }
                                     $string .="
                                 </ul>
                             </div>
                             <div class='col'>
-                                <ul id='sortable'>";
+                                <ul t='dynamic' id='sortable'>";
+                                    shuffle($answers);
                                     foreach ($answers as $answer)
                                     {
                                         $text2=$answer->getText2();

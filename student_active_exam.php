@@ -6,11 +6,11 @@ require_once "backend/classes/Question.php";
 
 session_start();
 
-if(!isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] !== true)
+/*if(!isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] !== true)
 {
     header("location: index.php");
     exit;
-}
+}*/
 
 $conn = (new Database())->getConnection();
 $id = $_REQUEST["id"];
@@ -84,24 +84,23 @@ $questions = $stmt->fetchAll(PDO::FETCH_CLASS, "Question");
 
             $("#exam").submit(function(e){
                 e.preventDefault()
-                console.log("kill me");
+                let compareElementsStatic = document.querySelectorAll('ul[t="static"]');
+                let compareElementsDynamic = document.querySelectorAll('ul[t="dynamic"]');
                 let arr = [];
                 let tmp = document.getElementsByTagName("input");
                 for (let i = 0; i < tmp.length; i++) {
                     arr.push(tmp[i]);
                 }
-                //console.log(arr);
                 for (let i = 0; i < arr.length; i++) {
                     let test_id = document.getElementById("test_id").innerHTML;
                     let url = "";
                     if (arr[i].type != "radio"){
-                        console.log("kill me not radio");
                         url = "backend/controller_question.php?mode=result&id="+arr[i].getAttribute('ansId')+"&text="+arr[i].value+"&test_id="+test_id;
                         $.ajax({
                             type: "GET",
                             url: url,
                             success: function(data) {
-                                //console.log(data);
+                                console.log(data);
                             }
                         });
                     }
@@ -113,7 +112,7 @@ $questions = $stmt->fetchAll(PDO::FETCH_CLASS, "Question");
                             type: "GET",
                             url: url,
                             success: function(data) {
-                                //console.log(data);
+                                console.log(data);
                             }
                         });
                     }
@@ -126,10 +125,35 @@ $questions = $stmt->fetchAll(PDO::FETCH_CLASS, "Question");
                         type: "GET",
                         url: url,
                         success: function(data) {
-                            //console.log(data);
+                            console.log(data);
                         }
                     });
                 }
+                for (let i = 0; i < compareElementsStatic.length; i++) {
+                    let test_id = document.getElementById("test_id").innerHTML;
+                    let StaticChilds = compareElementsStatic[i].childNodes;
+                    let DynamicChilds = compareElementsDynamic[i].childNodes;
+                    for (let j = 0; j < StaticChilds.length; j++) {
+                        if (StaticChilds[j].hasChildNodes()){
+                            let url = "backend/controller_question.php?mode=result&id="+StaticChilds[j].getAttribute('qID')+"&text1="+StaticChilds[j].childNodes[1].nodeValue+"&text2="+DynamicChilds[j].childNodes[1].nodeValue+"&test_id="+test_id;
+                            $.ajax({
+                                type: "GET",
+                                url: url,
+                                success: function(data) {
+                                    console.log(data);
+                                }
+                            });
+                        }
+
+
+                    }
+
+                }
+                alert("Test sa odovzdáva");
+                setTimeout(function (){
+                    window.location.href = "index.php";
+                },3000)
+
             })
         </script>
         <script src="timer.js"></script>
