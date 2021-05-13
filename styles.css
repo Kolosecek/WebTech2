@@ -649,3 +649,15 @@ table {
     width: 90%;
     font-family: Asap;
 }
+
+#github {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family: Asap;
+}
+
+#githubLink {
+    display: flex; flex-direction: column; text-align: center; font-family: 'Asap', sans-serif; font-size: 20px; text-decoration: none; color: black
+}

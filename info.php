@@ -215,7 +215,20 @@
                 </tbody>
             </table>
 
-<!--            <table class="table table-hover table-striped table-bordered done aboutTbl ">-->
+            <h1 style="margin-top: 50px; font-family: 'Asap', sans-serif">Dokumentácia</h1>
+            <hr style="width: 90%; height: 2px; background-color: black !important;">
+            <div id="documentation">
+                <p>Tu bude dokumentaciabude dokumentaciabude dokumentaciabude dokumentaciabude dokumentaciabude dokumentaciabude dokumentacia
+                    bude dokumentaciabude dokumentaciabude dokumentaciabude dokumentaciabude dokumentaciabude dokumentaciabude dokumentacia
+                    bude dokumentaciabude dokumentaciabude dokumentaciabude dokumentaciabude dokumentaciabude dokumentaciabude dokumentacia
+                </p>
+                <div id="github" class="grow">
+                    <a href="https://github.com/Kolosecek/WebTech2" target="_blank" id="githubLink"><i class="fab fa-github fa-3x" style="color: #6e5494"></i>
+                    Our Github Repository</a>
+                </div>
+            </div>
+
+            <!--            <table class="table table-hover table-striped table-bordered done aboutTbl ">-->
 <!--                <thead class="table-dark table-hover">-->
 <!--                <tr>-->
 <!--                    <th scope="col">Časti hry/Meno</th>-->
