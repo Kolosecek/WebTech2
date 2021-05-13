@@ -63,27 +63,29 @@ class Question {
         return $string;
     }
 
-    public function getTableRowTemplate(){
+    public function getTableRowTemplate() {
         $q = $this->getQuestion();
         $type = $this->getType();
         $ID = $this->getId();
         if ($type == "math") {
             return "<tr>
+                        <td>$ID</td>
                         <td><math-field read-only style='color: black;'>$q</math-field></td>
                         <td>$type</td>
-                        <td><a class='btn btn-grad grow' href='question.php?id=$ID'>Open</td>
+                        <td><a class='btn btn-grad grow' href='question.php?id=$ID'>Open</a></td>
                     </tr>";
         }
         else {
             return "<tr>
-                <td>$q</td>
-                <td>$type</td>
-                <td><a class='btn btn-grad grow' href='question.php?id=$ID'>Open</td>
-                </tr>";
+                        <td>$ID</td>
+                        <td>$q</td>
+                        <td>$type</td>
+                        <td><a class='btn btn-grad grow' href='question.php?id=$ID'>Open</a></td>
+                    </tr>";
         }
 
     }
-    public function getTableRowTest(){
+    public function getTableRowTest() {
         $q = $this->getQuestion();
         $type = $this->getType();
         $ID = $this->getId();
@@ -94,17 +96,16 @@ class Question {
                         <td><math-field read-only style='pointer-events: none;color:  black;'>$q</math-field></td>
                         <td>$type</td>
                         <td>$test_ID</td>
-                        <td></td>
+                        <td><a class='btn btn-grad grow' href='question.php?id=$ID'>Open</a></td>
                     </tr>";
-        }
-        else {
+        } else {
             return "<tr>
                         <td>$ID</td>
                         <td>$q</td>
                         <td>$type</td>
                         <td>$test_ID</td>
-                        <td></td>
-                </tr>";
+                        <td><a class='btn btn-grad grow' href='question.php?id=$ID'>Open</a></td>
+                    </tr>";
         }
 
     }

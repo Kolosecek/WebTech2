@@ -72,13 +72,13 @@ $id = $result[0]->getId();
 
                             foreach ($result as $index => $question)
                             {
+                                $number = $index + 1;
                                 $id = $question["id"];
                                 echo "<div class='mb-3' style='display: flex; align-items: center'>
                                         <input type='checkbox' name='questions[]' value='$id' style='width: 20px; height: 20px; margin-right: 10px '>
-                                        <label>" . ($index + 1) . ". Otázka: " . $question["question"] ."</label><br>
+                                        <label>{$number}. Otázka: {$question["question"]}</label><br>
                                       </div>";
-                            }
-                        ?>
+                            }?>
                     </div>
 
                     <input type="submit" class='btn btn-grad grow' value="Add" style="width: 100px; text-transform: none;">

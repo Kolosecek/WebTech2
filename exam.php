@@ -63,6 +63,7 @@ $result = $stmt->fetchAll(PDO::FETCH_CLASS, "Ucitel");
                             $code = $t->getTestCode();
                             echo "<div id='examInfoWrapper' style='width: 38%;'>
                                       <h1 class='exam_name'>Name: $title</h1>
+                                      <span class='exam_info'><i class='fas fa-hashtag'></i> ID: $ID</span>
                                       <span class='exam_info'><i class='fas fa-key'></i> Code: $code</span>
                                       <span class='exam_info'><i class='far fa-clock'></i> Time: $time h.</span>
                                   </div>
@@ -86,20 +87,16 @@ $result = $stmt->fetchAll(PDO::FETCH_CLASS, "Ucitel");
                 <h1 class="h3 mb-3 fw-normal" style="font-family: 'Asap', sans-serif;">Exam questions</h1>
                 <table class="table">
                     <thead>
-                    <th scope="col">#</th>
-                    <th scope="col">Question</th>
-                    <th scope="col">Type</th>
-                    <th scope="col">Test ID</th>
-                    <th scope="col"></th>
+                        <th scope="col">#</th>
+                        <th scope="col">Question</th>
+                        <th scope="col">Type</th>
+                        <th scope="col">Detail</th>
                     </thead>
 
                     <tbody>
-                    <?php
-                    foreach ($qTest as $q2)
-                    {
-                        echo $q2->getTableRowTest();
-                    }
-                    ?>
+                        <?php foreach ($qTest as $q2) {
+                            echo $q2->getTableRowTest();
+                        }?>
                     </tbody>
                 </table>
             </div>
@@ -119,8 +116,7 @@ $result = $stmt->fetchAll(PDO::FETCH_CLASS, "Ucitel");
                         $result = $stmt->fetchAll();
                         foreach ($result as $r) {
                             echo  "<option value='{$r["id"]}'>{$r["question"]}</short>";
-                        }
-                        ?>
+                        } ?>
                     </select>
                     <input type="submit" class="btn btn-grad grow" value="Add" style="width: 100px; text-transform: none; margin-top: 35px">
                 </form>

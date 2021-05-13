@@ -3,56 +3,54 @@
 require_once "backend/classes/Database.php";
 require_once "backend/classes/Exam.php";
 require_once "backend/classes/Answer.php";
+require_once "backend/classes/Question.php";
+require_once "backend/classes/Odpoved_student.php";
+
+require 'vendor/autoload.php';
 
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link type="text/css" href="bootstrap.min.css" rel="stylesheet" />
+    <link type="text/css" href="download_pdf.css" rel="stylesheet" />
+    <style>
+        *{ font-family: DejaVu Sans; font-size: 12px !important;}
+    </style>
 </head>
 <body>
-<table>
+
+
+<table class="table table-bordered">
 <?php
 
-if(isset($_GET['code'])) {
-    $db = new Database();
-    $conn = $db->getConnection();
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+//header("Content-type:application/pdf");
 
-    $stmt = $conn->prepare("SELECT * FROM test WHERE test_code = ?");
-    $stmt->execute([$_GET['code']]);
-    $tests = $stmt->fetchAll(PDO::FETCH_CLASS, "Exam");
+use Dompdf\Dompdf;
+use Dompdf\Options;
 
-    foreach($tests as $test) {
-        $i = 0;
-        $stmt2 = $conn->prepare("SELECT * FROM odpoved_student WHERE test_id = ?");
-        $stmt2->execute([$test->getId()]);
-        $answers = $stmt2->fetchAll(PDO::FETCH_CLASS, "Answer");
-        print_r($answers);
-        if ($i === 0) {
-            echo "<tr>";
-            for ($j = 1; $j <= count($answers); $j++) {
-                echo "<th>Otazka " . $j . "</th>";
-                echo "<th>Odpoved " . $j . "</th>";
-            }
-            echo "</tr>";
-            $i++;
-        }
-        echo "<tr>";
-        for ($j = 1; $j <= count($answers); $j++) {
-            echo "<td>" . '' . "</td>";
-            echo "<td>" . '' . "</td>";
-            }
-        echo "</tr>";
-    }
-
-
+if (isset($_GET['code'])) {
+    $dompdf = new Dompdf();
+    $options = new Options();
+    $options->setIsHtml5ParserEnabled( true );
+    $dompdf->setOptions($options);
     
+    $html = file_get_contents("https://wt49.fei.stuba.sk/skuska/exam_results2.php?code=" . $_GET['code']);
+    //$html = str_replace(' ', '&nbsp;', $html);
+    $html = preg_replace('/>\s+</', '><', $html);
+    $dompdf->loadHtml($html);
+    $dompdf->setPaper('A4', 'landscape');
+    $dompdf->render();
+    ob_end_clean();
+    $dompdf->stream();
 }
+
+
 
 ?>
 </table>

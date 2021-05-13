@@ -60,6 +60,10 @@ class Ucitel {
         $stmt->execute([$id]);
         $template_exams = $stmt->fetch();
 
+        $stmt = $conn->prepare("SELECT COUNT(*) FROM `test` WHERE creator_id=? AND isActive=2");
+        $stmt->execute([$id]);
+        $finished_exams = $stmt->fetch();
+
         //QUESTIONS
         $stmt = $conn->prepare("SELECT COUNT(*) FROM `otazka` WHERE ucitel_email=?");
         $stmt->execute([$email]);
@@ -91,6 +95,7 @@ class Ucitel {
                         <p>All created: $exams[0]</p>
                         <p>Templates: $template_exams[0]</p>
                         <p>Active: $active_exams[0]</p>
+                        <p>Finished: $finished_exams[0]</p>
                     </div>
                     <div>
                         <h4>Questions</h4>

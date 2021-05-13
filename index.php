@@ -82,8 +82,6 @@ if(!isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] !== true)
                                 </div>
 
                                 <button class="w-100 btn btn-lg btn-primary grow btn-index" type="button" onclick="redirect()">Next</button>
-
-
                             </div>
                         </form>
                     </div>

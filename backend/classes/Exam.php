@@ -147,34 +147,29 @@ class Exam
     public static function showExamToTeacher($exam, $questions): string {
 
         $exam_ID = $exam->getId();
-        $string = "<div tID='$exam_ID' id='student_active_exam'><h1>Exam</h1>";
-        $string .= ("<h3>Test id: {$exam->getId()}</h3>");
-        $string .= ("<h3>Test code: {$exam->getTestCode()}</h3>");
-        //$string .= "<form method='POST' action='...' id='examID{$exam->getId()}' enctype='multipart/form-data'>";
+        $string = "<div tID='$exam_ID' id='student_active_exam' style='margin-top: 60px;'>
+                        <div class='table_wrapper' style='font-family:Asap'>
+                            <h1>Exam</h1>";
+        $string .= "        <h3>Test id: {$exam->getId()}</h3>";
+        $string .= "        <h3>Test code: {$exam->getTestCode()}</h3>
+                            <hr style='width: 100%; height: 5px; background-color: black !important;'>";
 
         foreach ($questions as $index => $question) {
             $number = $index + 1;
-
             $q_ID = $question->getId();
             $conn = (new Database())->getConnection();
-
             $findTemplateQuestion = $conn->prepare("SELECT * FROM otazka WHERE test_id IS NULL AND question=? AND type=?");
             $findTemplateQuestion->execute([$question->getQuestion(),$question->getType()]);
             $foundTemplateQuestion = $findTemplateQuestion->fetchAll(PDO::FETCH_CLASS, "Question");
 
-
-            if(!$foundTemplateQuestion){
-
+            if(!$foundTemplateQuestion) {
                 $findTemplateQuestion = $conn->prepare("SELECT * FROM otazka WHERE question=? AND type=? ORDER BY test_id ASC");
                 $findTemplateQuestion->execute([$question->getQuestion(),$question->getType()]);
                 $foundTemplateQuestion = $findTemplateQuestion->fetchAll(PDO::FETCH_CLASS, "Question");
-
             }
 
-
-
+            // SHORT
             if ($question->getType() === "short") {
-
                 $stmt = $conn->prepare("SELECT * FROM odpoved WHERE question_id=? AND correct=1");
                 $stmt->execute([$foundTemplateQuestion[0]->getId()]);
                 $correct_answer = $stmt->fetchAll(PDO::FETCH_CLASS, "Answer");
@@ -183,13 +178,14 @@ class Exam
                 $stmt->execute([$q_ID, $exam_ID]);
                 $student_answer = $stmt->fetchAll(PDO::FETCH_CLASS, "Odpoved_student");
 
-                $string .= "<h1>$number. Short question: </h1><h3>{$question->getQuestion()}</h3>";
+                $string .= "<h1>$number. Short question: </h1>
+                            <h3>{$question->getQuestion()}</h3>";
                 $string .= "<p>Students answer:  {$student_answer[0]->getOdpoved()}</p>";
-                $string .= "<p>Correct answer: {$correct_answer[0]->getText()}</p>";
+                $string .= "<p>Correct answer: {$correct_answer[0]->getText()}</p>
+                           <hr style='width: 90%; height: 2px; background-color: black !important;'>";
+
+            // MULTI
             } else if ($question->getType() === "multi") {
-
-
-
                 $stmt = $conn->prepare("SELECT * FROM odpoved WHERE question_id=? AND correct=1");
                 $stmt->execute([$foundTemplateQuestion[0]->getId()]);
                 $correct_answer = $stmt->fetchAll(PDO::FETCH_CLASS, "Answer");
@@ -198,9 +194,12 @@ class Exam
                 $stmt->execute([$q_ID, $exam_ID]);
                 $student_answer = $stmt->fetchAll(PDO::FETCH_CLASS, "Odpoved_student");
 
-                $string .= "<br><h1>$number. Multi question: </h1><br><h3>{$question->getQuestion()}</h3>";
+                $string .= "<h1>$number. Multi question: </h1><h3>{$question->getQuestion()}</h3>";
                 $string .= "<p>Students answer: {$student_answer[0]->getOdpoved()}</p>";
-                $string .= "<p>Correct answer: {$correct_answer[0]->getText()}</p>";
+                $string .= "<p>Correct answer: {$correct_answer[0]->getText()}</p>
+                            <hr style='width: 90%; height: 2px; background-color: black !important;'>";
+              
+            // MATH
             } else if ($question->getType() === "math") {
 
                 $stmt = $conn->prepare("SELECT * FROM odpoved WHERE question_id=? AND correct=1");
@@ -211,9 +210,12 @@ class Exam
                 $stmt->execute([$q_ID, $exam_ID]);
                 $student_answer = $stmt->fetchAll(PDO::FETCH_CLASS, "Odpoved_student");
 
-                $string .= "<br><h1>$number. Math question: </h1><br><math-field read-only '>{$question->getQuestion()}</math-field>";
+                $string .= "<h1>$number. Math question: </h1><math-field read-only '>{$question->getQuestion()}</math-field>";
                 $string .= "<p>Students answer: </p><math-field read-only>{$student_answer[0]->getOdpoved()}</math-field>";
-                $string .= "<p>Correct answer: </p><math-field read-only>{$correct_answer[0]->getText()}</math-field>";
+                $string .= "<p>Correct answer: </p><math-field read-only>{$correct_answer[0]->getText()}</math-field>
+                            <hr style='width: 90%; height: 2px; background-color: black !important;'>";
+
+            // COMPARE
             } else if ($question->getType() === "compare") {
                 $stmt = $conn->prepare("SELECT * FROM odpoved_student WHERE question_id=? AND test_id=?");
                 $stmt->execute([$q_ID, $exam_ID]);
@@ -223,13 +225,13 @@ class Exam
                 $templateAns->execute([$foundTemplateQuestion[0]->getId()]);
                 $foundTemplateAns = $templateAns->fetchAll(PDO::FETCH_CLASS, "Drag");
 
-                $string .= "<br><h1>$number. Compare question: </h1><br><h3>{$question->getQuestion()}</h3>";
+                $string .= "<h1>$number. Compare question: </h1><h3>{$question->getQuestion()}</h3>";
                 $string .= "<p>Students answers: </p>";
                 $string .=" 
                     <div class='container' id='compare-question'>
                         <div class='row'>
                             <div class='col'>
-                                <ul t='static'>";
+                                <ul t='static' style='display: flex; flex-direction: column; align-items: center;'>";
 
                 foreach ($student_answer as $answer)
                 {
@@ -240,17 +242,15 @@ class Exam
                                 </ul>
                             </div>
                             <div class='col'>
-                                <ul t='dynamic'>";
-                foreach ($student_answer as $answer)
-                {
-                    $text2=$answer->getText2();
-                    $string .= "<li class='ui-state-default'><span class='ui-icon ui-icon-arrowthick-2-n-s'></span>$text2</li>";
-                }
-                $string .="
-                                </ul>
+                                <ul t='dynamic' style='display: flex; flex-direction: column; align-items: center;'>";
+                                foreach ($student_answer as $answer)
+                                {
+                                    $text2=$answer->getText2();
+                                    $string .= "<li class='ui-state-default'><span class='ui-icon ui-icon-arrowthick-2-n-s'></span>$text2</li>";
+                                }
+                $string .="     </ul>
                             </div>
                         </div>
-                    </div>
                     </div>";
 
 
@@ -259,7 +259,7 @@ class Exam
                     <div class='container' id='compare-question'>
                         <div class='row'>
                             <div class='col'>
-                                <ul t='static'>";
+                                <ul t='static' style='display: flex; flex-direction: column; align-items: center;'>";
 
                 foreach ($foundTemplateAns as $answer)
                 {
@@ -270,7 +270,7 @@ class Exam
                                 </ul>
                             </div>
                             <div class='col'>
-                                <ul t='dynamic'>";
+                                <ul t='dynamic' style='display: flex; flex-direction: column; align-items: center;'>";
                 foreach ( $foundTemplateAns as $answer)
                 {
                     $text2=$answer->getText2();
@@ -281,11 +281,10 @@ class Exam
                             </div>
                         </div>
                     </div>
-                    </div>";
+                    <hr style='width: 90%; height: 2px; background-color: black !important;'>
+                    ";
 
-
-                /*$string .= "<p>TU IDE AKE STUDENT ZOVLIL PORADIE</p>";
-                $string .= "<p>TU IDE SPRAVNE PORADIE</p>";*/
+            // DRAW
             } else if ($question->getType() === "draw") {
                 $qID=$question->getId();
                 $stmt = $conn->prepare("SELECT * FROM odpoved_student WHERE question_id=? AND test_id=?");
@@ -293,31 +292,32 @@ class Exam
                 $student_answer = $stmt->fetchAll(PDO::FETCH_CLASS, "Odpoved_student");
                 $img_path = $student_answer[0]->getImgPath();
 
-                $string .= "<br><h1>$number. Draw question: </h1><br><h3>{$question->getQuestion()}</h3>";
+                $string .= "<h1>$number. Draw question: </h1><h3>{$question->getQuestion()}</h3>";
                 if($student_answer[0]->getCorrect()){
-                    $string .= "<i class='fas fa-check grow' style='color: #57EE01'></i><p>Student drawing</p>";
+                    $string .= "<i class='fas fa-check fa-lg grow' id='drawingGoodIcon' style='color: #57EE01'></i>
+                                <p>Student drawing</p>";
                 }
                 else{
-                    $string .= "<i class='fas fa-times' style='color: red'></i><p>Student drawing</p>";
+                    $string .= "<i class='fas fa-check fa-lg grow' id='drawingGoodIcon' style='color: #57EE01; display: none;'></i>
+                                <i class='fas fa-times fa-lg grow' id='drawingBadIcon' style='color: red'></i>
+                                <p>Student drawing</p>";
                 }
-                $string .= "<img src='/skuska/backend/$img_path'>";
-                $string .= "<button qID='$qID' imgPath='$img_path' tID='$exam_ID'  class='btn btn-primary'>Correct drawing</button>";
+                $string .= "<img src='/skuska/backend/$img_path' style='border: solid 2px black'>";
+                $string .= "<button qID='$qID' imgPath='$img_path' tID='$exam_ID' id='correctDrw'  class='btn btn-grad grow'>Correct drawing</button>";
             }
-            $string .= "<br>";
         }
-        $string .= "<button class='btn btn-primary' onclick='closeExam()'>Finish exam</button></div>"; //</form>
+        $string .= "<button class='btn btn-grad grow' onclick='closeExam()'>Finish exam</button></div></div></div></div>";
         return $string;
     }
 
     //STUDENT
     //STUDENT
     //STUDENT
-
     public static function showExamToStudent($exam, $questions): string {
 
         $string = "<div id='student_active_exam'>";
         $string .= ("<div id='activeExamInfo'><div style='display: flex; flex-direction: row'><h3 style='text-align: center; font-weight: bold; margin-right: 5px'></h3><h3 style='text-align: center'>{$exam->getTitle()}</h3></div>");
-        $string .= ("<div style='display: flex; flex-direction: row'><i class='fas fa-key fa-lg'></i><h3 style='text-align: center'>Test code: {$exam->getTestCode()}</h3></div></div>");
+        $string .= ("<div style='display: flex; flex-direction: row; align-items: center'><div style='margin-right: 5px'><i class='fas fa-key fa-lg'></i></div><h3 style='text-align: center; margin-bottom: 0'>Test code: {$exam->getTestCode()}</h3></div></div>");
         $string .= "<div id='activeExamFormWrapper'><form method='POST' action='student_active_exam.php?id={$exam->getId()}' id='exam' enctype='multipart/form-data' style='width: 100%'>";
 
         foreach ($questions as $index => $question)
@@ -328,14 +328,14 @@ class Exam
             // SHORT
             if ($question->getType() === "short")
             {
-                $string .= "<div class='oneQuestionWrapper'><h1>$number. Short question: </h1><h3>{$question->getQuestion()}</h3>";
-                $string .= "<input ansId='$qId' type='text' id='short-answer' name='short-answer'></div>";
+                $string .= "<div class='oneQuestionWrapper'><h1>$number. Question </h1><h4>{$question->getQuestion()}</h4>";
+                $string .= "<textarea ansId='$qId' id='short-answer'  rows='4' name='short-answer' style='width: 60%'></textarea></div>";
             }
 
             // MULTI CHOICE
             else if ($question->getType() === "multi")
             {
-                $string .= "<div class='oneQuestionWrapper'><h1>$number. Multi question: </h1><h3>{$question->getQuestion()}</h3>";
+                $string .= "<div class='oneQuestionWrapper'><h1>$number. Question </h1><h4>{$question->getQuestion()}</h4>";
 
                 $conn = (new Database())->getConnection();
                 $questionString = $question->getQuestion();
@@ -362,7 +362,7 @@ class Exam
             // MATH
             else if ($question->getType() === "math")
             {
-                $string .= "<div class='oneQuestionWrapper'><h1>$number. Math question: </h1><br><math-field read-only '>{$question->getQuestion()}</math-field>";
+                $string .= "<div class='oneQuestionWrapper'><h1>$number. Question </h1><math-field read-only '>{$question->getQuestion()}</math-field>";
                 $string .= "<div ansId=$qId style='font-size: 32px; margin: 3em; padding: 8px; border-radius: 8px; border: 1px solid rgba(0, 0, 0, .3); box-shadow: 0 0 8px rgba(0, 0, 0, .2);' id='mathfield' smart-mode></div>";
                 $string .= "</div>";
             }
@@ -381,7 +381,7 @@ class Exam
                     $stmt = $conn->prepare("SELECT * FROM drag WHERE question_id=?");
                     $stmt->execute([$foundTemplateQuestion[0]->getId()]);
                     $answers = $stmt->fetchAll(PDO::FETCH_CLASS, "Drag");
-                    $string .= "<div class='oneQuestionWrapper'><h1>$number. Compare question: </h1><br><h3>{$question->getQuestion()}</h3>";
+                    $string .= "<div class='oneQuestionWrapper'><h1>$number. Question </h1><h4>{$question->getQuestion()}</h4>";
                     $string .=" 
                     <div class='container' id='compare-question'>
                         <div class='row'>
@@ -416,7 +416,7 @@ class Exam
             else if ($question->getType() === "draw")
             {
                 $tId = $exam->getId();
-                $string .= "<div class='oneQuestionWrapper'><h1>$number. Draw question: </h1><br><h3>{$question->getQuestion()}</h3>";
+                $string .= "<div class='oneQuestionWrapper'><h1>$number. Question </h1><h4>{$question->getQuestion()}</h4>";
                 $string .= "
                 <div id='draw-question'>
                     <canvas id='canvas' width='400' height='400' style='border:2px solid;'></canvas>
@@ -436,9 +436,8 @@ class Exam
                 </div>
                  </div>";
             }
-            $string .= "<br>";
         }
-        $string .= "<div style='display: flex; justify-content: center; align-content: center'><button type='submit' class='btn btn-grad'>Submit completed exam</button></form></div></div></div>";
+        $string .= "<div style='display: flex; justify-content: center; align-content: center; margin-top: 20px'><button type='submit' class='btn btn-grad'>Submit exam</button></form></div></div></div>";
         return $string;
     }
 }

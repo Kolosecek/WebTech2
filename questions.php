@@ -56,44 +56,39 @@ $qTest = $stmt->fetchAll(PDO::FETCH_CLASS, "Question");
         <div class="table_wrapper"id="allQuestionsTable">
             <table class="table">
                 <thead>
+                    <th scope="col">#</th>
                     <th scope="col">Question</th>
                     <th scope="col">Type</th>
-                    <th scope="col"></th>
+                    <th scope="col">Detail</th>
                 </thead>
 
                 <tbody>
-                    <?php
-                    foreach ($qTemplate as $q)
-                    {
+                    <?php foreach ($qTemplate as $q) {
                         echo $q->getTableRowTemplate();
-                    }
-                    ?>
+                    }?>
                 </tbody>
             </table>
-            <?php
-            if(!$qTemplate)
+            <?php if(!$qTemplate)
                 echo "<h1 style='text-align: center; font-family:'Asap'>You have no template questions</h1>";
             ?>
         </div>
         <div class="table_wrapper" id="activeQuestionsTable" style="display: none">
             <table class="table">
                 <thead>
-                <th scope="col">Question</th>
-                <th scope="col">Type</th>
-                <th scope="col"></th>
+                    <th scope="col">#</th>
+                    <th scope="col">Question</th>
+                    <th scope="col">Type</th>
+                    <th scope="col">Test ID</th>
+                    <th scope="col">Detail</th>
                 </thead>
 
                 <tbody>
-                <?php
-                foreach ($qTest as $q)
-                {
-                    echo $q->getTableRowTemplate();
-                }
-                ?>
+                    <?php foreach ($qTest as $q) {
+                        echo $q->getTableRowTest();
+                    }?>
                 </tbody>
             </table>
-            <?php
-            if(!$qTest)
+            <?php if(!$qTest)
                 echo "<h1 style='text-align: center; font-family:'Asap'>You have no test questions</h1>";
             ?>
         </div>

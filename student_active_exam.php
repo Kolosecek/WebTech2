@@ -6,17 +6,48 @@ require_once "backend/classes/Question.php";
 
 session_start();
 
-/*if(!isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] !== true)
-{
+/*if(!isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] !== true) {
     header("location: index.php");
     exit;
 }*/
 
 $conn = (new Database())->getConnection();
 $id = $_REQUEST["id"];
+$code_test = $_REQUEST["code_test"];
+$student_id = $_REQUEST["studentID"];
+date_default_timezone_set('Europe/Bratislava');
+$date_time = date('Y-m-d H:i:s');
 
 $test = $conn->prepare("UPDATE test SET isActive=1 WHERE id=?");
 $test->execute([$id]);
+
+$stmt = $conn->prepare("SELECT time FROM test WHERE id=? AND student_id=? AND test_code=?");
+$stmt->execute([$id, $student_id, $code_test]);
+$time_limit = $stmt->fetchColumn();
+$time_limit = strtotime($time_limit) - strtotime('TODAY');
+$time_passed = 0;
+
+$check_if_started = $conn->prepare("SELECT time_started FROM test_student WHERE test_id=? AND student_id=? AND test_code=?");
+$check_if_started->execute([$id, $student_id, $code_test]);
+$time_started = $check_if_started->fetchColumn();
+
+//AK ESTE NEPISAL TEST
+if (!isset($time_started) || !$time_started) {
+    $stmt = $conn->prepare("INSERT INTO test_student (test_id, student_id, test_code, time_started) VALUES (?, ?, ?, ?)");
+    $stmt->execute([$id, $student_id, $code_test, $date_time]);
+//AK UZ PISAL TEST
+} else {
+    $time_started = strtotime($time_started) - strtotime('TODAY');
+    $date_time = strtotime($date_time) - strtotime('TODAY');
+    
+    //SKONTROLUJEM CI UZ MU VYPRSAL CAS
+    if ($date_time - $time_started >= $time_limit) {
+        header("index.php");
+    //NEVYPRSAL MU CAS
+    } else {
+        $time_passed = $date_time - $time_started;
+    }
+}
 
 $stmt = $conn->prepare("SELECT * FROM test where id=?");
 $stmt->execute([$id]);
@@ -51,13 +82,18 @@ $questions = $stmt->fetchAll(PDO::FETCH_CLASS, "Question");
     <body onload="init();">
         <?php include_once "header_student_exam.html"?>
         <div class="exams_content">
-            <div class="table_wrapper" style="padding: 0">
+            <div class="table_wrapper" style="padding: 0; font-family: 'Asap', sans-serif">
                 <?php
                     echo Exam::showExamToStudent($exam[0], $questions);
                     echo"<p style='visibility: hidden' id='test_id'>$id</p>"
                 ?>
             </div>
         </div>
+        <div id="timerWrapper">
+            <div id="app"></div>
+        </div>
+        <div style="display: none" id="examLimit"><?= $time_limit ?></div>
+        <div style="display: none" id="timePassed"><?= $time_passed ?></div>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
@@ -74,15 +110,15 @@ $questions = $stmt->fetchAll(PDO::FETCH_CLASS, "Question");
             }
             let elements = document.querySelectorAll('div[id="mathfield"]');
             let MathElements = [];
-            for (let i =0;i<elements.length;i++){
-                 MathElements.push(MathLive.makeMathField(elements[i],  {
+            for (let i =0;i<elements.length;i++) {
+                 MathElements.push(MathLive.makeMathField(elements[i], {
                     virtualKeyboardMode: "manual",
                     virtualKeyboards: 'numeric functions symbols roman greek',
                     smartMode: true
                 }))
             }
 
-            $("#exam").submit(function(e){
+            $("#exam").submit(function(e) {
                 e.preventDefault()
                 let compareElementsStatic = document.querySelectorAll('ul[t="static"]');
                 let compareElementsDynamic = document.querySelectorAll('ul[t="dynamic"]');
@@ -94,7 +130,7 @@ $questions = $stmt->fetchAll(PDO::FETCH_CLASS, "Question");
                 for (let i = 0; i < arr.length; i++) {
                     let test_id = document.getElementById("test_id").innerHTML;
                     let url = "";
-                    if (arr[i].type != "radio"){
+                    if (arr[i].type != "radio") {
                         url = "backend/controller_question.php?mode=result&id="+arr[i].getAttribute('ansId')+"&text="+arr[i].value+"&test_id="+test_id;
                         $.ajax({
                             type: "GET",
@@ -103,9 +139,7 @@ $questions = $stmt->fetchAll(PDO::FETCH_CLASS, "Question");
                                 console.log(data);
                             }
                         });
-                    }
-
-                    else if (arr[i].type == "radio" && arr[i].checked == true){
+                    } else if (arr[i].type == "radio" && arr[i].checked == true) {
                         url = "backend/controller_question.php?mode=result&id="+arr[i].getAttribute('ansId')+"&text="+arr[i].value+"&test_id="+test_id;
                         $.ajax({
                             type: "GET",
@@ -142,10 +176,7 @@ $questions = $stmt->fetchAll(PDO::FETCH_CLASS, "Question");
                                 }
                             });
                         }
-
-
                     }
-
                 }
 
                 setTimeout(function (){

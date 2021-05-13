@@ -79,7 +79,7 @@
                     </div>
         </div>
 
-        <div class="table_wrapper">
+        <div class="table_wrapper" style="margin-bottom: 100px;">
             <table class="table table-hover table-striped table-bordered done aboutTbl">
                 <thead class="table-dark table-hover">
                 <tr>
