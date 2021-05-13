@@ -67,7 +67,7 @@
                             </div>
                         </div>
                         <div class="contact">
-                            <img src="./assets/photos/tomas.jpg" alt="tomas_photo">
+                            <img src="./assets/photos/tomas.jpg" alt="tomas_photo" height="192">
                             <div class="personal-info">
                                 <p>Tomáš Kukumberg</p>
                                 <div class="mail">
