@@ -61,11 +61,11 @@ $testsClosed = $stmt2->fetchAll(PDO::FETCH_CLASS, "Exam");
             <div class="table_wrapper" id="allExamsTable">
                 <table class="table">
                     <thead>
-                    <th scope="col">#</th>
-                    <th scope="col">Title</th>
-                    <th scope="col">Exam Code</th>
-                    <th scope="col">Length</th>
-                    <th scope="col"></th>
+                        <th scope="col">#</th>
+                        <th scope="col">Title</th>
+                        <th scope="col">Exam Code</th>
+                        <th scope="col">Length</th>
+                        <th scope="col" style="text-align: center">Action</th>
                     </thead>
                     <tbody>
                     <?php
@@ -79,10 +79,10 @@ $testsClosed = $stmt2->fetchAll(PDO::FETCH_CLASS, "Exam");
                 <h2>Closed exams</h2>
                 <table class="table">
                     <thead>
-                    <th scope="col">#</th>
-                    <th scope="col">Title</th>
-                    <th scope="col">Student</th>
-                    <th scope="col">Result</th>
+                        <th scope="col">#</th>
+                        <th scope="col">Title</th>
+                        <th scope="col">Student</th>
+                        <th scope="col">Result</th>
                     </thead>
                     <tbody>
                     <?php
@@ -111,7 +111,7 @@ $testsClosed = $stmt2->fetchAll(PDO::FETCH_CLASS, "Exam");
                     <th scope="col">Title</th>
                     <th scope="col">Exam Code</th>
                     <th scope="col">Length</th>
-                    <th scope="col"></th>
+                    <th scope="col" style="text-align: center;">Action</th>
                     </thead>
                     <tbody>
                         <?php

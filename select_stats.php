@@ -41,9 +41,9 @@ $tests = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <img src="graphic.png" alt="" id="bg_blurred">
             <div id="downloadWrapper">
                 <div id="downloadChoicer">
-                    <button id="choose-pdf-btn" class="btn btn-grad grow">Get PDF <i class="fas fa-file-pdf fa-lg" style="color: firebrick; padding-left: 5px"></i></button>
+                    <h1 style="color:white">Download exam results in a PDF format:</h1>
                     <hr style="width:100% ; height: 2px; background-color: white !important;">
-                    <button id="choose-csv-btn" class="btn btn-grad grow">Get CSV <i class="fas fa-file-csv fa-lg" style="color: dodgerblue; padding-left: 5px"></i></button>
+                    <button id="choose-pdf-btn" class="btn btn-grad grow">Get PDF <i class="fas fa-file-pdf fa-lg" style="color: firebrick; padding-left: 5px"></i></button>
                 </div>
                 <div id="pdfDownloadWrapper" style="display: none" class="down">
                     <label for="tests" style="color: white; font-size: 20px; font-family: 'Asap', sans-serif">Choose a test:</label>

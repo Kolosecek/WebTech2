@@ -67,7 +67,7 @@
                             </div>
                         </div>
                         <div class="contact">
-                            <img src="./assets/photos/tomas.jpg" alt="tomas_photo">
+                            <img src="./assets/photos/tomas.jpg" alt="tomas_photo" style="width: 192px">
                             <div class="personal-info">
                                 <p>Tomáš Kukumberg</p>
                                 <div class="mail">
@@ -94,23 +94,23 @@
                 <tbody>
                     <tr>
                         <td style="text-align: left"><b>Prihlasovanie</b></td>
-                        <td><b><i></i></b></td>
                         <td><b><i class="fas fa-check"></i></b></td>
                         <td><b><i></i></b></td>
                         <td><b><i></i></b></td>
+                        <td><b><i class="fas fa-check"></i></b></td>
                         <td><b><i></i></b></td>
                     </tr>
                     <tr>
                         <td style="text-align: left"><b>Voľba db tabuliek</b></td>
-                        <td><b><i></i></b></td>
-                        <td><b><i></i></b></td>
-                        <td><b></b></td>
                         <td><b><i class="fas fa-check"></i></b></td>
-                        <td><b></b></td>
+                        <td><b><i class="fas fa-check"></i></b></td>
+                        <td><b><i class="fas fa-check"></i></b></td>
+                        <td><b><i class="fas fa-check"></i></b></td>
+                        <td><b><i class="fas fa-check"></i></b></td>
                     </tr>
                     <tr>
                         <td style="text-align: left"><b>Otázky - multi choice</b></td>
-                        <td><b><i class="fas fa-check"></i></b></td>
+                        <td><b><i></i></b></td>
                         <td><b><i class="fas fa-check"></i></b></td>
                         <td><b><i></i></b></td>
                         <td><b><i></i></b></td>
@@ -136,9 +136,9 @@
                         <td style="text-align: left"><b>Otázky - draw</b></td>
                         <td><b><i></i></b></td>
                         <td><b><i></i></b></td>
-                        <td><b><i class="fas fa-check"></i></b></td>
-                        <td><b><i class="fas fa-check"></i></b></td>
                         <td><b><i></i></b></td>
+                        <td><b><i></i></b></td>
+                        <td><b><i class="fas fa-check"></i></b></td>
                     </tr>
                     <tr>
                         <td style="text-align: left"><b>Otázky - math</b></td>
@@ -147,18 +147,19 @@
                         <td><b></b></td>
                         <td><b><i class="fas fa-check"></i></b></td>
                         <td><b></b></td>
+
                     </tr>
                     <tr>
                         <td style="text-align: left"><b>Ukončenie testu</b></td>
-                        <td><b><i></i></b></td>
-                        <td><b><i></i></b></td>
-                        <td><b></b></td>
                         <td><b><i class="fas fa-check"></i></b></td>
+                        <td><b><i class="fas fa-check"></i></b></td>
+                        <td><b><i class="fas fa-check"></i></b></td>
+                        <td><b></b></td>
                         <td><b></b></td>
                     </tr>
                     <tr>
                         <td style="text-align: left"><b>Testy - aktivácia/deaktivácia</b></td>
-                        <td><b><i></i></b></td>
+                        <td><b><i class="fas fa-check"></i></b></td>
                         <td><b><i></i></b></td>
                         <td><b></b></td>
                         <td><b><i class="fas fa-check"></i></b></td>
@@ -169,47 +170,47 @@
                         <td><b><i></i></b></td>
                         <td><b><i></i></b></td>
                         <td><b></b></td>
-                        <td><b><i class="fas fa-check"></i></b></td>
+                        <td><b></b></td>
                         <td><b></b></td>
                     </tr>
                     <tr>
                         <td style="text-align: left"><b>Export CSV</b></td>
+                        <td><b><i class="fas fa-check"></i></b></td>
                         <td><b><i></i></b></td>
-                        <td><b><i></i></b></td>
+                        <td><b></b></td>
                         <td><b></b></td>
                         <td><b><i class="fas fa-check"></i></b></td>
-                        <td><b></b></td>
                     </tr>
                     <tr>
                         <td style="text-align: left"><b>Export PDF</b></td>
+                        <td><b><i class="fas fa-check"></i></b></td>
                         <td><b><i></i></b></td>
-                        <td><b><i></i></b></td>
+                        <td><b></b></td>
                         <td><b></b></td>
                         <td><b><i class="fas fa-check"></i></b></td>
-                        <td><b></b></td>
                     </tr>
                     <tr>
-                        <td style="text-align: left"><b>Docker balíček</b></td>
-                        <td><b><i></i></b></td>
-                        <td><b><i></i></b></td>
-                        <td><b></b></td>
+                        <td style="text-align: left"><b>Odovzdanie súborov</b></td>
                         <td><b><i class="fas fa-check"></i></b></td>
-                        <td><b></b></td>
+                        <td><b><i class="fas fa-check"></i></b></td>
+                        <td><b><i class="fas fa-check"></i></b></td>
+                        <td><b><i class="fas fa-check"></i></b></td>
+                        <td><b><i class="fas fa-check"></i></b></td>
                     </tr>
                     <tr>
                         <td style="text-align: left"><b>Grafický layout/štruktúra</b></td>
                         <td><b><i></i></b></td>
                         <td><b><i></i></b></td>
-                        <td><b></b></td>
                         <td><b><i class="fas fa-check"></i></b></td>
+                        <td><b></b></td>
                         <td><b></b></td>
                     </tr>
                     <tr>
                         <td style="text-align: left"><b>Orientácia v aplikácii</b></td>
-                        <td><b><i class="fas fa-check"></i></b></td>
                         <td><b><i></i></b></td>
-                        <td><b></b></td>
                         <td><b><i class="fas fa-check"></i></b></td>
+                        <td><b><i class="fas fa-check"></i></b></td>
+                        <td><b></b></td>
                         <td><b></b></td>
                     </tr>
                 </tbody>
