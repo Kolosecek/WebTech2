@@ -21,6 +21,7 @@ require_once "backend/classes/Odpoved_student.php";
     <style>
         *{ font-family: DejaVu Sans !important;}
     </style>
+    <script src='https://unpkg.com/mathlive/dist/mathlive.min.js'></script>
 </head>
 <body>
 
@@ -48,7 +49,11 @@ try {
                 $stmt3 = $conn->prepare("SELECT * FROM otazka WHERE id = ?");
                 $stmt3->execute([$answer->getQuestionId()]);
                 $question = $stmt3->fetchAll(PDO::FETCH_CLASS, "Question");
-                if($answer->getText1() === null) {
+                if($question[0]->getType() === 'math') {
+                    //echo "<math-field read-only class='mathfld' style='color: white'>" . $question[0]->getQuestion() . "</math-field>";
+                    echo "<tr><td><div class='mathfield' id='mf'>". $question[0]->getQuestion() . "</td></div>";
+                }
+                else if($answer->getText1() === null) {
                     echo "<tr><td>" . $question[0]->getQuestion() . "</td>";
                 }
                 if ($answer->getOdpoved() !== null) {
@@ -115,6 +120,14 @@ try {
 
 
 ?>
+
+<script>
+    let element = MathLive.makeMathField(document.querySelector('div[id="mathfield"]'),  {
+        virtualKeyboardMode: "manual",
+        virtualKeyboards: 'numeric functions symbols roman greek',
+        smartMode: true
+    });
+</script>
 
 </body>
 </html>
