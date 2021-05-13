@@ -20,6 +20,7 @@ if ($type == "new_question")
         $conn = (new Database())->getConnection();
         $stmt = $conn->prepare("INSERT INTO otazka (question,type,test_id,ucitel_email) VALUES(?,?,?,?)");
 
+
         if($testID == 0)
             $stmt->execute([$question,$typeQ,null,$email]);
         else
@@ -54,8 +55,7 @@ if ($type == "new_question")
             $stmt->execute([$question,$typeQ,$testID,$email]);
     }
 
-    $tmp = "../question.php?id=".$question_id;
-    header('Location:'.$tmp);
+    $tmp = "../questions.php";
 }
 elseif ($type=="result"){
     $q_id = $_REQUEST["id"];

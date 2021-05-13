@@ -126,7 +126,7 @@ if(!isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] !== true)
                     <div id="math-question" style="display:none;">
                         <div style="font-size: 32px; margin: 3em; padding: 8px; border-radius: 8px; border: 1px solid rgba(0, 0, 0, .3); box-shadow: 0 0 8px rgba(0, 0, 0, .2);" id="mathfield" smart-mode>
                         </div>
-                        <input style="display: none" name="latex" id="latex" type="text" value="" class="form-control">
+                        <input style="visibility: hidden" name="latex" id="latex" type="text" class="form-control">
                     </div>
 
                     <input type="submit" class='btn btn-grad grow' value="Add" style="width: 100px; text-transform: none;">

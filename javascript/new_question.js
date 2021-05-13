@@ -4,12 +4,13 @@ let element = MathLive.makeMathField(document.getElementById("mathfield"), {
   smartMode: true,
 });
 
-$("#formToSend2").submit(function (e) {
+$("#formToSend3").submit(function (e) {
   e.preventDefault(); // avoid to execute the actual submit of the form.
-  let latex = (document.getElementById("latex").value =
-    element.getValue("latex"));
+  let latex = document.getElementById("latex");
+  latex.value = element.getValue("latex");
   let form = $(this);
   let url = form.attr("action");
+
 
   $.ajax({
     type: "GET",
