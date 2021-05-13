@@ -155,19 +155,21 @@ $email = $_SESSION["email"];
                     }
                     elseif ($type === "multi" && $correctExist != 0) {
                         echo "<div class='mb-3'>
-                                <input type='text' id='ans' class='form-control' name='answer' placeholder='Answer' required autofocus>
-                                <input style='display: none' name='correct' type='text' value='0' class='form-control'>
-                                <input style='display: none' name='latex' id='latex' type='text' value='' class='form-control'>
-                                <div style='display: none;' id='mathfield' smart-mode></div>
-                                <input style='display: none' name='q_type' type='text' value='multi' class='form-control'></div>";
+                                    <input type='text' id='ans' class='form-control' name='answer' placeholder='Answer' required autofocus>
+                                    <input style='display: none' name='correct' type='text' value='0' class='form-control'>
+                                    <input style='display: none' name='latex' id='latex' type='text' value='' class='form-control'>
+                                    <div style='display: none;' id='mathfield' smart-mode></div>
+                                    <input style='display: none' name='q_type' type='text' value='multi' class='form-control'>
+                              </div>";
                     }
                     // SHORT
                     elseif ($type === "short"){
-                        echo "
-                            <input type='text' id='ans' class='form-control' name='answer' placeholder='Answer' required autofocus>
-                            <input style='display: none' name='latex' id='latex' type='text' value='' class='form-control'>
-                            <div style='display: none;' id='mathfield' smart-mode></div>
-                            <input style='display: none' name='q_type' type='text' value='short' class='form-control'>";
+                        echo "<div class='mb-3'>
+                                    <input type='text' id='ans' class='form-control' name='answer' placeholder='Answer' required autofocus>
+                                    <input style='display: none' name='latex' id='latex' type='text' value='' class='form-control'>
+                                    <div style='display: none;' id='mathfield' smart-mode></div>
+                                    <input style='display: none' name='q_type' type='text' value='short' class='form-control'>
+                               </div>";
                     }
                     // MATH
                     elseif ($type === "math") {

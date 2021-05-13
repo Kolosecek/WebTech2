@@ -188,9 +188,9 @@ $questions = $stmt->fetchAll(PDO::FETCH_CLASS, "Question");
                     }
                 }
 
-                // setTimeout(function (){
-                //     window.location.href = "index.php";
-                // },3000);
+                setTimeout(function (){
+                    window.location.href = "index.php";
+                },3000);
                 alert("Test sa odovzdáva");
             }
 

@@ -51,7 +51,6 @@ document.getElementById("app").innerHTML = `
 startTimer();
 
 function onTimesUp() {
-    console.log("onTimesUp");
     clearInterval(timerInterval);
     submitExam();
 }

@@ -644,3 +644,8 @@ table {
     border-radius: 50px;
     color: white;
 }
+
+#documentation {
+    width: 90%;
+    font-family: Asap;
+}
