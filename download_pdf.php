@@ -25,29 +25,19 @@ require 'vendor/autoload.php';
 </head>
 <body>
 
-
-<table class="table table-bordered">
 <?php
 
-//header("Content-type:application/pdf");
-
-use Dompdf\Dompdf;
-use Dompdf\Options;
+use mikehaertl\wkhtmlto\Pdf;
 
 if (isset($_GET['code'])) {
-    $dompdf = new Dompdf();
-    $options = new Options();
-    $options->setIsHtml5ParserEnabled( true );
-    $dompdf->setOptions($options);
+    $pdf = new Pdf;
+    $pdf->addPage('https://wt49.fei.stuba.sk/skuska/exam_results.php?code=' . $_GET['code']);
     
-    $html = file_get_contents("https://wt49.fei.stuba.sk/skuska/exam_results2.php?code=" . $_GET['code']);
-    //$html = str_replace(' ', '&nbsp;', $html);
-    $html = preg_replace('/>\s+</', '><', $html);
-    $dompdf->loadHtml($html);
-    $dompdf->setPaper('A4', 'landscape');
-    $dompdf->render();
     ob_end_clean();
-    $dompdf->stream();
+    if (!$pdf->send('report.pdf', false, array('Content-Length' => false,) )) {
+        $error = $pdf->getError();
+        echo $error;
+    }
 }
 
 
