@@ -39,7 +39,7 @@ if (!isset($time_started) || !$time_started) {
 } else {
     $time_started = strtotime($time_started) - strtotime('TODAY');
     $date_time = strtotime($date_time) - strtotime('TODAY');
-    
+
     //SKONTROLUJEM CI UZ MU VYPRSAL CAS
     if ($date_time - $time_started >= $time_limit) {
         header("index.php");

@@ -90,6 +90,7 @@ $result = $stmt->fetchAll(PDO::FETCH_CLASS, "Ucitel");
                         <th scope="col">#</th>
                         <th scope="col">Question</th>
                         <th scope="col">Type</th>
+                        <th scope="col">Test ID</th>
                         <th scope="col">Detail</th>
                     </thead>
 
@@ -115,8 +116,12 @@ $result = $stmt->fetchAll(PDO::FETCH_CLASS, "Ucitel");
                         $stmt->execute([$email]);
                         $result = $stmt->fetchAll();
                         foreach ($result as $r) {
-                            echo  "<option value='{$r["id"]}'>{$r["question"]}</short>";
-                        } ?>
+                            if ($r["type"] != "math") {
+                                echo  "<option value='{$r["id"]}'>{$r["question"]}</short></option>";
+                            } else {
+                                echo  "<option value='{$r["id"]}'><math-field read-only style='pointer-events: none; color: black;'>{$r["question"]}</math-field></short></option>";
+                            }
+                        }?>
                     </select>
                     <input type="submit" class="btn btn-grad grow" value="Add" style="width: 100px; text-transform: none; margin-top: 35px">
                 </form>

@@ -180,7 +180,13 @@ class Exam
 
                 $string .= "<h1>$number. Short question: </h1>
                             <h3>{$question->getQuestion()}</h3>";
-                $string .= "<p>Students answer:  {$student_answer[0]->getOdpoved()}</p>";
+
+                if (!$student_answer) {
+                    $string .= "<p>Students answer: </p>";
+                } else {
+                    $string .= "<p>Students answer:  {$student_answer[0]->getOdpoved()}</p>";
+                }
+
                 $string .= "<p>Correct answer: {$correct_answer[0]->getText()}</p>
                            <hr style='width: 90%; height: 2px; background-color: black !important;'>";
 
@@ -195,7 +201,13 @@ class Exam
                 $student_answer = $stmt->fetchAll(PDO::FETCH_CLASS, "Odpoved_student");
 
                 $string .= "<h1>$number. Multi question: </h1><h3>{$question->getQuestion()}</h3>";
-                $string .= "<p>Students answer: {$student_answer[0]->getOdpoved()}</p>";
+
+                if (!$student_answer) {
+                    $string .= "<p>Students answer: </p>";
+                } else {
+                    $string .= "<p>Students answer: {$student_answer[0]->getOdpoved()}</p>";
+                }
+
                 $string .= "<p>Correct answer: {$correct_answer[0]->getText()}</p>
                             <hr style='width: 90%; height: 2px; background-color: black !important;'>";
               
@@ -211,7 +223,13 @@ class Exam
                 $student_answer = $stmt->fetchAll(PDO::FETCH_CLASS, "Odpoved_student");
 
                 $string .= "<h1>$number. Math question: </h1><math-field read-only '>{$question->getQuestion()}</math-field>";
-                $string .= "<p>Students answer: </p><math-field read-only>{$student_answer[0]->getOdpoved()}</math-field>";
+
+                if (!$student_answer) {
+                    $string .= "<p>Students answer: </p><math-field read-only></math-field>";
+                } else {
+                    $string .= "<p>Students answer: </p><math-field read-only>{$student_answer[0]->getOdpoved()}</math-field>";
+                }
+
                 $string .= "<p>Correct answer: </p><math-field read-only>{$correct_answer[0]->getText()}</math-field>
                             <hr style='width: 90%; height: 2px; background-color: black !important;'>";
 
@@ -225,34 +243,33 @@ class Exam
                 $templateAns->execute([$foundTemplateQuestion[0]->getId()]);
                 $foundTemplateAns = $templateAns->fetchAll(PDO::FETCH_CLASS, "Drag");
 
-                $string .= "<h1>$number. Compare question: </h1><h3>{$question->getQuestion()}</h3>";
-                $string .= "<p>Students answers: </p>";
-                $string .=" 
+                if (!$student_answer) {} else {
+                    $string .= "<h1>$number. Compare question: </h1><h3>{$question->getQuestion()}</h3>";
+                    $string .= "<p>Students answers: </p>";
+                    $string .=" 
                     <div class='container' id='compare-question'>
                         <div class='row'>
                             <div class='col'>
                                 <ul t='static' style='display: flex; flex-direction: column; align-items: center;'>";
-
-                foreach ($student_answer as $answer)
-                {
-                    $text1=$answer->getText1();
-                    $string .="<li class='ui-state-default'><span class='ui-icon ui-icon-arrowthick-2-n-s'></span>$text1</li>";
-                }
-                $string .="
+                                    foreach ($student_answer as $answer) {
+                                        $text1=$answer->getText1();
+                                        $string .="<li class='ui-state-default'><span class='ui-icon ui-icon-arrowthick-2-n-s'></span>$text1</li>";
+                                    }
+                                    $string .="
                                 </ul>
                             </div>
                             <div class='col'>
                                 <ul t='dynamic' style='display: flex; flex-direction: column; align-items: center;'>";
-                                foreach ($student_answer as $answer)
-                                {
-                                    $text2=$answer->getText2();
-                                    $string .= "<li class='ui-state-default'><span class='ui-icon ui-icon-arrowthick-2-n-s'></span>$text2</li>";
-                                }
-                $string .="     </ul>
+                                    foreach ($student_answer as $answer) {
+                                        $text2=$answer->getText2();
+                                        $string .= "<li class='ui-state-default'><span class='ui-icon ui-icon-arrowthick-2-n-s'></span>$text2</li>";
+                                    }
+                                    $string .="
+                                </ul>
                             </div>
                         </div>
                     </div>";
-
+                }
 
                 $string .= "<p>Correct answers: </p>";
                 $string .=" 
@@ -290,20 +307,22 @@ class Exam
                 $stmt = $conn->prepare("SELECT * FROM odpoved_student WHERE question_id=? AND test_id=?");
                 $stmt->execute([$q_ID, $exam_ID]);
                 $student_answer = $stmt->fetchAll(PDO::FETCH_CLASS, "Odpoved_student");
-                $img_path = $student_answer[0]->getImgPath();
 
-                $string .= "<h1>$number. Draw question: </h1><h3>{$question->getQuestion()}</h3>";
-                if($student_answer[0]->getCorrect()){
-                    $string .= "<i class='fas fa-check fa-lg grow' id='drawingGoodIcon' style='color: #57EE01'></i>
+                if (!$student_answer) {} else {
+                    $img_path = $student_answer[0]->getImgPath();
+
+                    $string .= "<h1>$number. Draw question: </h1><h3>{$question->getQuestion()}</h3>";
+                    if($student_answer[0]->getCorrect()) {
+                        $string .= "<i class='fas fa-check fa-lg grow' id='drawingGoodIcon' style='color: #57EE01'></i>
                                 <p>Student drawing</p>";
-                }
-                else{
-                    $string .= "<i class='fas fa-check fa-lg grow' id='drawingGoodIcon' style='color: #57EE01; display: none;'></i>
+                    } else {
+                        $string .= "<i class='fas fa-check fa-lg grow' id='drawingGoodIcon' style='color: #57EE01; display: none;'></i>
                                 <i class='fas fa-times fa-lg grow' id='drawingBadIcon' style='color: red'></i>
                                 <p>Student drawing</p>";
+                    }
+                    $string .= "<img src='/skuska/backend/$img_path' style='border: solid 2px black'>";
+                    $string .= "<button qID='$qID' imgPath='$img_path' tID='$exam_ID' id='correctDrw'  class='btn btn-grad grow'>Correct drawing</button>";
                 }
-                $string .= "<img src='/skuska/backend/$img_path' style='border: solid 2px black'>";
-                $string .= "<button qID='$qID' imgPath='$img_path' tID='$exam_ID' id='correctDrw'  class='btn btn-grad grow'>Correct drawing</button>";
             }
         }
         $string .= "<button class='btn btn-grad grow' onclick='closeExam()'>Finish exam</button></div></div></div></div>";
