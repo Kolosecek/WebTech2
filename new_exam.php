@@ -37,6 +37,7 @@ $id = $result[0]->getId();
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://www.w3schools.com/lib/w3.js"></script>
+        <script src='https://unpkg.com/mathlive/dist/mathlive.min.js'></script>
         <script src="https://kit.fontawesome.com/e73d803768.js" crossorigin="anonymous"></script>
     </head>
 
@@ -70,15 +71,22 @@ $id = $result[0]->getId();
                             $stmt->execute();
                             $result = $stmt->fetchAll();
 
-                            foreach ($result as $index => $question)
-                            {
+                            foreach ($result as $index => $question) {
                                 $number = $index + 1;
                                 $id = $question["id"];
-                                echo "<div class='mb-3' style='display: flex; align-items: center'>
-                                        <input type='checkbox' name='questions[]' value='$id' style='width: 20px; height: 20px; margin-right: 10px '>
-                                        <label>{$number}. Otázka: {$question["question"]}</label><br>
-                                      </div>";
-                            }?>
+                                if ($question["type"] == "math") {
+                                    echo "<div class='mb-3' style='display: flex; align-items: center'>
+                                            <input type='checkbox' name='questions[]' value='$id' style='width: 20px; height: 20px; margin-right: 10px '>
+                                            <label style='display: flex;align-items: center;'>{$number}. Otázka: <math-field read-only style='pointer-events: none;color:  black; margin-left: 3px'>{$question["question"]}</math-field></label><br>
+                                          </div>";
+                                } else {
+                                    echo "<div class='mb-3' style='display: flex; align-items: center'>
+                                            <input type='checkbox' name='questions[]' value='$id' style='width: 20px; height: 20px; margin-right: 10px '>
+                                            <label>{$number}. Otázka: {$question["question"]}</label><br>
+                                          </div>";
+                                }
+                            }
+                        ?>
                     </div>
 
                     <input type="submit" class='btn btn-grad grow' value="Add" style="width: 100px; text-transform: none;">

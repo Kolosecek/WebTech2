@@ -31,7 +31,7 @@ if(!isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] !== true)
     </head>
 
     <body>
-        <div class="content">
+        <div class="content" style="height: auto">
             <div id="illustration">
                 <img src="graphic.png" alt="" style=" width: 100%;">
             </div>
@@ -66,7 +66,7 @@ if(!isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] !== true)
 
                                 <h1 class="h3 mb-3 fw-normal">Connect to exam</h1>
                                 <div class='mb-3'>
-                                    <input style="display: none" name="type" type="text" value="login" class="form-control">
+                                    <input style="display: none" name="type" type="text" value="login" class="form-control" required>
                                     <label for="studentName" class="visually-hidden">Student Name</label>
                                 </div>
                                 <div class='mb-3'>
@@ -92,10 +92,13 @@ if(!isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] !== true)
         <script src="javascript/index.js"></script>
         <script>
             function redirect(){
-                let testID= document.getElementById("testID").value;
-                let studentID= document.getElementById("studentID").value;
-                let studentName= document.getElementById("studentName").value;
-                window.location.href= "student_exam.php?testID="+testID+"&studentID="+studentID+"&studentName="+studentName;
+                let testID = document.getElementById("testID").value;
+                let studentID = document.getElementById("studentID").value;
+                let studentName = document.getElementById("studentName").value;
+
+                if (testID && studentID && studentName) {
+                    window.location.href= "student_exam.php?testID="+testID+"&studentID="+studentID+"&studentName="+studentName;
+                }
             }
         </script>
     </body>

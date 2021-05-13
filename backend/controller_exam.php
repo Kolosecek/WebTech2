@@ -18,8 +18,7 @@ if ($type == "new_exam")
     $stmt->execute([$title, $time, $test_code,$creator_id,0]);
     $test_id = $conn->lastInsertId();
 
-    foreach ($_REQUEST["questions"] as $questionId)
-    {
+    foreach ($_REQUEST["questions"] as $questionId) {
         $stmt = $conn->prepare("SELECT * FROM otazka WHERE id=? LIMIT 1");
         $stmt->execute([$questionId]);
         $question = $stmt->fetchAll(PDO::FETCH_CLASS, "Question");
@@ -27,18 +26,17 @@ if ($type == "new_exam")
     }
 
     echo "/skuska/exam.php?id=$test_id";
-}
-elseif ($type == "new_question_to_exam")
-{
-    echo "mayday";
+} elseif ($type == "new_question_to_exam") {
     $add_q = $_REQUEST["question_add"];
     $test_id = $_REQUEST["testId"];
 
     $conn = (new Database())->getConnection();
-    $stmt = $conn->prepare("UPDATE otazka SET test_id=? WHERE id=?");
-    $stmt->execute([$test_id, $add_q]);
-}
-elseif ($type=="closeExam"){
+    $stmt = $conn->prepare("SELECT * FROM otazka WHERE id=?");
+    $stmt->execute([$add_q]);
+    $result = $stmt->fetchAll(PDO::FETCH_CLASS, "Question");
+    $result[0]->duplicate($test_id);
+    header( "Location: /skuska/exam.php?id=$test_id");
+} elseif ($type=="closeExam") {
     $tID = $_REQUEST["tID"];
     $conn = (new Database())->getConnection();
     $findResult = $conn->prepare("SELECT count(*) FROM odpoved_student WHERE test_id=? AND correct=1");
@@ -46,7 +44,5 @@ elseif ($type=="closeExam"){
     $result = $findResult->fetchColumn();
     $stmt = $conn->prepare("UPDATE test SET isActive=2, result=? WHERE id=?");
     $stmt->execute([$result,$tID]);
-    //echo $tID." ".$result;
+    echo "/skuska/exams.php";
 }
-
-

@@ -6,10 +6,8 @@ $("#formToSend3").submit(function(e) {
     $.ajax({
         type: "GET",
         url: url,
-        data: form.serialize(), // serializes the form's elements.
+        data: form.serialize(),
         success: function(data) {
-            //console.log(data);
-
             window.location.href = data;
         }
     });

@@ -24,7 +24,7 @@ $test->execute([$id]);
 $stmt = $conn->prepare("SELECT time FROM test WHERE id=? AND student_id=? AND test_code=?");
 $stmt->execute([$id, $student_id, $code_test]);
 $time_limit = $stmt->fetchColumn();
-$time_limit = strtotime($time_limit) - strtotime('TODAY');
+$time_limit = strtotime($time_limit) - strtotime("TODAY");
 $time_passed = 0;
 
 $check_if_started = $conn->prepare("SELECT time_started FROM test_student WHERE test_id=? AND student_id=? AND test_code=?");
@@ -42,9 +42,12 @@ if (!isset($time_started) || !$time_started) {
 
     //SKONTROLUJEM CI UZ MU VYPRSAL CAS
     if ($date_time - $time_started >= $time_limit) {
-        header("index.php");
-    //NEVYPRSAL MU CAS
+        $time_passed = $time_limit;
+        echo "vyprsal";
+        header("Location: https://wt49.fei.stuba.sk/skuska");
+        //NEVYPRSAL MU CAS
     } else {
+        echo"time passed";
         $time_passed = $date_time - $time_started;
     }
 }
@@ -118,8 +121,7 @@ $questions = $stmt->fetchAll(PDO::FETCH_CLASS, "Question");
                 }))
             }
 
-            $("#exam").submit(function(e) {
-                e.preventDefault()
+            function submitExam () {
                 let compareElementsStatic = document.querySelectorAll('ul[t="static"]');
                 let compareElementsDynamic = document.querySelectorAll('ul[t="dynamic"]');
                 let arr = [];
@@ -127,10 +129,14 @@ $questions = $stmt->fetchAll(PDO::FETCH_CLASS, "Question");
                 for (let i = 0; i < tmp.length; i++) {
                     arr.push(tmp[i]);
                 }
+                tmp = document.getElementsByTagName("textarea");
+                for (let i = 0; i < tmp.length; i++) {
+                    arr.push(tmp[i]);
+                }
                 for (let i = 0; i < arr.length; i++) {
                     let test_id = document.getElementById("test_id").innerHTML;
                     let url = "";
-                    if (arr[i].type != "radio") {
+                    if (arr[i].type !== "radio") {
                         url = "backend/controller_question.php?mode=result&id="+arr[i].getAttribute('ansId')+"&text="+arr[i].value+"&test_id="+test_id;
                         $.ajax({
                             type: "GET",
@@ -139,17 +145,19 @@ $questions = $stmt->fetchAll(PDO::FETCH_CLASS, "Question");
                                 console.log(data);
                             }
                         });
-                    } else if (arr[i].type == "radio" && arr[i].checked == true) {
+                    } else if (arr[i].type === "radio" && arr[i].checked === true) {
+                        console.log("ide posielat radio button");
                         url = "backend/controller_question.php?mode=result&id="+arr[i].getAttribute('ansId')+"&text="+arr[i].value+"&test_id="+test_id;
                         $.ajax({
                             type: "GET",
                             url: url,
                             success: function(data) {
-                                console.log(data);
+                                console.log("radio button");
                             }
                         });
                     }
                 }
+                // MATH
                 for (let i = 0; i < MathElements.length; i++) {
                     let test_id = document.getElementById("test_id").innerHTML;
                     let url = "backend/controller_question.php?mode=result&id="+MathElements[i].element.getAttribute('ansId')+"&text="+MathElements[i].getValue('latex')+"&test_id="+test_id;
@@ -157,10 +165,11 @@ $questions = $stmt->fetchAll(PDO::FETCH_CLASS, "Question");
                         type: "GET",
                         url: url,
                         success: function(data) {
-                            console.log(data);
+                            console.log("math");
                         }
                     });
                 }
+                // COMPARE
                 for (let i = 0; i < compareElementsStatic.length; i++) {
                     let test_id = document.getElementById("test_id").innerHTML;
                     let StaticChilds = compareElementsStatic[i].childNodes;
@@ -172,7 +181,7 @@ $questions = $stmt->fetchAll(PDO::FETCH_CLASS, "Question");
                                 type: "GET",
                                 url: url,
                                 success: function(data) {
-                                    console.log(data);
+                                    console.log("compare");
                                 }
                             });
                         }
@@ -181,8 +190,13 @@ $questions = $stmt->fetchAll(PDO::FETCH_CLASS, "Question");
 
                 setTimeout(function (){
                     window.location.href = "index.php";
-                },3000)
+                },3000);
                 alert("Test sa odovzdáva");
+            }
+
+            $("#exam").submit(function(e) {
+                e.preventDefault()
+                submitExam();
             })
         </script>
         <script src="timer.js"></script>

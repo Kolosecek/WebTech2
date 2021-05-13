@@ -5,8 +5,7 @@ require_once "backend/classes/Exam.php";
 
 session_start();
 
-if(!isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] !== true)
-{
+if(!isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] !== true) {
     header("location: index.php");
     exit;
 }
@@ -45,7 +44,7 @@ if(!isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] !== true)
                         $email = $_SESSION["email"];
                         echo"<input style='display: none' name='email' type='text' value=$email class='form-control'>";
                         $conn = (new Database())->getConnection();
-                        $stmt = $conn->prepare("SELECT * FROM test");
+                        $stmt = $conn->prepare("SELECT * FROM test WHERE isActive=0");
                         $stmt->execute();
                         $tests = $stmt->fetchAll(PDO::FETCH_CLASS, "Exam");
                     ?>
@@ -55,7 +54,7 @@ if(!isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] !== true)
                         <select class='form-select input' id='exams' name='exam'>
 
                         <?php
-                            foreach ($tests as $t){
+                            foreach ($tests as $t) {
                                 $tID = $t->getId();
                                 $tTitle = $t->getTitle();
                                 echo"<option value=$tID>$tTitle</option>";
@@ -79,8 +78,9 @@ if(!isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] !== true)
 
                     <div class='mb-3'>
                         <label for="question" class="form-label">Question</label>
-                        <textarea type="text-field" id="question" class="form-control input" name="question" placeholder="Question" required autofocus rows="3"></textarea>
+                        <textarea type="text-field" id="question" class="form-control input" name="question" placeholder="Question" autofocus rows="3"></textarea>
                     </div>
+
                     <div class='mb-3'>
                         <div id="short-question">
                             <label for="shortAns" class="form-label">Answer</label>
@@ -88,43 +88,43 @@ if(!isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] !== true)
                         </div>
                     </div>
 
-                    <div id="multi-question" style="display:none;">multi question</div>
+                    <div id="multi-question" style="display:none;"></div>
 
 
                     <div class="container" id="compare-question" style="display:none;">
-                        <div class="row">
-                            <div class="col">
-                                <ul>
-                                    <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 1</li>
-                                </ul>
-                            </div>
-                            <div class="col"> <ul id="sortable">
-                                    <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 1</li>
-                                </ul>
-                            </div>
-                        </div>
+<!--                        <div class="row">-->
+<!--                            <div class="col">-->
+<!--                                <ul>-->
+<!--                                    <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 1</li>-->
+<!--                                </ul>-->
+<!--                            </div>-->
+<!--                            <div class="col"> <ul id="sortable">-->
+<!--                                    <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 1</li>-->
+<!--                                </ul>-->
+<!--                            </div>-->
+<!--                        </div>-->
                     </div>
 
 
                     <div id="draw-question" style="display:none;">
-                        <canvas id="canvas" width="400" height="400" style="border:2px solid;"></canvas>
-                        <div>Choose Color</div>
-                        <div id="green" style="width:10px;height:10px;background:green;" onclick="switchColor(this)"></div>
-                        <div id="blue" style="width:10px;height:10px; background:blue;" onclick="switchColor(this)"></div>
-                        <div id="red" style="width:10px;height:10px; background:red;" onclick="switchColor(this)"></div>
-                        <div id="yellow" style="width:10px;height:10px; background:yellow;" onclick="switchColor(this)"></div>
-                        <div id="orange" style="width:10px;height:10px; background:orange;" onclick="switchColor(this)"></div>
-                        <div id="black" style="width:10px;height:10px; background:black;" onclick="switchColor(this)"></div>
-                        <div>Eraser</div>
-                        <div id="white" onclick="switchColor(this)"></div>
-                        <img id="canvasimg" style="display:none;">
-                        <input type="button" value="clear" id="clr" size="23" onclick="erase()">
-                        <button type='button' tID='$tId' qID='$qId'>Save drawing</button>
-                        <img src='' tID='$tId' qID='$qId' alt=''>
+<!--                        <canvas id="canvas" width="400" height="400" style="border:2px solid;"></canvas>-->
+<!--                        <div>Choose Color</div>-->
+<!--                        <div id="green" style="width:10px;height:10px;background:green;" onclick="switchColor(this)"></div>-->
+<!--                        <div id="blue" style="width:10px;height:10px; background:blue;" onclick="switchColor(this)"></div>-->
+<!--                        <div id="red" style="width:10px;height:10px; background:red;" onclick="switchColor(this)"></div>-->
+<!--                        <div id="yellow" style="width:10px;height:10px; background:yellow;" onclick="switchColor(this)"></div>-->
+<!--                        <div id="orange" style="width:10px;height:10px; background:orange;" onclick="switchColor(this)"></div>-->
+<!--                        <div id="black" style="width:10px;height:10px; background:black;" onclick="switchColor(this)"></div>-->
+<!--                        <div>Eraser</div>-->
+<!--                        <div id="white" onclick="switchColor(this)"></div>-->
+<!--                        <img id="canvasimg" style="display:none;">-->
+<!--                        <input type="button" value="clear" id="clr" size="23" onclick="erase()">-->
+<!--                        <button type='button' tID='$tId' qID='$qId'>Save drawing</button>-->
+<!--                        <img src='' tID='$tId' qID='$qId' alt=''>-->
                     </div>
 
                     <div id="math-question" style="display:none;">
-                        <div style="font-size: 32px; margin: 3em; padding: 8px; border-radius: 8px; border: 1px solid rgba(0, 0, 0, .3); box-shadow: 0 0 8px rgba(0, 0, 0, .2);" id="mathfield" smart-mode>
+                        <div style="font-size: 32px; padding: 8px; border-radius: 8px; border: 1px solid rgba(0, 0, 0, .3); box-shadow: 0 0 8px rgba(0, 0, 0, .2);" id="mathfield" smart-mode>
                         </div>
                         <input style="visibility: hidden" name="latex" id="latex" type="text" class="form-control">
                     </div>

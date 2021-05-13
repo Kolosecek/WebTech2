@@ -52,6 +52,7 @@ startTimer();
 
 function onTimesUp() {
     clearInterval(timerInterval);
+    submitExam();
 }
 
 function startTimer() {
@@ -65,6 +66,7 @@ function startTimer() {
         setRemainingPathColor(timeLeft);
 
         if (timeLeft === 0) {
+            console.log("timeLEft == 0");
             onTimesUp();
         }
     }, 1000);

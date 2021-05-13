@@ -536,7 +536,7 @@ table {
 }
 
 .newAnswerForm input {
-    margin: 20px
+    /*margin: 20px*/
 }
 
 #questTitleTypeWrapper {
@@ -643,4 +643,9 @@ table {
     background: rgba(0,0,0,0.5);
     border-radius: 50px;
     color: white;
+}
+
+#documentation {
+    width: 90%;
+    font-family: Asap;
 }

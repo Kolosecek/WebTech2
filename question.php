@@ -7,12 +7,13 @@ require_once "backend/classes/Drag.php";
 
 session_start();
 
-if(!isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] !== true)
-{
+if(!isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] !== true) {
     header("location: index.php");
     exit;
 }
+
 $email = $_SESSION["email"];
+
 ?>
 
 <!doctype html>
@@ -38,13 +39,12 @@ $email = $_SESSION["email"];
         <?php include_once "header.html" ?>
         <div class="exams_content" style="justify-content: space-evenly;">
         <!--    <img src="graphic.png" alt="" id="bg_blurred">-->
-            <div id="examInfoWrapper" style="width: 72%;justify-content: center; align-items: center; padding: 60px">
+            <div id="examInfoWrapper" style="width: 72%;justify-content: center; align-items: center; padding: 60px; margin-bottom: 60px">
                 <h1 style="font-family: 'Asap', sans-serif; color: white; text-align: center;">Question detail</h1>
                 <hr style="width: 50%; height: 2px; background-color: white !important;">
 
                 <?php
-                if(isset($_REQUEST["id"]))
-                {
+                if(isset($_REQUEST["id"])) {
                     $q_ID = $_REQUEST["id"];
                     $conn = (new Database())->getConnection();
                     $stmt = $conn->prepare("SELECT * FROM otazka where id=? AND ucitel_email=?");
@@ -69,12 +69,11 @@ $email = $_SESSION["email"];
 
                         if($type !== "draw") {
                             echo "
-                                <div id='examInfoWrapper' style='width: 40%; align-items: center; font-family: Asap'>
-                                <h3 style='color: white'>Question answers</h3>
-                                <div style='display: flex; flex-direction: column;'>";
+                                <div id='examInfoWrapper' style='width: 70%; align-items: center; font-family: Asap; border: 1px solid white'>
+                                    <h3 style='color: white'>Question answers</h3>
+                                    <div style='display: flex; flex-direction: column; width: 70%'>";
                             $correctExist = 0;
-                            foreach ($answers as $a)
-                            {
+                            foreach ($answers as $a) {
                                 if($correctExist != 1){
                                     $correctExist = $a->getCorrect();
                                 }
@@ -97,22 +96,33 @@ $email = $_SESSION["email"];
                                 $stmt4 = $conn->prepare("SELECT * FROM drag where question_id=?");
                                 $stmt4->execute([$_REQUEST["id"]]);
                                 $drag = $stmt4->fetchAll(PDO::FETCH_CLASS, "Drag");
-                                echo "<div class='container'><div class='row'><div class='col'><ul style='color: white'>";
-                                foreach ($drag as $d){
-                                    $t1 = $d->getText1();
-                                    echo"<li>$t1</li>";
-                                }
-                                echo "</ul></div><div class='col'><ul style='color: white'>";
-                                foreach ($drag as $d){
-                                    $t2 = $d->getText2();
-                                    echo "<li>$t2</li>";
-                                }
-                                echo "</ul></div></div></div>";
+                                echo "
+                                <div class='container'>
+                                    <div class='row'>
+                                        <div class='col'>
+                                            <ul style='color: white'>";
+                                                foreach ($drag as $d){
+                                                    $t1 = $d->getText1();
+                                                    echo"<li>$t1</li>";
+                                                }
+                                                echo "
+                                            </ul>
+                                        </div>
+                                        <div class='col'>
+                                            <ul style='color: white'>";
+                                                foreach ($drag as $d){
+                                                    $t2 = $d->getText2();
+                                                    echo "<li>$t2</li>";
+                                                }
+                                                echo "
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>";
                             }
                             echo "</div></div></div>";
                         }
-                    }
-                    else {
+                    } else {
                         echo "<h1>Question not found</h1>";
                     }
                 }
@@ -144,20 +154,22 @@ $email = $_SESSION["email"];
                             <input style='display: none' name='q_type' type='text' value='multi' class='form-control'>";
                     }
                     elseif ($type === "multi" && $correctExist != 0) {
-                        echo "
-                            <input type='text' id='ans' class='form-control' name='answer' placeholder='Answer' required autofocus>
-                            <input style='display: none' name='correct' type='text' value='0' class='form-control'>
-                            <input style='display: none' name='latex' id='latex' type='text' value='' class='form-control'>
-                            <div style='display: none;' id='mathfield' smart-mode></div>
-                            <input style='display: none' name='q_type' type='text' value='multi' class='form-control'>";
+                        echo "<div class='mb-3'>
+                                    <input type='text' id='ans' class='form-control' name='answer' placeholder='Answer' required autofocus>
+                                    <input style='display: none' name='correct' type='text' value='0' class='form-control'>
+                                    <input style='display: none' name='latex' id='latex' type='text' value='' class='form-control'>
+                                    <div style='display: none;' id='mathfield' smart-mode></div>
+                                    <input style='display: none' name='q_type' type='text' value='multi' class='form-control'>
+                              </div>";
                     }
                     // SHORT
                     elseif ($type === "short"){
-                        echo "
-                            <input type='text' id='ans' class='form-control' name='answer' placeholder='Answer' required autofocus>
-                            <input style='display: none' name='latex' id='latex' type='text' value='' class='form-control'>
-                            <div style='display: none;' id='mathfield' smart-mode></div>
-                            <input style='display: none' name='q_type' type='text' value='short' class='form-control'>";
+                        echo "<div class='mb-3'>
+                                    <input type='text' id='ans' class='form-control' name='answer' placeholder='Answer' required autofocus>
+                                    <input style='display: none' name='latex' id='latex' type='text' value='' class='form-control'>
+                                    <div style='display: none;' id='mathfield' smart-mode></div>
+                                    <input style='display: none' name='q_type' type='text' value='short' class='form-control'>
+                               </div>";
                     }
                     // MATH
                     elseif ($type === "math") {
@@ -206,9 +218,6 @@ $email = $_SESSION["email"];
                 e.preventDefault(); // avoid to execute the actual submit of the form.
                 if(element.getValue("latex")){
                     document.getElementById("latex").value = element.getValue("latex");
-                }
-                else{
-                    // ?CO TOTO???
                 }
                 let form = $(this);
                 let url = form.attr('action');
