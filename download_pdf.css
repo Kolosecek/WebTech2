@@ -26,3 +26,5 @@ td, th {
 tr:nth-child(even) {
     background-color: #dddddd;
 }
+
+caption { caption-side:top; }

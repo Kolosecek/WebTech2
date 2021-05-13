@@ -37,29 +37,30 @@ try {
         $tests = $stmt->fetchAll(PDO::FETCH_CLASS, "Exam");
     
         foreach($tests as $test) { //traverse all exams
-            echo "<table class='table table-bordered'>";
+            echo "<div class='container'><table class='table table-bordered'>";
             $stmt2 = $conn->prepare("SELECT * FROM odpoved_student WHERE test_id = ?");
             $stmt2->execute([$test->getId()]);
             $answers = $stmt2->fetchAll(PDO::FETCH_CLASS, "Odpoved_student");
             
-            echo "<h1>Student: ". $test->getStudentName() . "</h1><br><br>";
+            echo "<caption>Student: ". $test->getStudentName() . "</caption>";
+            echo "<tr><th>Question</th><th>Answer</th></tr>";
             foreach ($answers as $answer) {
                 $stmt3 = $conn->prepare("SELECT * FROM otazka WHERE id = ?");
                 $stmt3->execute([$answer->getQuestionId()]);
                 $question = $stmt3->fetchAll(PDO::FETCH_CLASS, "Question");
                 if($answer->getText1() === null) {
-                    echo "<h2>Question: " . $question[0]->getQuestion() . "</h2><br><br>";
+                    echo "<tr><td>" . $question[0]->getQuestion() . "</td>";
                 }
                 if ($answer->getOdpoved() !== null) {
-                    echo "<h2>Answer: " . $answer->getOdpoved() . "</h2><br><br>";
+                    echo "<td>" . $answer->getOdpoved() . "</td></tr>";
                 } else if ($answer->getImgPath() !== null) {
-                    echo "<h2>Answer:&nbsp;<img width='150' height='150' alt='canvas' src=backend/" . $answer->getImgPath() . "></h2><br><br>";
+                    echo "<td><img width='150' height='150' alt='canvas' src=backend/" . $answer->getImgPath() . "></td></tr>";
                 } else if ($answer->getText1() !== null) {
-                    echo "<h2>Question: " . $answer->getText1() . "</h2><br><br>";
-                    echo "<h2>Answer: " . $answer->getText2() . "</h2><br><br>";
+                    echo "<td>" . $answer->getText1() . "</td>";
+                    echo "<td>" . $answer->getText2() . "</td></tr>";
                 }
             }
-            echo "</table>";
+            echo "</table></div>";
         }
     
     
