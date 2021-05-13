@@ -100,7 +100,7 @@ class Exam
                 <td>$title</td>
                 <td>$code</td>
                 <td>$time</td>
-                <td><a class='btn btn-grad grow' href='exam.php?id=$ID'>Open</a></td>
+                <td><a class='btn btn-grad grow' href='exam.php?id=$ID'>Open</a><a class='btn btn-grad grow' href='backend/controller_csv.php?tCode=$code'>Download result CSV</a></td>
                 </tr>";
         }
     }

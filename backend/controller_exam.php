@@ -41,9 +41,12 @@ elseif ($type == "new_question_to_exam")
 elseif ($type=="closeExam"){
     $tID = $_REQUEST["tID"];
     $conn = (new Database())->getConnection();
-    $stmt = $conn->prepare("UPDATE test SET isActive=2 WHERE id=?");
-    $stmt->execute([$tID]);
-    //echo $tID;
+    $findResult = $conn->prepare("SELECT count(*) FROM odpoved_student WHERE test_id=? AND correct=1");
+    $findResult->execute([$tID]);
+    $result = $findResult->fetchColumn();
+    $stmt = $conn->prepare("UPDATE test SET isActive=2, result=? WHERE id=?");
+    $stmt->execute([$result,$tID]);
+    //echo $tID." ".$result;
 }
 
 
