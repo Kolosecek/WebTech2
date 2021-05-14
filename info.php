@@ -215,7 +215,8 @@
                 </tbody>
             </table>
 
-            <h1 style="margin-top: 50px; font-family: 'Asap', sans-serif">Dokumentácia</h1>
+            <h1 style="margin-top: 50px; font-family: 'Asap', sans-serif"><i class="fas fa-book"></i> Dokumentácia
+                </h1>
             <hr style="width: 90%; height: 2px; background-color: black !important;">
             <div id="documentation">
                 <h2>Knižnica pre konvertovanie HTML → PDF</h2>
