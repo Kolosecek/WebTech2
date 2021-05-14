@@ -33,7 +33,7 @@ try {
         $conn = $db->getConnection();
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     
-        $stmt = $conn->prepare("SELECT * FROM test WHERE test_code = ?");
+        $stmt = $conn->prepare("SELECT * FROM test WHERE test_code = ? AND result IS NOT NULL");
         $stmt->execute([$_GET['code']]);
         $tests = $stmt->fetchAll(PDO::FETCH_CLASS, "Exam");
     
