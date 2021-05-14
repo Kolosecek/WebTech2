@@ -13,7 +13,7 @@ if(!isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] !== true)
 
 $db = new Database();
 $conn = $db->getConnection();
-$stmt = $conn->prepare("SELECT * FROM test WHERE student_name IS NOT NULL AND student_id IS NOT NULL AND result IS NOT NULL");
+$stmt = $conn->prepare("SELECT * FROM test WHERE student_name IS NOT NULL AND student_id IS NOT NULL AND result IS NOT NULL GROUP BY(test_code)");
 $stmt->execute();
 $tests = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
