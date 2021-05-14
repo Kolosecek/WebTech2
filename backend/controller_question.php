@@ -135,5 +135,14 @@ if ($type == "new_question") {
     $update = $conn->prepare("UPDATE odpoved_student SET correct=1 WHERE question_id=? AND test_id=?");
     $update->execute([$qID,$tID]);
     //echo $qID." ".$tID;
+} elseif($type=="resultDrawingWrong"){
+
+$qID = $_REQUEST["qID"];
+$tID = $_REQUEST["tID"];
+//$img_path = $_REQUEST["img"];
+$conn = (new Database())->getConnection();
+$update = $conn->prepare("UPDATE odpoved_student SET correct=0 WHERE question_id=? AND test_id=?");
+$update->execute([$qID,$tID]);
+//echo $qID." ".$tID;
 }
 

@@ -70,15 +70,32 @@ $questions = $stmt->fetchAll(PDO::FETCH_CLASS, "Question");
                 }))
             }
 
-            var imgButtons = document.querySelectorAll('button[qID]')
+            var imgButtons = document.querySelectorAll('button[wrong="false"]')
             for (let i = 0; i <imgButtons.length ; i++) {
                 imgButtons[i].addEventListener("click",function (event){
                     correctDrawing(event);
                 })
             }
+            var imgButtonsWrong = document.querySelectorAll('button[wrong="true"]')
+            for (let i = 0; i <imgButtonsWrong.length ; i++) {
+                imgButtonsWrong[i].addEventListener("click",function (event){
+                    wrongDrawing(event);
+                })
+            }
             function correctDrawing(event){
                 var button = event.target;
                 var url = "backend/controller_question.php?mode=resultDrawing&qID="+button.getAttribute("qID")+"&tID="+button.getAttribute("tID");
+                $.ajax({
+                    type: "GET",
+                    url: url,
+                    success: function(data) {
+                        console.log(data);
+                    }
+                });
+            }
+            function wrongDrawing(event){
+                var button = event.target;
+                var url = "backend/controller_question.php?mode=resultDrawingWrong&qID="+button.getAttribute("qID")+"&tID="+button.getAttribute("tID");
                 $.ajax({
                     type: "GET",
                     url: url,
@@ -105,6 +122,10 @@ $questions = $stmt->fetchAll(PDO::FETCH_CLASS, "Question");
             $("#correctDrw").click(() => {
                 $("#drawingBadIcon").css("display","none");
                 $("#drawingGoodIcon").css("display","block");
+            })
+            $("#wrongDrw").click(() => {
+                $("#drawingBadIcon").css("display","block");
+                $("#drawingGoodIcon").css("display","none");
             })
         </script>
     </body>

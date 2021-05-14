@@ -343,7 +343,8 @@ class Exam
                                 <p>Student drawing</p>";
                     }
                     $string .= "<img src='/skuska/backend/$img_path' style='border: solid 2px black'>";
-                    $string .= "<button qID='$qID' imgPath='$img_path' tID='$exam_ID' id='correctDrw'  class='btn btn-grad grow'>Correct drawing</button>";
+                    $string .= "<button qID='$qID' imgPath='$img_path' tID='$exam_ID' id='correctDrw' wrong='false'  class='btn btn-grad grow'>Correct drawing</button>";
+                    $string .= "<button qID='$qID' imgPath='$img_path' tID='$exam_ID' id='wrongDrw' wrong='true'  class='btn btn-grad grow'>Wrong drawing</button>";
                 }
             }
         }
