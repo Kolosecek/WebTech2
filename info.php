@@ -81,10 +81,13 @@
         </div>
 
         <div class="table_wrapper" style="margin-bottom: 100px;">
+            <h1 style="margin-top: 20px; font-family: 'Asap', sans-serif"><i class="fas fa-clipboard-check"></i> Checklist
+            </h1>
+            <hr style="width: 90%; height: 2px; background-color: black !important;">
             <table class="table table-hover table-striped table-bordered done aboutTbl">
                 <thead class="table-dark table-hover">
                 <tr>
-                    <th scope="col">Úloha/Meno</th>
+                    <th scope="col">Functionality/Name</th>
                     <th scope="col">Filip Michal Gajdoš</th>
                     <th scope="col">Andrej Urbanek</th>
                     <th scope="col">Adam Trebichalský</th>
@@ -94,7 +97,7 @@
                 </thead>
                 <tbody>
                 <tr>
-                    <td style="text-align: left"><b>Prihlasovanie</b></td>
+                    <td style="text-align: left"><b>Sign in/Sign up</b></td>
                     <td><b><i class="fas fa-check"></i></b></td>
                     <td><b><i></i></b></td>
                     <td><b><i></i></b></td>
@@ -102,7 +105,7 @@
                     <td><b><i></i></b></td>
                 </tr>
                 <tr>
-                    <td style="text-align: left"><b>Voľba db tabuliek</b></td>
+                    <td style="text-align: left"><b>Structure of the DB</b></td>
                     <td><b><i class="fas fa-check"></i></b></td>
                     <td><b><i class="fas fa-check"></i></b></td>
                     <td><b><i class="fas fa-check"></i></b></td>
@@ -110,7 +113,7 @@
                     <td><b><i class="fas fa-check"></i></b></td>
                 </tr>
                 <tr>
-                    <td style="text-align: left"><b>Otázky - multi choice</b></td>
+                    <td style="text-align: left"><b>Question - multi choice</b></td>
                     <td><b><i></i></b></td>
                     <td><b><i class="fas fa-check"></i></b></td>
                     <td><b><i></i></b></td>
@@ -118,7 +121,7 @@
                     <td><b><i></i></b></td>
                 </tr>
                 <tr>
-                    <td style="text-align: left"><b>Otázky - short</b></td>
+                    <td style="text-align: left"><b>Question - short</b></td>
                     <td><b><i></i></b></td>
                     <td><b><i></i></b></td>
                     <td><b><i class="fas fa-check"></i></b></td>
@@ -126,7 +129,7 @@
                     <td><b></b></td>
                 </tr>
                 <tr>
-                    <td style="text-align: left"><b>Otázky - párovacie</b></td>
+                    <td style="text-align: left"><b>Question - pairing</b></td>
                     <td><b><i class="fas fa-check"></i></b></td>
                     <td><b><i></i></b></td>
                     <td><b><i></i></b></td>
@@ -134,7 +137,7 @@
                     <td><b><i></i></b></td>
                 </tr>
                 <tr>
-                    <td style="text-align: left"><b>Otázky - draw</b></td>
+                    <td style="text-align: left"><b>Question - draw</b></td>
                     <td><b><i></i></b></td>
                     <td><b><i></i></b></td>
                     <td><b><i></i></b></td>
@@ -142,7 +145,7 @@
                     <td><b><i class="fas fa-check"></i></b></td>
                 </tr>
                 <tr>
-                    <td style="text-align: left"><b>Otázky - math</b></td>
+                    <td style="text-align: left"><b>Question - math</b></td>
                     <td><b><i></i></b></td>
                     <td><b><i></i></b></td>
                     <td><b></b></td>
@@ -151,7 +154,7 @@
 
                 </tr>
                 <tr>
-                    <td style="text-align: left"><b>Ukončenie testu</b></td>
+                    <td style="text-align: left"><b>Test submit</b></td>
                     <td><b><i class="fas fa-check"></i></b></td>
                     <td><b><i class="fas fa-check"></i></b></td>
                     <td><b><i class="fas fa-check"></i></b></td>
@@ -159,7 +162,7 @@
                     <td><b></b></td>
                 </tr>
                 <tr>
-                    <td style="text-align: left"><b>Testy - aktivácia/deaktivácia</b></td>
+                    <td style="text-align: left"><b>Test - activation/deactivation</b></td>
                     <td><b><i class="fas fa-check"></i></b></td>
                     <td><b><i></i></b></td>
                     <td><b></b></td>
@@ -167,7 +170,7 @@
                     <td><b></b></td>
                 </tr>
                 <tr>
-                    <td style="text-align: left"><b>Testy - leave/start info</b></td>
+                    <td style="text-align: left"><b>Test - leave/start info</b></td>
                     <td><b><i></i></b></td>
                     <td><b><i></i></b></td>
                     <td><b></b></td>
@@ -191,7 +194,7 @@
                     <td><b><i class="fas fa-check"></i></b></td>
                 </tr>
                 <tr>
-                    <td style="text-align: left"><b>Odovzdanie súborov</b></td>
+                    <td style="text-align: left"><b>Files completion</b></td>
                     <td><b><i class="fas fa-check"></i></b></td>
                     <td><b><i class="fas fa-check"></i></b></td>
                     <td><b><i class="fas fa-check"></i></b></td>
@@ -199,7 +202,7 @@
                     <td><b><i class="fas fa-check"></i></b></td>
                 </tr>
                 <tr>
-                    <td style="text-align: left"><b>Grafický layout/štruktúra</b></td>
+                    <td style="text-align: left"><b>Graphic layout/structure</b></td>
                     <td><b><i></i></b></td>
                     <td><b><i></i></b></td>
                     <td><b><i class="fas fa-check"></i></b></td>
@@ -207,7 +210,7 @@
                     <td><b></b></td>
                 </tr>
                 <tr>
-                    <td style="text-align: left"><b>Orientácia v aplikácii</b></td>
+                    <td style="text-align: left"><b>Orientation in the app</b></td>
                     <td><b><i></i></b></td>
                     <td><b><i class="fas fa-check"></i></b></td>
                     <td><b><i class="fas fa-check"></i></b></td>
@@ -221,14 +224,14 @@
                 </h1>
             <hr style="width: 90%; height: 2px; background-color: black !important;">
             <div id="documentation">
-                <h2>Library for HTML → PDF conversion</h2>
+                <h2 style="font-family: Asap">Library for HTML → PDF conversion</h2>
                 <p>
                     We used an open source command line tool  <a href="https://wkhtmltopdf.org" target="_blank">wkhtmltopdf</a>
                     for HTML to PDF conversion and also the PHP wrapper <a href="https://github.com/mikehaertl/phpwkhtmltopdf" target="_blank">phpwkhtmltopdf</a>
                     to be able to call this tool in PHP code. We installed both of these tools with a <a href="https://getcomposer.org" target="_blank">Composer</a>.
                 </p>
                 <br>
-                <h2>Library for Math questions</h2>
+                <h2 style="font-family: Asap">Library for Math questions</h2>
                 <p>
                     We used an open source library  <a href="http://mathlive.io/" target="_blank">Mathlive.io</a>
                     for creating Math question with latex. This library creates custom inputs in which user writes
@@ -239,7 +242,7 @@
                     need to initialize the input.
                 </p>
                 <br>
-                <h2>Library for Compare questions</h2>
+                <h2 style="font-family: Asap">Library for Compare questions</h2>
                 <p>
                     We used an open source library from JQuery  <a href="https://jqueryui.com/sortable/" target="_blank">Sortable</a>.
                     We are using this library for moving elements and reordering them in the HTML so we can "connect" two columns and they
@@ -250,61 +253,6 @@
                     Our Github Repository</a>
                 </div>
             </div>
-
-            <!--            <table class="table table-hover table-striped table-bordered done aboutTbl ">-->
-<!--                <thead class="table-dark table-hover">-->
-<!--                <tr>-->
-<!--                    <th scope="col">Časti hry/Meno</th>-->
-<!--                    <th scope="col">Filip Michal Gajdoš</th>-->
-<!--                    <th scope="col">Andrej Urbanek</th>-->
-<!--                    <th scope="col">Adam Trebichalský</th>-->
-<!--                    <th scope="col">Maksim Mištec</th>-->
-<!--                    <th scope="col">Tomáš Kukumberg</th>-->
-<!--                </tr>-->
-<!--                </thead>-->
-<!--                <tbody>-->
-<!--                <tr>-->
-<!--                    <td><b>Drag & Drop</b></td>-->
-<!--                    <td><b><i class="fas fa-check"></i></b></td>-->
-<!--                    <td><b><i class="fas fa-check"></i></b></td>-->
-<!--                    <td><b><i class="fas fa-check"></i></b></td>-->
-<!--                    <td><b><i class="fas fa-check"></i></b></td>-->
-<!--                    <td><b><i class="fas fa-check"></i></b></td>-->
-<!--                </tr>-->
-<!--                <tr>-->
-<!--                    <td><b>Nepravidelné tvary</b></td>-->
-<!--                    <td><b><i class="fas fa-check"></i></b></td>-->
-<!--                    <td><b><i class="fas fa-check"></i></b></td>-->
-<!--                    <td><b><i class="fas fa-check"></i></b></td>-->
-<!--                    <td><b><i class="fas fa-check"></i></b></td>-->
-<!--                    <td><b><i class="fas fa-check"></i></b></td>-->
-<!--                </tr>-->
-<!--                <tr>-->
-<!--                    <td><b>Ukončiteľnosť</b></td>-->
-<!--                    <td><b><i class="fas fa-check"></i></b></td>-->
-<!--                    <td><b><i class="fas fa-check"></i></b></td>-->
-<!--                    <td><b><i class="fas fa-check"></i></b></td>-->
-<!--                    <td><b><i class="fas fa-check"></i></b></td>-->
-<!--                    <td><b><i class="fas fa-check"></i></b></td>-->
-<!--                </tr>-->
-<!--                <tr>-->
-<!--                    <td><b>Časomiera</b></td>-->
-<!--                    <td><b><i class="fas fa-check"></i></b></td>-->
-<!--                    <td><b><i class="fas fa-check"></i></b></td>-->
-<!--                    <td><b><i class="fas fa-check"></i></b></td>-->
-<!--                    <td><b><i class="fas fa-check"></i></b></td>-->
-<!--                    <td><b><i class="fas fa-check"></i></b></td>-->
-<!--                </tr>-->
-<!--                <tr>-->
-<!--                    <td><b>Demo</b></td>-->
-<!--                    <td><b><i class="fas fa-check"></i></b></td>-->
-<!--                    <td><b><i></i></b></td>-->
-<!--                    <td></td>-->
-<!--                    <td><b><i class="fas fa-check"></i></b></td>-->
-<!--                    <td><b><i class="fas fa-check"></i></b></td>-->
-<!--                </tr>-->
-<!--                </tbody>-->
-<!--            </table>-->
         </div>
     </div>
 
