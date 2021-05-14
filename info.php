@@ -218,10 +218,15 @@
             <h1 style="margin-top: 50px; font-family: 'Asap', sans-serif">Dokumentácia</h1>
             <hr style="width: 90%; height: 2px; background-color: black !important;">
             <div id="documentation">
-                <p>Tu bude dokumentaciabude dokumentaciabude dokumentaciabude dokumentaciabude dokumentaciabude dokumentaciabude dokumentacia
-                    bude dokumentaciabude dokumentaciabude dokumentaciabude dokumentaciabude dokumentaciabude dokumentaciabude dokumentacia
-                    bude dokumentaciabude dokumentaciabude dokumentaciabude dokumentaciabude dokumentaciabude dokumentaciabude dokumentacia
+                <h2>Knižnica pre konvertovanie HTML → PDF</h2>
+                <p>
+                    Pre konvertovanie HTML súborov sme využili open source command line nástroj s názvom
+                    <a href="https://wkhtmltopdf.org" target="_blank">wkhtmltopdf</a> a taktiež aj
+                    PHP wrapper s názvom <a href="https://github.com/mikehaertl/phpwkhtmltopdf" target="_blank">phpwkhtmltopdf</a>,
+                    ktorý umožňuje prácu s týmto nástrojom priamo v PHP kóde. Na ich inštaláciu sme využili nástroj
+                    <a href="https://getcomposer.org" target="_blank">Composer</a>.
                 </p>
+
                 <div id="github" class="grow">
                     <a href="https://github.com/Kolosecek/WebTech2" target="_blank" id="githubLink"><i class="fab fa-github fa-3x" style="color: #6e5494"></i>
                     Our Github Repository</a>
