@@ -34,7 +34,7 @@ if (isset($_GET['code'])) {
     $pdf->addPage('https://wt49.fei.stuba.sk/skuska/exam_results.php?code=' . $_GET['code']);
     
     ob_end_clean();
-    if (!$pdf->send('report.pdf', false, array('Content-Length' => false,) )) {
+    if (!$pdf->send('exam_' . $_GET['code'] . 'pdf', false, array('Content-Length' => false,) )) {
         $error = $pdf->getError();
         echo $error;
     }

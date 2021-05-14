@@ -11,7 +11,7 @@ document.querySelector("#submit-pdf-btn").addEventListener("click", function() {
         const downloadUrl = URL.createObjectURL(blob);
         const a = document.createElement("a");
         a.href = downloadUrl;
-        a.download = "file.pdf";
+        a.download = 'exam_' + document.querySelector("#tests").value + '.pdf';
         document.body.appendChild(a);
         a.click();
     })

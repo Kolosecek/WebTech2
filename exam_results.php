@@ -75,49 +75,6 @@ try {
     echo $e->getMessage();
 }
 
-/*
-try {
-    if(isset($_GET['code'])) {
-        $db = new Database();
-        $conn = $db->getConnection();
-        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    
-        $stmt = $conn->prepare("SELECT * FROM test WHERE test_code = ?");
-        $stmt->execute([$_GET['code']]);
-        $tests = $stmt->fetchAll(PDO::FETCH_CLASS, "Exam");
-    
-        foreach($tests as $test) { //traverse all exams
-            $stmt2 = $conn->prepare("SELECT * FROM odpoved_student WHERE test_id = ?");
-            $stmt2->execute([$test->getId()]);
-            $answers = $stmt2->fetchAll(PDO::FETCH_CLASS, "Odpoved_student");
-            
-            echo "<h1>Student: ". $test->getStudentName() . "</h1><br><br>";
-            foreach ($answers as $answer) {
-                $stmt3 = $conn->prepare("SELECT * FROM otazka WHERE id = ?");
-                $stmt3->execute([$answer->getQuestionId()]);
-                $question = $stmt3->fetchAll(PDO::FETCH_CLASS, "Question");
-                if($answer->getText1() === null) {
-                    echo "<h2>Question: " . $question[0]->getQuestion() . "</h2><br><br>";
-                }
-                if ($answer->getOdpoved() !== null) {
-                    echo "<h2>Answer: " . $answer->getOdpoved() . "</h2><br><br>";
-                } else if ($answer->getImgPath() !== null) {
-                    echo "<h2>Answer:&nbsp;<img width='150' height='150' alt='canvas' src=backend/" . $answer->getImgPath() . "></h2><br><br>";
-                } else if ($answer->getText1() !== null) {
-                    echo "<h2>Question: " . $answer->getText1() . "</h2><br><br>";
-                    echo "<h2>Answer: " . $answer->getText2() . "</h2><br><br>";
-                }
-            }
-        }
-    
-    
-        
-    }
-} catch(PDOException $e) {
-    echo $e->getMessage();
-}
-*/
-
 
 ?>
 
