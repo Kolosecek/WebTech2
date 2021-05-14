@@ -227,7 +227,24 @@
                     for HTML to PDF conversion and also the PHP wrapper <a href="https://github.com/mikehaertl/phpwkhtmltopdf" target="_blank">phpwkhtmltopdf</a>
                     to be able to call this tool in PHP code. We installed both of these tools with a <a href="https://getcomposer.org" target="_blank">Composer</a>.
                 </p>
-
+                <br>
+                <h2>Library for Math questions</h2>
+                <p>
+                    We used an open source library  <a href="http://mathlive.io/" target="_blank">Mathlive.io</a>
+                    for creating Math question with latex. This library creates custom inputs in which user writes
+                    math expressions and they are translated to latex commands. This also works other way around when
+                    user inputs latex command and they are translated to text or math expressions. This library also
+                    contains custom virtual keyboard for math expression and "smart mode" for automatically detecting math
+                    expressions and text in one input. Usage is with custom elements "math-field" or with HTML "div" and then you
+                    need to initialize the input.
+                </p>
+                <br>
+                <h2>Library for Compare questions</h2>
+                <p>
+                    We used an open source library from JQuery  <a href="https://jqueryui.com/sortable/" target="_blank">Sortable</a>.
+                    We are using this library for moving elements and reordering them in the HTML so we can "connect" two columns and they
+                    will create row with answer on the exams.
+                </p>
                 <div id="github" class="grow">
                     <a href="https://github.com/Kolosecek/WebTech2" target="_blank" id="githubLink"><i class="fab fa-github fa-3x" style="color: #6e5494"></i>
                     Our Github Repository</a>
