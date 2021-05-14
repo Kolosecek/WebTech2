@@ -22,7 +22,8 @@
 
 
         <div class="table_wrapper" style="margin: 100px; justify-content: center; align-items: center; display: flex; flex-direction: column">
-            <h1 style="text-align: center; font-family: 'Asap', sans-serif">About</h1>
+            <h1 style="text-align: center; font-family: 'Asap', sans-serif"><i class="fas fa-address-card"></i>
+                About</h1>
             <hr style="width: 90%; height: 2px; background-color: black !important;">
 
             <div class="contacts-container">
@@ -215,17 +216,15 @@
                 </tbody>
             </table>
 
-            <h1 style="margin-top: 50px; font-family: 'Asap', sans-serif"><i class="fas fa-book"></i> Dokumentácia
+            <h1 style="margin-top: 50px; font-family: 'Asap', sans-serif"><i class="fas fa-book"></i> Documentation
                 </h1>
             <hr style="width: 90%; height: 2px; background-color: black !important;">
             <div id="documentation">
-                <h2>Knižnica pre konvertovanie HTML → PDF</h2>
+                <h2>Library for HTML → PDF conversion</h2>
                 <p>
-                    Pre konvertovanie HTML súborov sme využili open source command line nástroj s názvom
-                    <a href="https://wkhtmltopdf.org" target="_blank">wkhtmltopdf</a> a taktiež aj
-                    PHP wrapper s názvom <a href="https://github.com/mikehaertl/phpwkhtmltopdf" target="_blank">phpwkhtmltopdf</a>,
-                    ktorý umožňuje prácu s týmto nástrojom priamo v PHP kóde. Na ich inštaláciu sme využili nástroj
-                    <a href="https://getcomposer.org" target="_blank">Composer</a>.
+                    We used an open source command line tool  <a href="https://wkhtmltopdf.org" target="_blank">wkhtmltopdf</a>
+                    for HTML to PDF conversion and also the PHP wrapper <a href="https://github.com/mikehaertl/phpwkhtmltopdf" target="_blank">phpwkhtmltopdf</a>
+                    to be able to call this tool in PHP code. We installed both of these tools with a <a href="https://getcomposer.org" target="_blank">Composer</a>.
                 </p>
 
                 <div id="github" class="grow">
